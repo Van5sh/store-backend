@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  HttpException,
 } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
@@ -16,7 +17,13 @@ export class CityController {
 
   @Post()
   async create(@Body() createCityDto: CreateCityDto) {
-    return await this.cityService.create(createCityDto);
+    try{
+      const city = await this.cityService.createCity(
+        createCityDto,
+      )
+      return city;
+    }catch (error) {
+      throw new HttpException(error.message, error.status)
   }
 
   @Get('cities')

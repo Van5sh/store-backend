@@ -6,19 +6,19 @@ import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 export class CityService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createCityDto: CreateCityDto) {
+  async createCity(createCityDto: CreateCityDto) {
     const city = this.prisma.city.create({
       data: createCityDto,
     });
     return city;
   }
 
-  async findAll() {
+  async allCities() {
     const cities = this.prisma.city.findMany();
     return cities;
   }
 
-  async findOne(id: number) {
+  async findCity(id: number) {
     const cityId = id.toString();
     const city = this.prisma.city.findUnique({
       where: {
@@ -28,7 +28,7 @@ export class CityService {
     return city;
   }
 
-  async update(id: number, updateCityDto: UpdateCityDto) {
+  async updateCity(id: number, updateCityDto: UpdateCityDto) {
     const cityId = id.toString();
     const updateCity = this.prisma.city.update({
       where: {
@@ -39,7 +39,7 @@ export class CityService {
     return updateCity;
   }
 
-  async remove(id: number) {
+  async removeCity(id: number) {
     const cityId = id.toString();
     const deleteCity = this.prisma.city.delete({
       where: {
