@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
@@ -17,32 +18,79 @@ export class CityController {
 
   @Post()
   async create(@Body() createCityDto: CreateCityDto) {
-    try{
-      const city = await this.cityService.createCity(
-        createCityDto,
-      )
-      return city;
-    }catch (error) {
-      throw new HttpException(error.message, error.status)
+    try {
+      const city = await this.cityService.createCity(createCityDto);
+      return {
+        message: 'City created successfully',
+        city,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get('cities')
   async findAll() {
-    return await this.cityService.findAll();
+    try {
+      const cities = await this.cityService.allCities();
+      if (!cities || cities.length === 0) {
+        throw new HttpException('No cities found', 404);
+      }
+      return cities;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.cityService.findOne(+id);
+    try {
+      const city = await this.cityService.findCity(+id);
+      if (!city) {
+        throw new HttpException('City not found', 404);
+      }
+      return {
+        status: 'success',
+        message: 'City found',
+        data: city,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
-    return await this.cityService.update(+id, updateCityDto);
+    try {
+      const checkCity = await this.cityService.findCity(+id);
+      if (!checkCity) {
+        throw new HttpException('City not found', 404);
+      }
+      const updatedCity = await this.cityService.updateCity(+id, updateCityDto);
+      return {
+        status: 'success',
+        message: 'City updated successfully',
+        data: updatedCity,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return await this.cityService.remove(+id);
+    try {
+      const checkCity = await this.cityService.findCity(+id);
+      if (!checkCity) {
+        throw new HttpException('City not there in the list', 404);
+      }
+      await this.cityService.removeCity(+id);
+      return {
+        status: 'success',
+        message: 'City deleted successfully',
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
