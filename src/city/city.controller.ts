@@ -8,15 +8,14 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CityService } from './city.service';
-import { CreateCityDto } from './dto/create-city.dto';
-import { UpdateCityDto } from './dto/update-city.dto';
+import { Prisma } from 'generated/prisma';
 
 @Controller('city')
 export class CityController {
   constructor(private readonly cityService: CityService) {}
 
   @Post()
-  create(@Body() createCityDto: CreateCityDto) {
+  create(@Body() createCityDto: Prisma.CityCreateInput) {
     return this.cityService.create(createCityDto);
   }
 
@@ -31,7 +30,10 @@ export class CityController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCityDto: UpdateCityDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateCityDto: Prisma.CityUpdateInput,
+  ) {
     return this.cityService.update(+id, updateCityDto);
   }
 
