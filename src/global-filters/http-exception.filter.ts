@@ -11,17 +11,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const status =
-      exception instanceof HttpException ? exception.getStatus() : 500;
+    const request = ctx.getRequest<Request>();
 
+    const status = exception.getStatus();
     const message = exception.message || 'Internal server error';
-    const code =
-      exception instanceof HttpException ? exception.getStatus() : 500;
 
     response.status(status).json({
-      status: 'errr',
-      statusCode: code,
+      status: 'error',
+      statusCode: status,
       message,
+      path: request.url,
+      timestamp: new Date().toISOString(),
     });
   }
 }
