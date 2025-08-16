@@ -7,10 +7,18 @@ export class CityService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createCity(createCityDto: CreateCityDto) {
-    const city = this.prisma.city.create({
-      data: createCityDto,
-    });
-    return city;
+    try {
+      const city = this.prisma.city.create({
+        data: createCityDto,
+      });
+
+      if (city === null) {
+        throw new Error('City creation failed');
+      }
+      return city;
+    } catch (error) {
+      throw new Error(`Error creating city: ${error}`);
+    }
   }
 
   async allCities() {

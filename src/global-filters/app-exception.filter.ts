@@ -12,7 +12,7 @@ import { HttpAdapterHost } from '@nestjs/core';
 export class AppExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(AppExceptionFilter.name);
 
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor(private httpAdapterHost: HttpAdapterHost) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const { httpAdapter } = this.httpAdapterHost;
@@ -25,15 +25,14 @@ export class AppExceptionFilter implements ExceptionFilter {
 
     const errorMessage =
       exception instanceof Error ? exception.message : 'Internal server error';
+    const errorStack =
+      exception instanceof Error ? exception.stack : 'No stack trace available';
 
-    const errorStack = exception instanceof Error ? exception.stack : '';
-    this.logger.error(`Exception thrown: ${errorMessage}`, errorStack);
+    this.logger.error(`Exception thrown: ${errorMessage}, ${errorStack}`);
 
     const responseBody = {
       status: httpStatus,
-      error: httpStatus === 500 ? 'Internal Server Error' : 'Error',
-      message: errorMessage,
-      timestamp: new Date().toISOString(),
+      message: 'Internal Server Error',
     };
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
