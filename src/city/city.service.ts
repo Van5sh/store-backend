@@ -22,38 +22,54 @@ export class CityService {
   }
 
   async allCities() {
-    const cities = this.prisma.city.findMany();
-    return cities;
+    try {
+      const cities = this.prisma.city.findMany();
+      return cities;
+    } catch (error) {
+      throw new Error(`Error fetching cities: ${error}`);
+    }
   }
 
   async findCity(id: number) {
-    const cityId = id.toString();
-    const city = this.prisma.city.findUnique({
-      where: {
-        id: cityId,
-      },
-    });
-    return city;
+    try {
+      const cityId = id.toString();
+      const city = this.prisma.city.findUnique({
+        where: {
+          id: cityId,
+        },
+      });
+      return city;
+    } catch (error) {
+      throw new Error(`Error finding city: ${error}`);
+    }
   }
 
   async updateCity(id: number, updateCityDto: UpdateCityDto) {
-    const cityId = id.toString();
-    const updateCity = this.prisma.city.update({
-      where: {
-        id: cityId,
-      },
-      data: updateCityDto,
-    });
-    return updateCity;
+    try {
+      const cityId = id.toString();
+      const updateCity = this.prisma.city.update({
+        where: {
+          id: cityId,
+        },
+        data: updateCityDto,
+      });
+      return updateCity;
+    } catch (error) {
+      throw new Error(`Error updating city: ${error}`);
+    }
   }
 
   async removeCity(id: number) {
-    const cityId = id.toString();
-    const deleteCity = this.prisma.city.delete({
-      where: {
-        id: cityId,
-      },
-    });
-    return deleteCity;
+    try {
+      const cityId = id.toString();
+      const deleteCity = this.prisma.city.delete({
+        where: {
+          id: cityId,
+        },
+      });
+      return deleteCity;
+    } catch (error) {
+      throw new Error(`Error removing city: ${error}`);
+    }
   }
 }

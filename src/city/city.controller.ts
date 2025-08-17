@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
@@ -25,7 +24,7 @@ export class CityController {
         city,
       };
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new Error(`${error}`);
     }
   }
 
@@ -38,7 +37,7 @@ export class CityController {
       }
       return cities;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new Error(`${error}`);
     }
   }
 
@@ -55,7 +54,7 @@ export class CityController {
         data: city,
       };
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new Error(`${error}`);
     }
   }
 
@@ -73,7 +72,7 @@ export class CityController {
         data: updatedCity,
       };
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new Error(`${error}`);
     }
   }
 
@@ -90,7 +89,7 @@ export class CityController {
         message: 'City deleted successfully',
       };
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new Error(`${error}`);
     }
   }
 }
