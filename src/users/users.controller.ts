@@ -4,25 +4,39 @@ import { CreateUserDto } from './dto/users.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly User: UsersService) {}
+  constructor(private readonly userService: UsersService) {}
 
   @Get()
   async findAll() {
-    return await this.User.findAll();
+    const users = await this.userService.findAll();
+    if (!users || users.length === 0) {
+      throw new Error('No users found');
+    }
+    return users;
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.User.findOne(id);
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
   }
 
   @Post()
   async create(@Body() createUser: CreateUserDto) {
-    return await this.User.create(createUser);
+    const user = await this.userService.create(createUser);
+    return user;
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUser: CreateUserDto) {
-    return await this.User.update(id, updateUser);
+    const findUser = await this.userService.findOne(id);
+    if (!findUser) {
+      throw new Error('User not found');
+    }
+    const updatedUser = await this.userService.update(id, updateUser);
+    return updatedUser;
   }
 }
