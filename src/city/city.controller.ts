@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
@@ -20,11 +21,12 @@ export class CityController {
     try {
       const city = await this.cityService.createCity(createCityDto);
       return {
+        status: HttpStatus.CREATED,
         message: 'City created successfully',
         city,
       };
     } catch (error) {
-      throw new Error(`${error}`);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -37,7 +39,10 @@ export class CityController {
       }
       return cities;
     } catch (error) {
-      throw new Error(`${error}`);
+      throw new HttpException(
+        `Error fetching cities: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 

@@ -74,5 +74,5 @@ model Sales {
 model Store{
   storeId     String     @id @default(cuid())
   store_name  String
-  products    Product[]  
+  products    Product[]
 }

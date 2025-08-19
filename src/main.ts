@@ -3,11 +3,12 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './global-filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
-import { AppExceptionFilter } from './global-filters/app-exception.filter';
+import { AppException } from './global-filters/app-exception.filter';
+
+declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
   const config = new DocumentBuilder()
     .setTitle('Backend API')
     .setDescription('Retrying in NestJS')
@@ -21,9 +22,14 @@ async function bootstrap() {
 
   app.useGlobalFilters(
     new HttpExceptionFilter(configService),
-    new AppExceptionFilter(httpAdapterHost),
+    new AppException(httpAdapterHost),
   );
 
   await app.listen(process.env.PORT ?? 3000);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();

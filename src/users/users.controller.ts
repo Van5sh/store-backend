@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Param, Patch } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/users.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -31,7 +31,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUser: CreateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {
     const findUser = await this.userService.findOne(id);
     if (!findUser) {
       throw new Error('User not found');
