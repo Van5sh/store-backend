@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Param, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Param,
+  Patch,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 
@@ -10,7 +19,7 @@ export class UsersController {
   async findAll() {
     const users = await this.userService.findAll();
     if (!users || users.length === 0) {
-      throw new Error('No users found');
+      throw new HttpException('No users found', HttpStatus.NOT_FOUND);
     }
     return users;
   }

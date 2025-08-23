@@ -97,7 +97,7 @@ export class CityController {
         message: 'City deleted successfully',
       };
     } catch (error) {
-      throw new Error(`${error}`);
+      throw new HttpException(`${error}`, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
