@@ -6,11 +6,9 @@ import { ConfigService } from '@nestjs/config';
 import { AppException } from './global-filters/app-exception.filter';
 
 declare const module: {
-  hot?: {
-    accept: () => void;
-    dispose: (callback: () => void) => void;
-  };
+  hot?: { accept: () => void; dispose: (callback: () => void) => void };
 };
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

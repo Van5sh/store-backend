@@ -20,6 +20,6 @@
   },
   "include": [
     "src",
-    "types/hmr.d.ts"
+    "webpack-hmr.config.js"
   ],
 }
