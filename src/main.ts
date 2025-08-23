@@ -5,7 +5,12 @@ import { HttpExceptionFilter } from './global-filters/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import { AppException } from './global-filters/app-exception.filter';
 
-declare const module: any;
+declare const module: {
+  hot?: {
+    accept: () => void;
+    dispose: (callback: () => void) => void;
+  };
+};
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
