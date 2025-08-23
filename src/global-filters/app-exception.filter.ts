@@ -23,9 +23,13 @@ export class AppException implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorMessage =
-      exception instanceof Error ? exception.message : 'Unknown error';
-    const errorStack = exception instanceof Error ? exception.stack : undefined;
+    let errorMessage = 'Unknown error';
+    let errorStack: string | undefined;
+
+    if (exception instanceof Error) {
+      errorMessage = exception.message;
+      errorStack = exception.stack;
+    }
 
     this.logger.error(`Exception: ${errorMessage}, stack: ${errorStack}`);
 

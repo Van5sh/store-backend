@@ -10,14 +10,16 @@ import { Response } from 'express';
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-  private logger = new Logger(HttpExceptionFilter.name);
+  private readonly logger = new Logger(HttpExceptionFilter.name);
 
   constructor(private configService: ConfigService) {}
+
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const httpStatus = exception.getStatus();
 
+    // ✅ HttpException has a `.message` property by default
     this.logger.error(`Exception: ${exception.message}, status: ${httpStatus}`);
 
     response.status(httpStatus).json({
