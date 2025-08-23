@@ -35,7 +35,7 @@ export class CityController {
     try {
       const cities = await this.cityService.allCities();
       if (!cities || cities.length === 0) {
-        throw new HttpException('No cities found', 404);
+        throw new HttpException('No cities found vansh', 404);
       }
       return cities;
     } catch (error) {
