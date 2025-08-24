@@ -17,35 +17,63 @@ export class UsersController {
 
   @Get()
   async findAll() {
-    const users = await this.userService.findAll();
-    if (!users || users.length === 0) {
-      throw new HttpException('No users found', HttpStatus.NOT_FOUND);
+    try {
+      const users = await this.userService.findAll();
+      if (!users || users.length === 0) {
+        throw new HttpException('No users found', HttpStatus.NOT_FOUND);
+      }
+      return users;
+    } catch (error) {
+      throw new HttpException(
+        `Internal server error ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    return users;
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    const user = await this.userService.findOne(id);
-    if (!user) {
-      throw new Error('User not found');
+    try {
+      const user = await this.userService.findOne(id);
+      if (!user) {
+        throw new Error('User not found');
+      }
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Internal server error ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    return user;
   }
 
   @Post()
   async create(@Body() createUser: CreateUserDto) {
-    const user = await this.userService.create(createUser);
-    return user;
+    try {
+      const user = await this.userService.create(createUser);
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Internal server error ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {
-    const findUser = await this.userService.findOne(id);
-    if (!findUser) {
-      throw new Error('User not found');
+    try {
+      const findUser = await this.userService.findOne(id);
+      if (!findUser) {
+        throw new Error('User not found');
+      }
+      const updatedUser = await this.userService.update(id, updateUser);
+      return updatedUser;
+    } catch (error) {
+      throw new HttpException(
+        `Internal server error ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
-    const updatedUser = await this.userService.update(id, updateUser);
-    return updatedUser;
   }
 }

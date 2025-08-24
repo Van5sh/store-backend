@@ -9,7 +9,6 @@ declare const module: {
   hot?: { accept: () => void; dispose: (callback: () => void) => void };
 };
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()

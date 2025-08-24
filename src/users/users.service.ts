@@ -8,35 +8,51 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.user.findMany();
+    try {
+      return this.prisma.user.findMany();
+    } catch (error) {
+      throw new Error(`Error fetching users: ${error}`);
+    }
   }
 
   async findOne(id: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { userid: id },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { userid: id },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(`Error fetching user: ${error}`);
+    }
   }
 
   async create(data: CreateUserDto) {
-    const user = await this.prisma.user.create({
-      data: {
-        email: data.email,
-        name: data.name,
-        role: data.role as UserType,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.create({
+        data: {
+          email: data.email,
+          name: data.name,
+          role: data.role as UserType,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(`Error creating user: ${error}`);
+    }
   }
 
   async update(id: string, data: UpdateUserDto) {
-    const user = await this.prisma.user.update({
-      where: { userid: id },
-      data: {
-        email: data.email,
-        name: data.name,
-      },
-    });
-    return user;
+    try {
+      const user = await this.prisma.user.update({
+        where: { userid: id },
+        data: {
+          email: data.email,
+          name: data.name,
+        },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(`Error updating user: ${error}`);
+    }
   }
 }
