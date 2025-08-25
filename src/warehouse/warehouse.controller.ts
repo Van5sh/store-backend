@@ -1,4 +1,11 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { WarehouseService } from './warehouse.service';
 
 @Controller('warehouse')
-export class WarehouseController {}
+export class WarehouseController {
+  constructor(private readonly warehouseService: WarehouseService) {}
+  @Get()
+  async findAll() {
+    return this.warehouseService.allWarehouses();
+  }
+}

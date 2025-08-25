@@ -1,9 +1,9 @@
 import { Prisma } from 'generated/prisma';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 type Warehouse = Pick<
   Prisma.WareHouseCreateInput,
-  'warehouse_name' | 'warehouse_location'
+  'warehouse_name' | 'warehouse_location' | 'warehouse_capacity'
 >;
 export class CreateWarehouseDto implements Warehouse {
   @IsString()
@@ -13,6 +13,10 @@ export class CreateWarehouseDto implements Warehouse {
   @IsNotEmpty()
   @IsString()
   warehouse_name: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  warehouse_capacity: number;
 
   @IsString()
   @IsNotEmpty()
