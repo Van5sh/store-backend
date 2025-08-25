@@ -30,6 +30,10 @@ export class CreateWarehouseDto implements Warehouse {
 export class UpdateWarehouseDto implements WarehouseUpdate {
   @IsString()
   @IsNotEmpty()
+  warehouse_id: string;
+
+  @IsString()
+  @IsNotEmpty()
   warehouse_name: string;
 
   @IsNotEmpty()

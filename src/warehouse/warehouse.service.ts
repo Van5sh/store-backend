@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/database.service';
-import { CreateWarehouseDto } from './dto/create-warehouse.dto';
+import {
+  CreateWarehouseDto,
+  UpdateWarehouseDto,
+} from './dto/create-warehouse.dto';
 
 @Injectable()
 export class WarehouseService {
@@ -46,5 +49,36 @@ export class WarehouseService {
     }
   }
 
-  // async updateWareHouse
+  async updateWarehouse(data: UpdateWarehouseDto) {
+    try {
+      const warehouse = await this.prisma.wareHouse.update({
+        where: { warehouse_id: data.warehouse_id },
+        data: {
+          warehouse_name: data.warehouse_name,
+          warehouse_location: data.warehouse_location,
+          warehouse_capacity: data.warehouse_capacity,
+        },
+      });
+      return warehouse;
+    } catch (error) {
+      throw new Error(`Error updating wareHouse: ${error}`);
+    }
+  }
+
+  async deleteWarehouse(id: string) {
+    try {
+      const warehouse = await this.prisma.wareHouse.findUnique({
+        where: { warehouse_id: id },
+      });
+      if (!warehouse) {
+        throw new Error('Warehouse not found');
+      }
+      const deletedWarehouse = await this.prisma.wareHouse.delete({
+        where: { warehouse_id: id },
+      });
+      return deletedWarehouse;
+    } catch (error) {
+      throw new Error(`Error deleting wareHouse: ${error}`);
+    }
+  }
 }
