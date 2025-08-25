@@ -60,7 +60,7 @@ model WareHouse {
   vendorId           String?    
   vendor             User?      @relation("UserWarehouses", fields: [vendorId], references: [userid])
 
-  products           Product[]  
+  products           Product[]
 }
 
 model Sales {
@@ -74,5 +74,6 @@ model Sales {
 model Store{
   storeId     String     @id @default(cuid())
   store_name  String
-  products    Product[]
+  
+  products    Product[]  
 }
