@@ -34,7 +34,8 @@ export class AppException implements ExceptionFilter {
     this.logger.error(`Exception: ${errorMessage}, stack: ${errorStack}`);
 
     const response = {
-      status: httpStatus,
+      status: 'status',
+      statusCode: httpStatus,
       message: 'Internal Server Error',
     };
 

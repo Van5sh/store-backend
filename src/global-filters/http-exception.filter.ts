@@ -19,11 +19,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const httpStatus = exception.getStatus();
 
-    // ✅ HttpException has a `.message` property by default
-    this.logger.error(`Exception: ${exception.message}, status: ${httpStatus}`);
+    this.logger.error(
+      `Exception: ${exception.message}, statusCode: ${httpStatus}, status: error`,
+    );
 
     response.status(httpStatus).json({
-      status: httpStatus,
+      status: 'status',
+      statusCode: httpStatus,
       message: exception.message,
     });
   }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post } from '@nestjs/common';
 import { WarehouseService } from './warehouse.service';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 @Controller('warehouse')
@@ -10,6 +10,16 @@ export class WarehouseController {
   }
   @Post()
   async createWarehouse(@Body() data: CreateWarehouseDto) {
-    return await this.warehouseService.createWarehouse(data);
+    try {
+      const warehouse = await this.warehouseService.createWarehouse(data);
+      return {
+        status: 'success',
+        statusCode: HttpStatus.CREATED,
+        message: 'Warehouse created successfully',
+        data: warehouse,
+      };
+    } catch (error) {
+      throw new Error(`Error creating warehouse: ${error}`);
+    }
   }
 }

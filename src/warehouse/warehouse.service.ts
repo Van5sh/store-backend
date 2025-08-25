@@ -45,4 +45,6 @@ export class WarehouseService {
       throw new Error(`Error creating wareHouse: ${error}`);
     }
   }
+
+  // async updateWareHouse
 }
