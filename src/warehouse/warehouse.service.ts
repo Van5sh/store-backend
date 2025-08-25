@@ -7,7 +7,9 @@ export class WarehouseService {
   constructor(private readonly prisma: PrismaService) {}
   async allWarehouses() {
     try {
-      const warehouses = await this.prisma.wareHouse.findMany();
+      const warehouses = await this.prisma.wareHouse.findMany({
+        include: { city: true, products: true },
+      });
       if (!warehouses || warehouses.length === 0) {
         throw new Error('No wareHouses found');
       }
@@ -35,7 +37,7 @@ export class WarehouseService {
           warehouse_name: data.warehouse_name,
           warehouse_location: data.warehouse_location,
           warehouse_capacity: data.warehouse_capacity,
-          city: { connect: { city: data.cityId } },
+          city: { connect: { id: data.cityId } },
         },
       });
       return warehouse;

@@ -25,7 +25,7 @@ model User {
   email     String      @unique
   name      String?
   role      UserType
-  warehouse WareHouse[] @relation("UserWarehouses")
+  // warehouse WareHouse[] @relation("UserWarehouses")
 }
 
 model Product {
@@ -57,8 +57,8 @@ model WareHouse {
   cityId             String
   city               City       @relation(fields: [cityId], references: [id])
 
-  vendorId           String?    
-  vendor             User?      @relation("UserWarehouses", fields: [vendorId], references: [userid])
+  // vendorId           String    
+  // vendor             User?      @relation("UserWarehouses", fields: [vendorId], references: [userid])
 
   products           Product[]
 }

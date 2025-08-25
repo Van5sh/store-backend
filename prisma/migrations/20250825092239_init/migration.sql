@@ -39,7 +39,6 @@ CREATE TABLE "public"."WareHouse" (
     "warehouse_location" TEXT NOT NULL,
     "warehouse_capacity" INTEGER NOT NULL,
     "cityId" TEXT NOT NULL,
-    "vendorId" TEXT,
 
     CONSTRAINT "WareHouse_pkey" PRIMARY KEY ("warehouse_id")
 );
@@ -83,6 +82,3 @@ ALTER TABLE "public"."Product" ADD CONSTRAINT "Product_storeId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "public"."WareHouse" ADD CONSTRAINT "WareHouse_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "public"."City"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "public"."WareHouse" ADD CONSTRAINT "WareHouse_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "public"."User"("userid") ON DELETE SET NULL ON UPDATE CASCADE;

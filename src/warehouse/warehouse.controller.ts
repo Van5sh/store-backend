@@ -6,10 +6,10 @@ export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
   @Get()
   async findAll() {
-    return this.warehouseService.allWarehouses();
+    return await this.warehouseService.allWarehouses();
   }
   @Post()
   async createWarehouse(@Body() data: CreateWarehouseDto) {
-    return this.warehouseService.createWarehouse(data);
+    return await this.warehouseService.createWarehouse(data);
   }
 }
