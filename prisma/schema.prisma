@@ -21,59 +21,78 @@ enum UserType {
 }
 
 model User {
-  userid    String      @id @default(uuid())
-  email     String      @unique
-  name      String?
-  role      UserType
-  // warehouse WareHouse[] @relation("UserWarehouses")
+  userid String   @id @default(uuid())
+  email  String   @unique
+  name   String?
+  role   UserType
 }
 
 model Product {
-  product_id     String     @id @default(uuid())
-  product_name   String
-  product_code   String     @unique
-  product_price  Float
+  product_id    String @id @default(uuid())
+  product_name  String
+  product_price Float
 
-  warehouse_id   String
-  warehouse      WareHouse  @relation(fields: [warehouse_id], references: [warehouse_id])
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [storeId])
 
-  storeId        String     
-  store          Store      @relation(fields: [storeId], references: [storeId])
+  warehouse_id String
+  warehouse    WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
+  Sales        Sales[]
+  Order        Order[]
 }
 
+// to connect the city and the warehouse will make another table which stores the warehouses idto the respective city
+
 model City {
-  id         String      @id @default(uuid())
-  city       String      @unique
-  state      String
-  warehouse  WareHouse[]
+  id               String             @id @default(uuid())
+  city             String             @unique
+  state            String
+  WareHouse        WareHouse[]
+  WarehouseDetails WarehouseDetails[]
 }
 
 model WareHouse {
-  warehouse_id       String     @id @default(uuid())
+  warehouse_id       String @id @default(uuid())
   warehouse_name     String
-  warehouse_location String
   warehouse_capacity Int
 
-  cityId             String
-  city               City       @relation(fields: [cityId], references: [id])
+  cityId String
+  city   City   @relation(fields: [cityId], references: [id])
 
-  // vendorId           String    
-  // vendor             User?      @relation("UserWarehouses", fields: [vendorId], references: [userid])
+  products         Product[]
+  WarehouseDetails WarehouseDetails[]
+}
 
-  products           Product[]
+model WarehouseDetails {
+  id           String @id @default(uuid())
+  warehouse_id String
+  citty_id     String
+
+  warehouse WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
+  city      City      @relation(fields: [citty_id], references: [id])
 }
 
 model Sales {
-  id            String  @id @default(cuid())
-  product_code  String  @unique
-  product_name  String
-  quantity      Int
-  price         Float
+  id           String @id @default(cuid())
+  product_name String
+  quantity     Int
+  price        Float
+
+  product_id String
+  product    Product @relation(fields: [product_id], references: [product_id])
 }
 
-model Store{
-  storeId     String     @id @default(cuid())
-  store_name  String
-  
-  products    Product[]  
+model Store {
+  storeId    String    @id @default(cuid())
+  store_name String
+  products   Product[]
+}
+
+model Order {
+  orderId    String @id @default(uuid())
+  quantity   Int
+  totalPrice Float
+
+  productId String
+  product   Product @relation(fields: [productId], references: [product_id])
 }
