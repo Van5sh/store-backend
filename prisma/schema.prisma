@@ -41,8 +41,6 @@ model Product {
   Order        Order[]
 }
 
-// to connect the city and the warehouse will make another table which stores the warehouses idto the respective city
-
 model City {
   id               String             @id @default(uuid())
   city             String             @unique

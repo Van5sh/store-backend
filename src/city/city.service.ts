@@ -6,70 +6,75 @@ import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 export class CityService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createCity(createCityDto: CreateCityDto) {
+  async create(createCityDto: CreateCityDto) {
     try {
-      const city = this.prisma.city.create({
+      return await this.prisma.city.create({
         data: createCityDto,
       });
-
-      if (city === null) {
-        throw new Error('City creation failed');
-      }
-      return city;
     } catch (error) {
       throw new Error(`Error creating city: ${error}`);
     }
   }
 
-  async allCities() {
+  async findCities() {
     try {
-      const cities = this.prisma.city.findMany();
-      return cities;
+      return await this.prisma.city.findMany();
     } catch (error) {
       throw new Error(`Error fetching cities: ${error}`);
     }
   }
 
-  async findCity(id: number) {
+  async findCityById(id: string) {
     try {
-      const cityId = id.toString();
-      const city = this.prisma.city.findUnique({
+      return await this.prisma.city.findUnique({
         where: {
-          id: cityId,
+          id,
         },
       });
-      return city;
     } catch (error) {
-      throw new Error(`Error finding city: ${error}`);
+      throw new Error(`Error fetching city: ${error}`);
     }
   }
 
-  async updateCity(id: number, updateCityDto: UpdateCityDto) {
+  async findCityByName(city: string) {
     try {
-      const cityId = id.toString();
-      const updateCity = this.prisma.city.update({
+      return await this.prisma.city.findUnique({
         where: {
-          id: cityId,
+          city,
         },
+      });
+    } catch (error) {
+      throw new Error(`Error fetching city: ${error}`);
+    }
+  }
+
+  async updateCity(id: string, updateCityDto: UpdateCityDto) {
+    try {
+      const city = await this.prisma.city.findUnique({
+        where: { id },
+      });
+      if (!city) throw new Error('City not found');
+      const updatedCity = await this.prisma.city.update({
+        where: { id },
         data: updateCityDto,
       });
-      return updateCity;
+      return updatedCity;
     } catch (error) {
       throw new Error(`Error updating city: ${error}`);
     }
   }
 
-  async removeCity(id: number) {
+  async removeCity(id: string) {
     try {
-      const cityId = id.toString();
-      const deleteCity = this.prisma.city.delete({
-        where: {
-          id: cityId,
-        },
+      const city = await this.prisma.city.findUnique({
+        where: { id },
       });
-      return deleteCity;
+      if (!city) throw new Error('City not found');
+      return await this.prisma.city.delete({
+        where: { id },
+      });
     } catch (error) {
-      throw new Error(`Error removing city: ${error}`);
+      throw new Error(`Error deleting city: ${error}`);
     }
   }
 }
