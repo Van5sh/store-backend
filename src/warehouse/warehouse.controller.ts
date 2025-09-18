@@ -45,7 +45,7 @@ export class WarehouseController {
         };
       }
       const deletedWarehouse = await this.warehouseService.deleteWarehouse(id);
-      if (!deletedWarehouse){
+      if (!deletedWarehouse) {
         throw new Error('Warehouse deletion failed');
       }
       return {

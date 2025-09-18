@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { WarehouseController } from './warehouse/warehouse.controller';
 import { WarehouseService } from './warehouse/warehouse.service';
 import { ProductsController } from './products/products.controller';
+import { ProductsService } from './products/products.service';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -17,8 +19,9 @@ import { ProductsController } from './products/products.controller';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ProductsModule,
   ],
   controllers: [AppController, WarehouseController, ProductsController],
-  providers: [AppService, WarehouseService],
+  providers: [AppService, WarehouseService, ProductsService],
 })
 export class AppModule {}

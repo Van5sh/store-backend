@@ -51,7 +51,12 @@ export class UsersController {
   async create(@Body() createUser: CreateUserDto) {
     try {
       const user = await this.userService.create(createUser);
-      return user;
+      return {
+        status: 'success',
+        statusCode: HttpStatus.CREATED,
+        message: 'User created successfully',
+        data: user,
+      };
     } catch (error) {
       throw new HttpException(
         `Internal server error ${error}`,

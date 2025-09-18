@@ -28,7 +28,7 @@ export class CityService {
     try {
       return await this.prisma.city.findUnique({
         where: {
-          id,
+          city_id: id,
         },
       });
     } catch (error) {
@@ -51,11 +51,11 @@ export class CityService {
   async updateCity(id: string, updateCityDto: UpdateCityDto) {
     try {
       const city = await this.prisma.city.findUnique({
-        where: { id },
+        where: { city_id: id },
       });
       if (!city) throw new Error('City not found');
       const updatedCity = await this.prisma.city.update({
-        where: { id },
+        where: { city_id: id },
         data: updateCityDto,
       });
       return updatedCity;
@@ -67,11 +67,11 @@ export class CityService {
   async removeCity(id: string) {
     try {
       const city = await this.prisma.city.findUnique({
-        where: { id },
+        where: { city_id: id },
       });
       if (!city) throw new Error('City not found');
       return await this.prisma.city.delete({
-        where: { id },
+        where: { city_id: id },
       });
     } catch (error) {
       throw new Error(`Error deleting city: ${error}`);

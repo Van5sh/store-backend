@@ -39,10 +39,12 @@ model Product {
   warehouse    WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
   Sales        Sales[]
   Order        Order[]
+
+  stores StoreandProduct[]
 }
 
 model City {
-  id               String             @id @default(uuid())
+  city_id          String             @id @default(uuid())
   city             String             @unique
   state            String
   WareHouse        WareHouse[]
@@ -50,24 +52,26 @@ model City {
 }
 
 model WareHouse {
-  warehouse_id       String @id @default(uuid())
-  warehouse_name     String
+  warehouse_id   String @id @default(uuid())
+  warehouse_name String
+
   warehouse_capacity Int
 
   cityId String
-  city   City   @relation(fields: [cityId], references: [id])
+  city   City   @relation(fields: [cityId], references: [city_id])
 
   products         Product[]
   WarehouseDetails WarehouseDetails[]
 }
 
 model WarehouseDetails {
-  id           String @id @default(uuid())
-  warehouse_id String
-  citty_id     String
+  warehouseId String
+  cityId      String
 
-  warehouse WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
-  city      City      @relation(fields: [citty_id], references: [id])
+  warehouse WareHouse @relation(fields: [warehouseId], references: [warehouse_id])
+  city      City      @relation(fields: [cityId], references: [city_id])
+
+  @@id([cityId, warehouseId])
 }
 
 model Sales {
@@ -81,9 +85,21 @@ model Sales {
 }
 
 model Store {
-  storeId    String    @id @default(cuid())
+  storeId    String @id @default(cuid())
   store_name String
-  products   Product[]
+
+  products StoreandProduct[]
+  Product  Product[]
+}
+
+model StoreandProduct {
+  storeId   String
+  productId String
+
+  store   Store   @relation(fields: [storeId], references: [storeId])
+  product Product @relation(fields: [productId], references: [product_id])
+
+  @@id([storeId, productId])
 }
 
 model Order {
@@ -91,6 +107,6 @@ model Order {
   quantity   Int
   totalPrice Float
 
-  productId String
-  product   Product @relation(fields: [productId], references: [product_id])
+  product_id String
+  product    Product @relation(fields: [product_id], references: [product_id])
 }

@@ -1,33 +1,35 @@
 import { Prisma } from 'generated/prisma';
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNumber, IsString, IsNotEmpty } from 'class-validator';
 
-type Warehouse = Pick<
+type WarehouseCreateInput = Pick<
   Prisma.WareHouseCreateInput,
-  'warehouse_name' | 'warehouse_location' | 'warehouse_capacity'
+  'city' | 'warehouse_id' | 'warehouse_capacity' | 'warehouse_name' | 'products'
 >;
-type WarehouseUpdate = Pick<
+
+type WarehouseUpdateInput = Pick<
   Prisma.WareHouseUpdateInput,
-  'warehouse_name' | 'warehouse_capacity' | 'warehouse_location'
+  'city' | 'warehouse_id' | 'warehouse_name' | 'products' | 'warehouse_capacity'
 >;
-export class CreateWarehouseDto implements Warehouse {
+
+export class CreateWarehouseDto implements WarehouseCreateInput {
   @IsString()
   @IsNotEmpty()
-  cityId: string;
+  city: Prisma.CityCreateNestedOneWithoutWareHouseInput;
 
-  @IsNotEmpty()
   @IsString()
-  warehouse_name: string;
-
   @IsNotEmpty()
+  warehouse_id: string;
+
   @IsNumber()
+  @IsNotEmpty()
   warehouse_capacity: number;
 
   @IsString()
   @IsNotEmpty()
-  warehouse_location: string;
+  warehouse_name: string;
 }
 
-export class UpdateWarehouseDto implements WarehouseUpdate {
+export class UpdateWarehouseDto implements WarehouseUpdateInput {
   @IsString()
   @IsNotEmpty()
   warehouse_id: string;
@@ -36,11 +38,11 @@ export class UpdateWarehouseDto implements WarehouseUpdate {
   @IsNotEmpty()
   warehouse_name: string;
 
-  @IsNotEmpty()
   @IsNumber()
-  warehouse_capacity?: number;
+  @IsNotEmpty()
+  warehouse_capacity: number;
 
   @IsString()
   @IsNotEmpty()
-  warehouse_location?: string;
+  city: Prisma.CityUpdateOneRequiredWithoutWareHouseNestedInput;
 }

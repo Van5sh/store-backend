@@ -38,9 +38,8 @@ export class WarehouseService {
       const warehouse = await this.prisma.wareHouse.create({
         data: {
           warehouse_name: data.warehouse_name,
-          warehouse_location: data.warehouse_location,
+          city: data.city,
           warehouse_capacity: data.warehouse_capacity,
-          city: { connect: { id: data.cityId } },
         },
       });
       return warehouse;
@@ -55,8 +54,8 @@ export class WarehouseService {
         where: { warehouse_id: data.warehouse_id },
         data: {
           warehouse_name: data.warehouse_name,
-          warehouse_location: data.warehouse_location,
           warehouse_capacity: data.warehouse_capacity,
+          city: data.city,
         },
       });
       return warehouse;

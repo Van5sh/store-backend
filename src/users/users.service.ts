@@ -30,8 +30,8 @@ export class UsersService {
     try {
       const user = await this.prisma.user.create({
         data: {
-          email: data.email,
           name: data.name,
+          email: data.email,
           role: data.role as UserType,
         },
       });

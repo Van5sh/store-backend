@@ -10,7 +10,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { CityService } from './city.service';
-import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 
 @Controller('city')
 export class CityController {
@@ -34,7 +33,5 @@ export class CityController {
   }
 
   @Get(':id')
-  async findCityById(@Param('id') id: string) {
-
-  }
+  async findCityById(@Param('id') id: string) {}
 }
