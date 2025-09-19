@@ -30,4 +30,15 @@ export class ProductsService {
       throw new Error(`Error fetching product: ${error}`);
     }
   }
+
+  async findProductByName(name: string) {
+    try {
+      const product = await this.prisma.product.findFirst({
+        where: { product_name: name },
+      });
+      return product;
+    } catch (error) {
+      throw new Error(`Error fetching product: ${error}`);
+    }
+  }
 }
