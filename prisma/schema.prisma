@@ -25,6 +25,8 @@ model User {
   email  String   @unique
   name   String?
   role   UserType
+
+  OrderDetails OrderDetails[]
 }
 
 model Product {
@@ -108,4 +110,14 @@ model Order {
 
   product_id String
   product    Product @relation(fields: [product_id], references: [product_id])
+
+  OrderDetails OrderDetails[]
+}
+
+model OrderDetails {
+  orderId String
+  userId  String
+  order   Order @relation(fields: [orderId], references: [orderId])
+  user    User  @relation(fields: [userId], references: [userid])
+  @@id([orderId, userId])
 }

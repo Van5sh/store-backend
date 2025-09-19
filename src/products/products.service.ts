@@ -41,4 +41,15 @@ export class ProductsService {
       throw new Error(`Error fetching product: ${error}`);
     }
   }
+
+  async getProductsByStoreId(id: string) {
+    try {
+      const products = await this.prisma.storeandProduct.findMany({
+        where: { storeId: id },
+      });
+      return products;
+    } catch (err) {
+      throw new Error(`Error:${err}`);
+    }
+  }
 }
