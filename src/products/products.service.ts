@@ -15,6 +15,7 @@ export class ProductsService {
       throw new Error(`Error fetching products: ${error}`);
     }
   }
+
   async findOneProduct(id: string) {
     try {
       const product = await this.prisma.product.findUnique({
