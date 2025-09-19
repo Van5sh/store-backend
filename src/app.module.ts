@@ -10,6 +10,7 @@ import { WarehouseService } from './warehouse/warehouse.service';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { ProductsModule } from './products/products.module';
+import { StoreModule } from './store/store.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProductsModule } from './products/products.module';
       isGlobal: true,
     }),
     ProductsModule,
+    StoreModule,
   ],
   controllers: [AppController, WarehouseController, ProductsController],
   providers: [AppService, WarehouseService, ProductsService],
