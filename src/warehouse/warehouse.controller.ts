@@ -15,7 +15,39 @@ export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
   @Get()
   async findAll() {
-    return await this.warehouseService.allWarehouses();
+    try {
+      const warehouses = await this.warehouseService.allWarehouses();
+      if (!warehouses || warehouses.length === 0) {
+        throw new HttpException('No warehouses found', HttpStatus.NOT_FOUND);
+      }
+      return {
+        status: 'success',
+        statusCode: HttpStatus.OK,
+        message: 'Warehouses fetched successfully',
+        data: warehouses,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        if (error.getStatus() === 404) {
+          throw new HttpException('No warehouses found', HttpStatus.NOT_FOUND);
+        } else if (error.getStatus() === 400) {
+          throw new HttpException(
+            `Bad request: ${error.message}`,
+            HttpStatus.BAD_REQUEST,
+          );
+        } else if (error.getStatus() === 402) {
+          throw new HttpException(
+            `Payment Required: ${error.message}`,
+            HttpStatus.PAYMENT_REQUIRED,
+          );
+        } else if (error.getStatus() === 500) {
+          throw new HttpException(
+            `Error fetching warehouses: ${error.message}`,
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
+      }
+    }
   }
 
   @Post()
