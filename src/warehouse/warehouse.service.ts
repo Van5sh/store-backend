@@ -41,6 +41,7 @@ export class WarehouseService {
           city: data.city,
           warehouse_capacity: data.warehouse_capacity,
         },
+        include: { city: true },
       });
       return warehouse;
     } catch (error) {

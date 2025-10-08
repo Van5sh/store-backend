@@ -37,6 +37,9 @@ export class ProductsService {
       const product = await this.prisma.product.findFirst({
         where: { product_name: name },
       });
+      if (!product) {
+        throw new Error('Product not found');
+      }
       return product;
     } catch (error) {
       throw new Error(`Error fetching product: ${error}`);
@@ -45,10 +48,9 @@ export class ProductsService {
 
   async getProductsByStoreId(id: string) {
     try {
-      const products = await this.prisma.storeandProduct.findMany({
+      return this.prisma.storeandProduct.findMany({
         where: { storeId: id },
       });
-      return products;
     } catch (err) {
       throw new Error(`Error:${err}`);
     }

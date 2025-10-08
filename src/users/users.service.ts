@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/database.service';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 import { UserType } from 'generated/prisma';
@@ -53,6 +53,24 @@ export class UsersService {
       return user;
     } catch (error) {
       throw new Error(`Error updating user: ${error}`);
+    }
+  }
+
+  async findByName(name: string) {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: { name },
+      });
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
+      return user;
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching user by name: ${error.message}`,
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }

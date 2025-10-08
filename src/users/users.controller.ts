@@ -51,6 +51,10 @@ export class UsersController {
   async create(@Body() createUser: CreateUserDto) {
     try {
       const user = await this.userService.create(createUser);
+      const existingUser = await this.userService.findByName(createUser.name);
+      if (existingUser) {
+        throw new HttpException('User already exists', HttpStatus.CONFLICT);
+      }
       return {
         status: 'success',
         statusCode: HttpStatus.CREATED,

@@ -5,10 +5,9 @@ import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 @Injectable()
 export class CityService {
   constructor(private readonly prisma: PrismaService) {}
-
   async create(createCityDto: CreateCityDto) {
     try {
-      return await this.prisma.city.create({
+      return this.prisma.city.create({
         data: createCityDto,
       });
     } catch (error) {
@@ -18,7 +17,7 @@ export class CityService {
 
   async findCities() {
     try {
-      return await this.prisma.city.findMany();
+      return this.prisma.city.findMany();
     } catch (error) {
       throw new Error(`Error fetching cities: ${error}`);
     }
@@ -26,7 +25,7 @@ export class CityService {
 
   async findCityById(id: string) {
     try {
-      return await this.prisma.city.findUnique({
+      return this.prisma.city.findUnique({
         where: {
           city_id: id,
         },
@@ -38,7 +37,7 @@ export class CityService {
 
   async findCityByName(city: string) {
     try {
-      return await this.prisma.city.findUnique({
+      return this.prisma.city.findUnique({
         where: {
           city,
         },
@@ -54,11 +53,10 @@ export class CityService {
         where: { city_id: id },
       });
       if (!city) throw new Error('City not found');
-      const updatedCity = await this.prisma.city.update({
+      return this.prisma.city.update({
         where: { city_id: id },
         data: updateCityDto,
       });
-      return updatedCity;
     } catch (error) {
       throw new Error(`Error updating city: ${error}`);
     }
@@ -70,7 +68,7 @@ export class CityService {
         where: { city_id: id },
       });
       if (!city) throw new Error('City not found');
-      return await this.prisma.city.delete({
+      return this.prisma.city.delete({
         where: { city_id: id },
       });
     } catch (error) {

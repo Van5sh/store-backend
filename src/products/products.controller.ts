@@ -7,7 +7,7 @@ export class ProductsController {
 
   async allProducts() {
     try {
-      return this.products.allProducts();
+      return await this.products.allProducts();
     } catch (error) {
       throw new Error(`Error fetching products: ${error}`);
     }
@@ -15,7 +15,7 @@ export class ProductsController {
 
   async findProductById(id: string) {
     try {
-      return this.products.findOneProduct(id);
+      return await this.products.findOneProduct(id);
     } catch (error) {
       throw new Error(`Error fetching product by ID: ${error}`);
     }
@@ -23,7 +23,7 @@ export class ProductsController {
 
   async findProductByName(name: string) {
     try {
-      return this.products.findProductByName(name);
+      return await this.products.findProductByName(name);
     } catch (error) {
       throw new Error(`Error fetching product by name: ${error}`);
     }
