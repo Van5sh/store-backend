@@ -35,11 +35,6 @@ export class WarehouseController {
             `Bad request: ${error.message}`,
             HttpStatus.BAD_REQUEST,
           );
-        } else if (error.getStatus() === 402) {
-          throw new HttpException(
-            `Payment Required: ${error.message}`,
-            HttpStatus.PAYMENT_REQUIRED,
-          );
         } else if (error.getStatus() === 500) {
           throw new HttpException(
             `Error fetching warehouses: ${error.message}`,
