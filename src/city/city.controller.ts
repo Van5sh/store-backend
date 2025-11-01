@@ -7,11 +7,14 @@ import {
   HttpException,
   HttpStatus,
   Body,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 import { CityService } from './city.service';
+import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 
 @Controller('city')
+@UseFilters(new HttpExceptionFilter())
 export class CityController {
   constructor(private readonly cityService: CityService) {}
   @Get()

@@ -7,11 +7,14 @@ import {
   Patch,
   HttpException,
   HttpStatus,
+  UseFilters,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
+import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 
 @Controller('users')
+@UseFilters(new HttpExceptionFilter())
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
