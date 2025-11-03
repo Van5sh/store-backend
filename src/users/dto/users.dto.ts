@@ -19,9 +19,6 @@ export class CreateUserDto implements UserCreateInput {
   @IsNotEmpty()
   email: string;
 
-  @IsEnum(['CUSTOMER', 'ADMIN', 'VENDOR'])
-  Role: 'CUSTOMER' | 'ADMIN' | 'VENDOR';
-
   @IsString()
   @IsNotEmpty()
   password: string;

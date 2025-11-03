@@ -1,15 +1,9 @@
-import {
-  HttpStatus,
-  HttpException,
-  Injectable,
-  UseFilters,
-} from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { $Enums } from 'generated/prisma';
 
 @Injectable()
-@UseFilters(new HttpExceptionFilter())
 export class AuthService {
   constructor(
     private readonly userSevice: UsersService,
@@ -52,8 +46,16 @@ export class AuthService {
     userName: string,
     password: string,
     email: string,
-    role: 'CUSTOMER' | 'ADMIN' | 'VENDOR',
-  ) {
+    role: $Enums.UserType,
+  ): Promise<{
+    newUser: {
+      name: string | null;
+      password: string;
+      email: string;
+      role: $Enums.UserType;
+    };
+    access_token: string;
+  }> {
     try {
       const existingUser = await this.userSevice.findOne(userName);
       if (existingUser) {
@@ -71,8 +73,12 @@ export class AuthService {
         email: email,
         role: role,
       });
-      return newUser;
-    } catch (_) {
+      return {
+        newUser,
+        access_token: 'hello',
+      };
+    } catch (err) {
+      console.log(err);
       throw new HttpException(
         {
           error: 'Wrong',
