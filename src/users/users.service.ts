@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/database.service';
 import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
-import { UserType } from 'generated/prisma';
 
 @Injectable()
 export class UsersService {
@@ -28,11 +27,16 @@ export class UsersService {
 
   async create(data: CreateUserDto) {
     try {
+      if (!('password' in data) || !data.password) {
+        throw new HttpException('Password is required', HttpStatus.BAD_REQUEST);
+      }
+
       const user = await this.prisma.user.create({
         data: {
           name: data.name,
           email: data.email,
-          role: data.role as UserType,
+          role: data.role,
+          password: data.password,
         },
       });
       return user;
@@ -68,7 +72,7 @@ export class UsersService {
       return user;
     } catch (error) {
       throw new HttpException(
-        `Error fetching user by name: ${error.message}`,
+        `Error fetching user by name: ${error}`,
         HttpStatus.NOT_FOUND,
       );
     }

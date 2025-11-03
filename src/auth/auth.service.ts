@@ -1,4 +1,4 @@
-import { HttpException, Injectable, UseFilters } from '@nestjs/common';
+import { HttpStatus, HttpException, Injectable, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { UsersService } from 'src/users/users.service';
 
@@ -38,4 +38,32 @@ export class AuthService {
       );
     }
   }
-}
+  
+  async signUp(userName: string, password: string, email: string,role: 'CUSTOMER' | 'ADMIN' | 'VENDOR') {
+    try {
+      const existingUser = await this.userSevice.findOne(userName);
+      if (existingUser) {
+        throw new HttpException(
+          {
+            error: 'User Already Exists',
+            status: 'FAILED',
+          },
+          HttpStatus.CONFLICT,
+        );
+      }
+      const newUser = await this.userSevice.create({
+        name: userName,
+        password: password,
+        email: email,
+        role: role,
+      })      
+    } catch (_) {
+      throw new HttpException(
+        {
+          error: 'Wrong',
+          status: 'FAILED',
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }

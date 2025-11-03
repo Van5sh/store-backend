@@ -1,9 +1,16 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { Prisma } from 'generated/prisma';
+import { $Enums, Prisma } from 'generated/prisma';
 
-type UserCreateInput = Pick<Prisma.UserCreateInput, 'email' | 'name'>;
-type UserUpdateInput = Pick<Prisma.UserUpdateInput, 'email' | 'name'>;
+type UserCreateInput = Pick<
+  Prisma.UserCreateInput,
+  'email' | 'name' | 'role' | 'password'
+>;
+type UserUpdateInput = Pick<
+  Prisma.UserUpdateInput,
+  'email' | 'name' | 'role' | 'password'
+>;
 export class CreateUserDto implements UserCreateInput {
+  role: $Enums.UserType;
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -13,7 +20,11 @@ export class CreateUserDto implements UserCreateInput {
   email: string;
 
   @IsEnum(['CUSTOMER', 'ADMIN', 'VENDOR'])
-  role: 'CUSTOMER' | 'ADMIN' | 'VENDOR';
+  Role: 'CUSTOMER' | 'ADMIN' | 'VENDOR';
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
 
 export class UpdateUserDto implements UserUpdateInput {
@@ -24,4 +35,10 @@ export class UpdateUserDto implements UserUpdateInput {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsEnum(['CUSTOMER', 'ADMIN', 'VENDOR'])
+  Role: 'CUSTOMER' | 'ADMIN' | 'VENDOR';
+
+  @IsString()
+  password?: string | Prisma.StringFieldUpdateOperationsInput | undefined;
 }
