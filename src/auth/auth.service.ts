@@ -1,11 +1,20 @@
-import { HttpStatus, HttpException, Injectable, UseFilters } from '@nestjs/common';
+import {
+  HttpStatus,
+  HttpException,
+  Injectable,
+  UseFilters,
+} from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { UsersService } from 'src/users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 @UseFilters(new HttpExceptionFilter())
 export class AuthService {
-  constructor(private readonly userSevice: UsersService) {}
+  constructor(
+    private readonly userSevice: UsersService,
+    private readonly jwtService: JwtService,
+  ) {}
   async signIn(userName: string, password: string) {
     try {
       const user = await this.userSevice.findByName(userName);
@@ -38,8 +47,13 @@ export class AuthService {
       );
     }
   }
-  
-  async signUp(userName: string, password: string, email: string,role: 'CUSTOMER' | 'ADMIN' | 'VENDOR') {
+
+  async signUp(
+    userName: string,
+    password: string,
+    email: string,
+    role: 'CUSTOMER' | 'ADMIN' | 'VENDOR',
+  ) {
     try {
       const existingUser = await this.userSevice.findOne(userName);
       if (existingUser) {
@@ -56,7 +70,13 @@ export class AuthService {
         password: password,
         email: email,
         role: role,
-      })      
+      });
+      return {
+        status: 'success',
+        statusCode: HttpStatus.CREATED,
+        message: 'User created successfully',
+        data: newUser,
+      };
     } catch (_) {
       throw new HttpException(
         {
@@ -67,3 +87,4 @@ export class AuthService {
       );
     }
   }
+}
