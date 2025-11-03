@@ -71,12 +71,7 @@ export class AuthService {
         email: email,
         role: role,
       });
-      return {
-        status: 'success',
-        statusCode: HttpStatus.CREATED,
-        message: 'User created successfully',
-        data: newUser,
-      };
+      return newUser;
     } catch (_) {
       throw new HttpException(
         {
