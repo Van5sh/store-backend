@@ -8,15 +8,20 @@ import {
   Param,
   Post,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { WarehouseService } from './warehouse.service';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { Roles } from 'src/common/decorators/role.decorators';
+
 @Controller('warehouse')
 @UseFilters(new HttpExceptionFilter())
+@UseGuards(Roles)
 export class WarehouseController {
   constructor(private readonly warehouseService: WarehouseService) {}
   @Get()
+  @Roles('vendor')
   async findAll() {
     try {
       const warehouses = await this.warehouseService.allWarehouses();
@@ -49,6 +54,7 @@ export class WarehouseController {
   }
 
   @Post()
+  @Roles('vendor')
   async createWarehouse(@Body() data: CreateWarehouseDto) {
     try {
       const warehouse = await this.warehouseService.createWarehouse(data);
@@ -64,6 +70,7 @@ export class WarehouseController {
   }
 
   @Delete(':id')
+  @Roles('vendor')
   async deleteWarehouse(@Param('id') id: string) {
     try {
       const warehouse = await this.warehouseService.findOneWarehouse(id);

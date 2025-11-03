@@ -11,6 +11,7 @@ import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { ProductsModule } from './products/products.module';
 import { StoreModule } from './store/store.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { StoreModule } from './store/store.module';
     }),
     ProductsModule,
     StoreModule,
+    AuthModule,
   ],
   controllers: [AppController, WarehouseController, ProductsController],
   providers: [AppService, WarehouseService, ProductsService],
