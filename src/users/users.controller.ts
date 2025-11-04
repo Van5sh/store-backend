@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Post,
   Param,
   Patch,
   HttpException,
@@ -10,7 +9,7 @@ import {
   UseFilters,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
+import { UpdateUserDto } from './dto/users.dto';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 
 @Controller('users')
@@ -50,27 +49,27 @@ export class UsersController {
     }
   }
 
-  @Post()
-  async create(@Body() createUser: CreateUserDto) {
-    try {
-      const user = await this.userService.create(createUser);
-      const existingUser = await this.userService.findByName(createUser.name);
-      if (existingUser) {
-        throw new HttpException('User already exists', HttpStatus.CONFLICT);
-      }
-      return {
-        status: 'success',
-        statusCode: HttpStatus.CREATED,
-        message: 'User created successfully',
-        data: user,
-      };
-    } catch (error) {
-      throw new HttpException(
-        `Internal server error ${error}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
+  // @Post()
+  // async create(@Body() createUser: CreateUserDto) {
+  //   try {
+  //     const user = await this.userService.create(createUser);
+  //     const existingUser = await this.userService.findByName(createUser.name);
+  //     if (existingUser) {
+  //       throw new HttpException('User already exists', HttpStatus.CONFLICT);
+  //     }
+  //     return {
+  //       status: 'success',
+  //       statusCode: HttpStatus.CREATED,
+  //       message: 'User created successfully',
+  //       data: user,
+  //     };
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       `Internal server error ${error}`,
+  //       HttpStatus.INTERNAL_SERVER_ERROR,
+  //     );
+  //   }
+  // }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {

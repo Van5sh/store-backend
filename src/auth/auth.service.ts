@@ -29,6 +29,10 @@ export class AuthService {
           401,
         );
       }
+      const payload = { username: user.name, role: user.role };
+      return {
+        access_token: this.jwtService.sign(payload),
+      };
     } catch (err) {
       console.error(err);
       throw new HttpException(
