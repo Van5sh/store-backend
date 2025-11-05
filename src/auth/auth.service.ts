@@ -30,6 +30,9 @@ export class AuthService {
         );
       }
       const payload = { username: user.name, role: user.role };
+      if (user.role === $Enums.UserType.admin) {
+        payload['admin'] = true;
+      }
       return {
         access_token: this.jwtService.sign(payload),
       };

@@ -8,12 +8,16 @@ import {
   HttpStatus,
   Body,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 import { CityService } from './city.service';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { RolesGuard } from 'src/common/gaurds/role.guard';
+import { Roles } from 'src/common/decorators/role.decorators';
 
 @Controller('city')
+@UseGuards(RolesGuard)
 @UseFilters(new HttpExceptionFilter())
 export class CityController {
   constructor(private readonly cityService: CityService) {}
@@ -62,6 +66,7 @@ export class CityController {
   }
 
   @Post()
+  @Roles('admin')
   async createCity(@Body() data: CreateCityDto) {
     try {
       const city = await this.cityService.create(data);
