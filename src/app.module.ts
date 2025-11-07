@@ -12,6 +12,7 @@ import { ProductsService } from './products/products.service';
 import { ProductsModule } from './products/products.module';
 import { StoreModule } from './store/store.module';
 import { AuthModule } from './auth/auth.module';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -25,7 +26,12 @@ import { AuthModule } from './auth/auth.module';
     StoreModule,
     AuthModule,
   ],
-  controllers: [AppController, WarehouseController, ProductsController],
+  controllers: [
+    AppController,
+    WarehouseController,
+    ProductsController,
+    AuthController,
+  ],
   providers: [AppService, WarehouseService, ProductsService],
 })
 export class AppModule {}

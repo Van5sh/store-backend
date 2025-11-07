@@ -1,115 +1,41 @@
-generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum UserType {
-  vendor
-  customer
-  admin
-}
-
-model User {
-  userid String   @id @default(uuid())
-  email  String   @unique
-  name   String?
-  role   UserType
-  password String
-
-  OrderDetails OrderDetails[]
-}
-
-model Product {
-  product_id    String @id @default(uuid())
-  product_name  String
-  product_price Float
-  warehouse_id String
-  warehouse    WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
-  Sales        Sales[]
-  Order        Order[]
-
-  stores StoreandProduct[]
-}
-
-model City {
-  city_id          String             @id @default(uuid())
-  city             String             @unique
-  state            String
-  WareHouse        WareHouse[]
-  WarehouseDetails WarehouseDetails[]
-}
-
-model WareHouse {
-  warehouse_id   String @id @default(uuid())
-  warehouse_name String
-
-  warehouse_capacity Int
-
-  cityId String
-  city   City   @relation(fields: [cityId], references: [city_id])
-
-  products         Product[]
-  WarehouseDetails WarehouseDetails[]
-}
-
-model WarehouseDetails {
-  warehouseId String
-  cityId      String
-
-  warehouse WareHouse @relation(fields: [warehouseId], references: [warehouse_id])
-  city      City      @relation(fields: [cityId], references: [city_id])
-
-  @@id([cityId, warehouseId])
-}
-
-model Sales {
-  id           String @id @default(uuid())
-  product_name String
-  quantity     Int
-  price        Float
-
-  product_id String
-  product    Product @relation(fields: [product_id], references: [product_id])
-}
-
-model Store {
-  storeId    String            @id @default(cuid())
-  store_name String
-  products   StoreandProduct[]
-}
-
-model StoreandProduct {
-  storeId   String
-  product_name String
-  productId String
-
-  store   Store   @relation(fields: [storeId], references: [storeId])
-  product Product @relation(fields: [productId], references: [product_id])
-
-  @@id([storeId, productId])
-}
-
-model Order {
-  orderId    String @id @default(uuid())
-  quantity   Int
-  totalPrice Float
-
-  product_id String
-  product    Product @relation(fields: [product_id], references: [product_id])
-
-  OrderDetails OrderDetails[]
-}
-
-model OrderDetails {
-  orderId String
-  userId  String
-  order   Order  @relation(fields: [orderId], references: [orderId])
-  user    User   @relation(fields: [userId], references: [userid])
-
-  @@id([orderId, userId])
+const DataSchema = new Schema({
+    end_year: String,
+    intensity: Number,
+    sector: String,
+    topic: String,
+    insight: String,
+    url: String,
+    region: String,
+    start_year: String,
+    impact: String,
+    added: String,
+    published: String,
+    country: String,
+    relevance: Number,
+    pestle: String,
+    source: String,
+    title: String,
+    likelihood: Number,
+})
+{
+  "_id": {
+    "$oid": "690b331f6f660ffb021fb9ee"
+  },
+  "end_year": "",
+  "intensity": 6,
+  "sector": "Energy",
+  "topic": "gas",
+  "insight": "Annual Energy Outlook",
+  "url": "http://www.eia.gov/outlooks/aeo/pdf/0383(2017).pdf",
+  "region": "Northern America",
+  "start_year": "",
+  "impact": "",
+  "added": "January, 20 2017 03:51:25",
+  "published": "January, 09 2017 00:00:00",
+  "country": "United States of America",
+  "relevance": 2,
+  "pestle": "Industries",
+  "source": "EIA",
+  "title": "U.S. natural gas consumption is expected to increase during much of the projection period.",
+  "likelihood": 3
 }

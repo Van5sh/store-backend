@@ -1,15 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UsersService } from 'src/users/users.service';
 import { JwtModule } from '@nestjs/jwt';
+import { UsersModule } from 'src/users/users.module';
+
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  throw new Error('JWT_SECRET environment variable is not set');
+}
 
 @Module({
   imports: [
-    UsersService,
+    UsersModule,
     JwtModule.register({
       global: true,
-      secret: '',
+      secret: jwtSecret,
       signOptions: { expiresIn: '60s' },
     }),
   ],
