@@ -1,11 +1,5 @@
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -24,6 +18,7 @@ model User {
   email  String   @unique
   name   String?
   role   UserType
+  password String
 
   OrderDetails OrderDetails[]
 }
@@ -32,10 +27,6 @@ model Product {
   product_id    String @id @default(uuid())
   product_name  String
   product_price Float
-
-  storeId String
-  store   Store  @relation(fields: [storeId], references: [storeId])
-
   warehouse_id String
   warehouse    WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
   Sales        Sales[]
@@ -89,16 +80,35 @@ model Store {
   storeId    String            @id @default(cuid())
   store_name String
   products   StoreandProduct[]
-  Product    Product[]
 }
 
 model StoreandProduct {
-  storeId      String
+  storeId   String
   product_name String
-  productId    String
+  productId String
 
   store   Store   @relation(fields: [storeId], references: [storeId])
   product Product @relation(fields: [productId], references: [product_id])
 
   @@id([storeId, productId])
+}
+
+model Order {
+  orderId    String @id @default(uuid())
+  quantity   Int
+  totalPrice Float
+
+  product_id String
+  product    Product @relation(fields: [product_id], references: [product_id])
+
+  OrderDetails OrderDetails[]
+}
+
+model OrderDetails {
+  orderId String
+  userId  String
+  order   Order  @relation(fields: [orderId], references: [orderId])
+  user    User   @relation(fields: [userId], references: [userid])
+
+  @@id([orderId, userId])
 }
