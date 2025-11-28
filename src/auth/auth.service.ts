@@ -1,4 +1,4 @@
-import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
+import { HttpStatus, HttpException, Injectable, Redirect } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { $Enums } from 'generated/prisma';
@@ -32,6 +32,10 @@ export class AuthService {
       const payload = { username: user.name, role: user.role };
       if (user.role === $Enums.UserType.admin) {
         payload['admin'] = true;
+      } else if(user.role===$Enums.UserType.customer){
+        payload['customer'] = true;
+      } else if(user.role===$Enums.UserType.vendor){
+        payload['vendor'] = true;
       }
       return {
         access_token: this.jwtService.sign(payload),
