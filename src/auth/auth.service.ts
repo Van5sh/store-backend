@@ -82,7 +82,10 @@ export class AuthService {
       });
       return {
         newUser,
-        access_token: 'hello',
+        access_token: this.jwtService.sign({
+          username: newUser.name,
+          role: newUser.role,
+        }),
       };
     } catch (err) {
       console.log(err);
@@ -94,5 +97,8 @@ export class AuthService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+  verifyToken(token: string, p0: { secret: string | undefined; }) {
+    return this.jwtService.verify(token);
   }
 }
