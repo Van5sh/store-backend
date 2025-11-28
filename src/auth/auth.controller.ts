@@ -7,7 +7,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Get('login')
+  @Post('login')
   async login(@Body() body: { userName: string; password: string }) {
     return this.authService.signIn(body.userName, body.password);
   }
