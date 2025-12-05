@@ -15,7 +15,6 @@ import { CityService } from './city.service';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RolesGuard } from 'src/common/gaurds/role.guard';
 import { Roles } from 'src/common/decorators/role.decorators';
-import { AuthGuard } from 'src/common/gaurds/auth.guard';
 
 @Controller('city')
 @UseGuards(RolesGuard)

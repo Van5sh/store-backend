@@ -1,29 +1,39 @@
-import {
-  HttpStatus,
-  HttpException,
-  Injectable,
-  Redirect,
-} from '@nestjs/common';
+import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { $Enums } from 'generated/prisma';
 
+export interface JwtPayload {
+  username: string;
+  role: $Enums.UserType;
+  admin?: boolean;
+  customer?: boolean;
+  vendor?: boolean;
+  iat?: number;
+  exp?: number;
+}
+
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userSevice: UsersService,
+    private readonly userService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
+
   async signIn(userName: string, password: string) {
     try {
-      const user = await this.userSevice.findByName(userName);
+      const user = await this.userService.findByName(userName);
+
       if (!user) {
+        // you could also throw here instead of returning
         return {
           status: 'error',
           statusCode: 404,
           message: 'User not found',
         };
       }
+
+      // NOTE: this is plain-text comparison. In a real app, use bcrypt.
       if (user.password !== password) {
         throw new HttpException(
           {
@@ -31,17 +41,23 @@ export class AuthService {
             statusCode: 401,
             message: 'Invalid credentials',
           },
-          401,
+          HttpStatus.UNAUTHORIZED,
         );
       }
-      const payload = { username: user.name, role: user.role };
+
+      const payload: JwtPayload = {
+        username: user.name || '',
+        role: user.role,
+      };
+
       if (user.role === $Enums.UserType.admin) {
-        payload['admin'] = true;
+        payload.admin = true;
       } else if (user.role === $Enums.UserType.customer) {
-        payload['customer'] = true;
+        payload.customer = true;
       } else if (user.role === $Enums.UserType.vendor) {
-        payload['vendor'] = true;
+        payload.vendor = true;
       }
+
       return {
         access_token: this.jwtService.sign(payload),
       };
@@ -53,7 +69,7 @@ export class AuthService {
           statusCode: 401,
           message: 'Invalid credentials',
         },
-        401,
+        HttpStatus.UNAUTHORIZED,
       );
     }
   }
@@ -73,7 +89,8 @@ export class AuthService {
     access_token: string;
   }> {
     try {
-      const existingUser = await this.userSevice.findOne(userName);
+      const existingUser = await this.userService.findOne(userName);
+
       if (existingUser) {
         throw new HttpException(
           {
@@ -83,12 +100,14 @@ export class AuthService {
           HttpStatus.CONFLICT,
         );
       }
-      const newUser = await this.userSevice.create({
+
+      const newUser = await this.userService.create({
         name: userName,
-        password: password,
-        email: email,
-        role: role,
+        password,
+        email,
+        role,
       });
+
       return {
         newUser,
         access_token: this.jwtService.sign({
@@ -97,7 +116,7 @@ export class AuthService {
         }),
       };
     } catch (err) {
-      console.log(err);
+      console.error(err);
       throw new HttpException(
         {
           error: 'Wrong',
@@ -107,7 +126,8 @@ export class AuthService {
       );
     }
   }
-  verifyToken(token: string, p0: { secret: string | undefined }) {
-    return this.jwtService.verify(token);
+
+  verifyToken(token: string, options?: { secret?: string }): JwtPayload {
+    return this.jwtService.verify<JwtPayload>(token, options);
   }
 }
