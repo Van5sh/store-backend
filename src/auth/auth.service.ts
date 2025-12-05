@@ -25,7 +25,6 @@ export class AuthService {
       const user = await this.userService.findByName(userName);
 
       if (!user) {
-        // you could also throw here instead of returning
         return {
           status: 'error',
           statusCode: 404,
@@ -89,7 +88,7 @@ export class AuthService {
     access_token: string;
   }> {
     try {
-      const existingUser = await this.userService.findOne(userName);
+      const existingUser = await this.userService.findByEmail(email);
 
       if (existingUser) {
         throw new HttpException(

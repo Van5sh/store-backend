@@ -1,7 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { $Enums } from 'generated/prisma';
+import { Public } from 'src/common/decorators/public.decorator';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -16,17 +18,14 @@ export class AuthController {
   async signup(
     @Body()
     body: {
+      name: string;
       userName: string;
       password: string;
       email: string;
       role: $Enums.UserType;
     },
   ) {
-    return this.authService.signUp(
-      body.userName,
-      body.password,
-      body.email,
-      body.role,
-    );
+    const name = body.name ?? body.userName;
+    return this.authService.signUp(name, body.password, body.email, body.role);
   }
 }

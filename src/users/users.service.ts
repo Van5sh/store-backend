@@ -25,6 +25,17 @@ export class UsersService {
     }
   }
 
+  async findByEmail(email: string) {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: { email },
+      });
+      return user;
+    } catch (error) {
+      throw new Error(`Error fetching user by email: ${error}`);
+    }
+  }
+
   async create(data: CreateUserDto) {
     try {
       if (!('password' in data) || !data.password) {
