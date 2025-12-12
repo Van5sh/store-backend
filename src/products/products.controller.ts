@@ -30,4 +30,11 @@ export class ProductsController {
       throw new Error(`Error fetching product by name: ${error}`);
     }
   }
+  async createProductInStore(storeId: string, productId: string) {
+    try {
+      return await this.products.addProductToStore(storeId, productId);
+    } catch (error) {
+      throw new Error(`Error adding product to store: ${error}`);
+    }
+  }
 }

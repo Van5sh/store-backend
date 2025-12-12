@@ -55,8 +55,18 @@ export class ProductsService {
       throw new Error(`Error:${err}`);
     }
   }
-
-  // async addProduct(){
-
-  // }
+  async addProductToStore(storeId: string, productId: string) {
+    try {
+      const res = await this.prisma.storeandProduct.create({
+        data: {
+          storeId: storeId,
+          productId: productId,
+          product_name: '',
+        },
+      });
+      return res;
+    } catch (err) {
+      throw new Error(`Error:${err}`);
+    }
+  }
 }
