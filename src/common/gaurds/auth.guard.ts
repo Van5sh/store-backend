@@ -32,7 +32,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // allow @Public() routes
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -69,8 +68,7 @@ export class AuthGuard implements CanActivate {
 
     const parts = raw.trim().split(/\s+/);
     if (parts.length < 2) return undefined;
-    const scheme = parts[0].toLowerCase();
-    const token = parts.slice(1).join(' ');
-    return scheme === 'bearer' ? token : undefined;
+    const [type, token] = parts;
+    return type === 'Bearer' ? token : undefined;
   }
 }

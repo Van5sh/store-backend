@@ -16,6 +16,7 @@ import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RolesGuard } from 'src/common/gaurds/role.guard';
 import { Roles } from 'src/common/decorators/role.decorators';
 import { Public } from 'src/common/decorators/public.decorator';
+import { UserType } from 'generated/prisma';
 
 @Controller('city')
 @UseGuards(RolesGuard)
@@ -57,7 +58,7 @@ export class CityController {
   }
 
   @Post('create')
-  @Roles('admin', 'vendor')
+  @Public()
   async createCity(@Body() data: CreateCityDto) {
     try {
       const city = await this.cityService.create(data);
@@ -68,7 +69,7 @@ export class CityController {
   }
 
   @Patch(':id')
-  @Roles('admin', 'vendor')
+  @Roles(UserType.admin, UserType.vendor)
   async updateCity(@Param('id') id: string, @Body() data: UpdateCityDto) {
     try {
       const updatedCity = await this.cityService.updateCity(id, data);
