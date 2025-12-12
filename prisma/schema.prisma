@@ -13,101 +13,109 @@ enum UserType {
 }
 
 model User {
-  userid String   @id @default(uuid())
-  email  String   @unique
-  name   String?
-  role   UserType
-  password String
-
-  OrderDetails OrderDetails[]
+  userid       String         @id @default(uuid())
+  email        String         @unique
+  name         String?
+  role         UserType
+  password     String
+  orderDetails OrderDetails[]      
+  stores       Store[]            
 }
 
 model Product {
-  product_id    String @id @default(uuid())
-  product_name  String
-  product_price Float
-  warehouse_id String
-  warehouse    WareHouse @relation(fields: [warehouse_id], references: [warehouse_id])
-  Sales        Sales[]
-  Order        Order[]
+  productId    String         @id @default(uuid())
+  productName  String
+  productPrice Float
 
-  stores StoreandProduct[]
+  warehouseId  String
+  warehouse    WareHouse      @relation(fields: [warehouseId], references: [warehouseId])
+
+  sales        Sales[]
+  orders       Order[]        // orders that reference this product
+
+  storeProducts StoreAndProduct[]
 }
 
 model City {
-  city_id          String             @id @default(uuid())
-  city             String             @unique
+  cityId           String             @id @default(uuid())
+  cityName         String             @unique
   state            String
-  WareHouse        WareHouse[]
-  WarehouseDetails WarehouseDetails[]
+
+  warehouses       WareHouse[]
+  warehouseDetails WarehouseDetails[]
 }
 
 model WareHouse {
-  warehouse_id   String @id @default(uuid())
-  warehouse_name String
-
-  warehouse_capacity Int
+  warehouseId       String   @id @default(uuid())
+  warehouseName     String
+  warehouseCapacity Int
 
   cityId String
-  city   City   @relation(fields: [cityId], references: [city_id])
+  city   City     @relation(fields: [cityId], references: [cityId])
 
   products         Product[]
-  WarehouseDetails WarehouseDetails[]
+  warehouseDetails WarehouseDetails[]
 }
 
 model WarehouseDetails {
   warehouseId String
   cityId      String
 
-  warehouse WareHouse @relation(fields: [warehouseId], references: [warehouse_id])
-  city      City      @relation(fields: [cityId], references: [city_id])
+  warehouse   WareHouse @relation(fields: [warehouseId], references: [warehouseId])
+  city        City      @relation(fields: [cityId], references: [cityId])
 
   @@id([cityId, warehouseId])
 }
 
 model Sales {
-  id           String @id @default(uuid())
-  product_name String
-  quantity     Int
-  price        Float
+  id         String  @id @default(uuid())
+  productName String
+  quantity   Int
+  price      Float
 
-  product_id String
-  product    Product @relation(fields: [product_id], references: [product_id])
+  productId  String
+  product    Product @relation(fields: [productId], references: [productId])
 }
 
 model Store {
-  storeId    String            @id @default(cuid())
-  store_name String
-  products   StoreandProduct[]
+  storeId   String            @id @default(cuid())
+  storeName String
+
+  // vendor connection (the store owner)
+  vendorId  String
+  vendor    User              @relation(fields: [vendorId], references: [userid])
+
+  storeProducts StoreAndProduct[]
 }
 
-model StoreandProduct {
-  storeId   String
-  product_name String
-  productId String
+model StoreAndProduct {
+  storeId    String
+  productId  String
+  productName String?
 
   store   Store   @relation(fields: [storeId], references: [storeId])
-  product Product @relation(fields: [productId], references: [product_id])
+  product Product @relation(fields: [productId], references: [productId])
 
   @@id([storeId, productId])
 }
 
 model Order {
-  orderId    String @id @default(uuid())
+  orderId    String  @id @default(uuid())
   quantity   Int
   totalPrice Float
 
-  product_id String
-  product    Product @relation(fields: [product_id], references: [product_id])
+  productId  String
+  product    Product @relation(fields: [productId], references: [productId])
 
-  OrderDetails OrderDetails[]
+  orderDetails OrderDetails[]
 }
 
 model OrderDetails {
   orderId String
   userId  String
-  order   Order  @relation(fields: [orderId], references: [orderId])
-  user    User   @relation(fields: [userId], references: [userid])
+
+  order Order @relation(fields: [orderId], references: [orderId])
+  user  User  @relation(fields: [userId], references: [userid])
 
   @@id([orderId, userId])
 }
