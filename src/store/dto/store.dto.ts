@@ -18,7 +18,7 @@ export class CreateStoreDto implements StoreCreateType {
   store_name: string;
 
   @IsString()
-  city: string;
+  cityId: string;
 }
 
 export class UpdateStoreDto implements StoreUpdateType {

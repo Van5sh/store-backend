@@ -15,6 +15,7 @@ import { CityService } from './city.service';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RolesGuard } from 'src/common/gaurds/role.guard';
 import { Roles } from 'src/common/decorators/role.decorators';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('city')
 @UseGuards(RolesGuard)
@@ -23,6 +24,7 @@ export class CityController {
   constructor(private readonly cityService: CityService) {}
 
   @Get()
+  @Public()
   async findCities() {
     try {
       const cities = await this.cityService.findCities();
@@ -41,6 +43,7 @@ export class CityController {
   }
 
   @Get(':id')
+  @Public() // Allow public access to fetch city by ID
   async findCityById(@Param('id') id: string) {
     try {
       const city = await this.cityService.findCityById(id);
@@ -53,20 +56,7 @@ export class CityController {
     }
   }
 
-  @Get()
-  async getCityByName(name: string) {
-    try {
-      const city = await this.cityService.findCityByName(name);
-      if (!city) {
-        throw new Error('City not found');
-      }
-      return city;
-    } catch (err) {
-      throw new HttpException(`${err}`, HttpStatus.BAD_GATEWAY);
-    }
-  }
-
-  @Post()
+  @Post('create')
   @Roles('admin', 'vendor')
   async createCity(@Body() data: CreateCityDto) {
     try {
@@ -78,6 +68,7 @@ export class CityController {
   }
 
   @Patch(':id')
+  @Roles('admin', 'vendor')
   async updateCity(@Param('id') id: string, @Body() data: UpdateCityDto) {
     try {
       const updatedCity = await this.cityService.updateCity(id, data);

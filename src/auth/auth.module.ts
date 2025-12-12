@@ -25,9 +25,8 @@ if (!jwtSecret) {
       inject: [ConfigService],
     }),
   ],
-
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

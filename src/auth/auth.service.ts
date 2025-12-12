@@ -58,6 +58,7 @@ export class AuthService {
       }
 
       return {
+        role: user.role,
         access_token: this.jwtService.sign(payload),
       };
     } catch (err) {

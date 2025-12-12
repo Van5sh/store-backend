@@ -45,7 +45,7 @@ export class StoreService {
       const res = await this.prisma.store.create({
         data: {
           store_name: createStore.store_name,
-          city: createStore.city,
+          city: createStore.cityId,
         },
       });
       return res;
