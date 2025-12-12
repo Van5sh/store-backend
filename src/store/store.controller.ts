@@ -1,18 +1,20 @@
 import {
+  Body,
   Controller,
   Get,
   HttpException,
   HttpStatus,
   Param,
+  Post,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RolesGuard } from 'src/common/gaurds/role.guard';
+import { CreateStoreDto } from './dto/store.dto';
 
 @Controller('store')
-@UseGuards(RolesGuard)
 @UseFilters(new HttpExceptionFilter())
 export class StoreController {
   constructor(private readonly storeService: StoreService) {}
@@ -28,6 +30,7 @@ export class StoreController {
       );
     }
   }
+  @UseGuards(RolesGuard)
   @Get('/:id')
   async getStoreById(@Param('id') id: string) {
     return this.storeService.getStoreById(id);
@@ -35,5 +38,10 @@ export class StoreController {
   @Get('/:name')
   async getStoreByName(@Param('name') name: string) {
     return this.storeService.getStoreByName(name);
+  }
+  @UseGuards(RolesGuard)
+  @Post()
+  async createStore(@Body() createStoreDto: CreateStoreDto) {
+    return this.storeService.createStore(createStoreDto);
   }
 }

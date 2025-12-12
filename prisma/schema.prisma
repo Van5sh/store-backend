@@ -19,7 +19,8 @@ model User {
   role         UserType
   password     String
   orderDetails OrderDetails[]      
-  stores       Store[]            
+  stores       Store[]
+  Complaints   Complaint[]    
 }
 
 model Product {
@@ -118,4 +119,13 @@ model OrderDetails {
   user  User  @relation(fields: [userId], references: [userid])
 
   @@id([orderId, userId])
+}
+
+model Complaint {
+  complaintId String @id @default(uuid())
+  content     String
+  createdAt   DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [userid])
 }
