@@ -1,30 +1,34 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-import { ConfigService } from '@nestjs/config';
+// src/prisma/database.service.ts
+import { Injectable, Logger } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
-export class PrismaService
-  extends PrismaClient
-  implements OnModuleInit, OnModuleDestroy
-{
-  constructor(private readonly config: ConfigService) {
-    // Ensure DATABASE_URL gets set before PrismaClient initializes
-    const dbUrl = config.get<string>('DATABASE_URL');
+export class DatabaseService {
+  private readonly logger = new Logger(DatabaseService.name);
 
-    if (!process.env.DATABASE_URL && dbUrl) {
-      process.env.DATABASE_URL = dbUrl;
+  constructor(private readonly prisma: PrismaService) {}
+
+  // expose prisma client if you need direct access
+  get client(): PrismaService {
+    return this.prisma;
+  }
+
+  async transaction<T>(
+    work: (tx: Prisma.TransactionClient) => Promise<T>,
+  ): Promise<T> {
+    this.logger.debug('Starting transaction');
+    return this.prisma.$transaction(work);
+  }
+
+  // example helper: run simple query (you can add more helpers as needed)
+  async ping(): Promise<boolean> {
+    try {
+      await this.prisma.$queryRaw`SELECT 1`;
+      return true;
+    } catch (err) {
+      this.logger.error('Database ping failed', err);
+      return false;
     }
-
-    super({
-      log: ['query', 'info', 'warn', 'error'], // optional, remove in production
-    });
-  }
-
-  async onModuleInit() {
-    await this.$connect();
-  }
-
-  async onModuleDestroy() {
-    await this.$disconnect();
   }
 }

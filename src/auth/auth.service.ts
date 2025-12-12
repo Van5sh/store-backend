@@ -13,16 +13,11 @@ export interface JwtPayload {
   exp?: number;
 }
 
-/**
- * Normalize a string or enum value into a UserType.
- * Accepts case-insensitive strings and UserType values.
- */
-const asUserType = (role: string | UserType): UserType => {
+const asUserType = (role: string): UserType => {
   if (role == null) {
     throw new HttpException('Role is required', HttpStatus.BAD_REQUEST);
   }
 
-  // convert to string and normalize to lower-case
   const str = String(role).toLowerCase();
 
   // Gather enum values (assumes UserType is a string enum)
