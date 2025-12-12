@@ -1,11 +1,11 @@
 import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { $Enums } from 'generated/prisma';
+import { UserType } from 'generated/prisma';
 
 export interface JwtPayload {
   username: string;
-  role: $Enums.UserType;
+  role: UserType;
   admin?: boolean;
   customer?: boolean;
   vendor?: boolean;
@@ -49,11 +49,11 @@ export class AuthService {
         role: user.role,
       };
 
-      if (user.role === $Enums.UserType.admin) {
+      if (user.role === UserType.admin) {
         payload.admin = true;
-      } else if (user.role === $Enums.UserType.customer) {
+      } else if (user.role === UserType.customer) {
         payload.customer = true;
-      } else if (user.role === $Enums.UserType.vendor) {
+      } else if (user.role === UserType.vendor) {
         payload.vendor = true;
       }
 
@@ -78,13 +78,13 @@ export class AuthService {
     userName: string,
     password: string,
     email: string,
-    role: $Enums.UserType,
+    role: UserType,
   ): Promise<{
     newUser: {
       name: string | null;
       password: string;
       email: string;
-      role: $Enums.UserType;
+      role: UserType;
     };
     access_token: string;
   }> {

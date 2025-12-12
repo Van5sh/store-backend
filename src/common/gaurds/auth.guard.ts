@@ -3,15 +3,20 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { UserType } from 'generated/prisma';
 
-interface JwtPayload {
-  sub?: string;
-  email?: string;
+export interface JwtPayload {
+  username?: string;
+  role?: UserType;
+  admin?: boolean;
+  customer?: boolean;
+  vendor?: boolean;
   iat?: number;
   exp?: number;
   [key: string]: unknown;
@@ -19,39 +24,53 @@ interface JwtPayload {
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  private readonly logger = new Logger(AuthGuard.name);
+
   constructor(
-    private jwtService: JwtService,
-    private reflector: Reflector,
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // If route/controller marked @Public(), allow through
+    // allow @Public() routes
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
-    if (isPublic) {
-      return true;
-    }
+    if (isPublic) return true;
 
     const request = context.switchToHttp().getRequest<Request>();
     const token = this.extractTokenFromHeader(request);
+
     if (!token) {
-      throw new UnauthorizedException();
+      this.logger.debug('Missing bearer token');
+      throw new UnauthorizedException('Authorization token not found');
     }
+
     try {
-      // Verify using JwtService configured by JwtModule
-      const payload: JwtPayload =
-        await this.jwtService.verifyAsync<JwtPayload>(token);
+      const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
+      if (!payload || !payload.role) {
+        this.logger.debug('Token missing role claim');
+        throw new UnauthorizedException('Token missing role information');
+      }
+
       (request as Request & { user?: JwtPayload }).user = payload;
-    } catch {
-      throw new UnauthorizedException();
+      return true;
+    } catch (err) {
+      this.logger.debug('Token verification failed', err);
+      throw new UnauthorizedException('Invalid or expired token');
     }
-    return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    const raw =
+      request.headers.authorization ?? request.headers['Authorization'];
+    if (!raw || Array.isArray(raw)) return undefined;
+
+    const parts = raw.trim().split(/\s+/);
+    if (parts.length < 2) return undefined;
+    const scheme = parts[0].toLowerCase();
+    const token = parts.slice(1).join(' ');
+    return scheme === 'bearer' ? token : undefined;
   }
 }

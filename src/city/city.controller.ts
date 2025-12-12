@@ -43,7 +43,7 @@ export class CityController {
   }
 
   @Get(':id')
-  @Public() // Allow public access to fetch city by ID
+  @Public()
   async findCityById(@Param('id') id: string) {
     try {
       const city = await this.cityService.findCityById(id);
