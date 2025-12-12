@@ -5,11 +5,14 @@ import {
   HttpStatus,
   Param,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
 import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { RolesGuard } from 'src/common/gaurds/role.guard';
 
 @Controller('store')
+@UseGuards(RolesGuard)
 @UseFilters(new HttpExceptionFilter())
 export class StoreController {
   constructor(private readonly storeService: StoreService) {}
