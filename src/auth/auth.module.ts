@@ -6,11 +6,6 @@ import { UsersModule } from 'src/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret) {
-  throw new Error('JWT_SECRET environment variable is not set');
-}
-
 @Module({
   imports: [
     UsersModule,
@@ -19,7 +14,9 @@ if (!jwtSecret) {
       global: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET') || jwtSecret,
+        // If missing, this will throw at runtime inside JwtStrategy/AuthGuard usage,
+        // not during module import, avoiding hard crash on bootstrap.
+        secret: config.getOrThrow<string>('JWT_SECRET'),
         signOptions: { expiresIn: '1d' },
       }),
       inject: [ConfigService],

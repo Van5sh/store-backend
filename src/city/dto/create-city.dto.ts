@@ -1,13 +1,13 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
-type CityCreateType = Pick<Prisma.CityCreateInput, 'city' | 'state'>;
-type CityUpdateType = Pick<Prisma.CityUpdateInput, 'city' | 'state'>;
+type CityCreateType = Pick<Prisma.CityCreateInput, 'cityName' | 'state'>;
+type CityUpdateType = Pick<Prisma.CityUpdateInput, 'cityName' | 'state'>;
 
 export class CreateCityDto implements CityCreateType {
   @IsString()
   @IsNotEmpty()
-  city: string;
+  cityName: string;
 
   @IsString()
   @IsNotEmpty()

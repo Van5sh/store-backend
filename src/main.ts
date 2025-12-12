@@ -1,3 +1,4 @@
+// src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
@@ -9,7 +10,7 @@ import { AuthGuard } from './common/gaurds/auth.guard';
 import { RolesGuard } from './common/gaurds/role.guard';
 
 declare const module: {
-  hot?: { accept: () => void; dispose: (callback: () => void) => void };
+  hot?: { accept: () => void; dispose: (cb: () => void) => void };
 };
 
 async function bootstrap() {
@@ -21,14 +22,17 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
 
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
-
-  // Register global auth + roles guards here
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
   const reflector = app.get(Reflector);
   const jwtService = app.get(JwtService);
   app.useGlobalGuards(
@@ -40,9 +44,7 @@ async function bootstrap() {
 
   if (module.hot) {
     module.hot.accept();
-    module.hot.dispose(() => {
-      void app.close();
-    });
+    module.hot.dispose(() => void app.close());
   }
 }
 bootstrap();

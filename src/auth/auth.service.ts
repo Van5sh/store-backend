@@ -1,7 +1,7 @@
 import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserType } from 'generated/prisma';
+import { UserType } from '@prisma/client';
 
 export interface JwtPayload {
   username: string;
@@ -12,6 +12,32 @@ export interface JwtPayload {
   iat?: number;
   exp?: number;
 }
+
+/**
+ * Normalize a string or enum value into a UserType.
+ * Accepts case-insensitive strings and UserType values.
+ */
+const asUserType = (role: string | UserType): UserType => {
+  if (role == null) {
+    throw new HttpException('Role is required', HttpStatus.BAD_REQUEST);
+  }
+
+  // convert to string and normalize to lower-case
+  const str = String(role).toLowerCase();
+
+  // Gather enum values (assumes UserType is a string enum)
+  const allowed = Object.values(UserType).map((v) => String(v).toLowerCase());
+
+  const idx = allowed.indexOf(str);
+  if (idx === -1) {
+    throw new HttpException('Invalid role', HttpStatus.BAD_REQUEST);
+  }
+
+  // Return the matching original enum value (case preserved)
+  // find index in allowed and return corresponding Object.values(UserType)[idx]
+  const originalValues = Object.values(UserType) as string[];
+  return originalValues[idx] as UserType;
+};
 
 @Injectable()
 export class AuthService {
@@ -45,7 +71,7 @@ export class AuthService {
       }
 
       const payload: JwtPayload = {
-        username: user.name || '',
+        username: user.name ?? '',
         role: user.role,
       };
 
@@ -90,22 +116,20 @@ export class AuthService {
   }> {
     try {
       const existingUser = await this.userService.findByEmail(email);
-
       if (existingUser) {
         throw new HttpException(
-          {
-            error: 'User Already Exists',
-            status: 'FAILED',
-          },
+          { error: 'User Already Exists', status: 'FAILED' },
           HttpStatus.CONFLICT,
         );
       }
+
+      const normalized = asUserType(role);
 
       const newUser = await this.userService.create({
         name: userName,
         password,
         email,
-        role,
+        role: normalized,
       });
 
       return {
@@ -113,15 +137,16 @@ export class AuthService {
         access_token: this.jwtService.sign({
           username: newUser.name,
           role: newUser.role,
-        }),
+        } as JwtPayload),
       };
     } catch (err) {
       console.error(err);
+      // if the error was an HttpException thrown above, rethrow it
+      if (err instanceof HttpException) {
+        throw err;
+      }
       throw new HttpException(
-        {
-          error: 'Wrong',
-          status: 'FAILED',
-        },
+        { error: 'Wrong', status: 'FAILED' },
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

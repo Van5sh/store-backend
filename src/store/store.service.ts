@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/database/database.service';
-import { CreateStoreDto } from './dto/store.dto';
+// import { CreateStoreDto } from './dto/store.dto';
 
 @Injectable()
 export class StoreService {
@@ -32,7 +32,7 @@ export class StoreService {
     try {
       const store = await this.prisma.store.findFirst({
         where: {
-          store_name: name,
+          storeName: name,
         },
       });
       return store;
@@ -40,16 +40,16 @@ export class StoreService {
       throw new Error(`${err}`);
     }
   }
-  async createStore(createStore: CreateStoreDto) {
-    try {
-      const res = await this.prisma.store.create({
-        data: {
-          store_name: createStore.store_name,
-        },
-      });
-      return res;
-    } catch (err) {
-      throw new Error(`${err}`);
-    }
-  }
+  // async createStore(createStore: CreateStoreDto) {
+  //   try {
+  //     const res = await this.prisma.store.create({
+  //       data: {
+  //         storeName: createStore.store_name,
+  //       },
+  //     });
+  //     return res;
+  //   } catch (err) {
+  //     throw new Error(`${err}`);
+  //   }
+  // }
 }

@@ -1,48 +1,38 @@
-import { Prisma } from 'generated/prisma';
-import { IsNumber, IsString, IsNotEmpty } from 'class-validator';
+// src/warehouse/dto/create-warehouse.dto.ts
+import {
+  IsNumber,
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsArray,
+  ArrayNotEmpty,
+} from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 
-type WarehouseCreateInput = Pick<
-  Prisma.WareHouseCreateInput,
-  'city' | 'warehouse_id' | 'warehouse_capacity' | 'warehouse_name' | 'products'
->;
-
-type WarehouseUpdateInput = Pick<
-  Prisma.WareHouseUpdateInput,
-  'city' | 'warehouse_id' | 'warehouse_name' | 'products' | 'warehouse_capacity'
->;
-
-export class CreateWarehouseDto implements WarehouseCreateInput {
+export class CreateWarehouseDto {
   @IsString()
   @IsNotEmpty()
-  city: Prisma.CityCreateNestedOneWithoutWareHouseInput;
+  cityId!: string;
 
   @IsString()
   @IsNotEmpty()
-  warehouse_id: string;
+  warehouseId!: string; // use camelCase in DTO
 
   @IsNumber()
   @IsNotEmpty()
-  warehouse_capacity: number;
+  warehouseCapacity!: number;
 
   @IsString()
   @IsNotEmpty()
-  warehouse_name: string;
+  warehouseName!: string;
+
+  // optional list of product ids to connect to this warehouse
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  productIds?: string[];
 }
 
-export class UpdateWarehouseDto implements WarehouseUpdateInput {
-  @IsString()
-  @IsNotEmpty()
-  warehouse_id: string;
-
-  @IsString()
-  @IsNotEmpty()
-  warehouse_name: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  warehouse_capacity: number;
-
-  @IsString()
-  @IsNotEmpty()
-  city: Prisma.CityUpdateOneRequiredWithoutWareHouseNestedInput;
+export class UpdateWarehouseDto extends PartialType(CreateWarehouseDto) {
+  city: any;
 }

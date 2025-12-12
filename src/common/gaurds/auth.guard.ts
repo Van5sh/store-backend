@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
-import { UserType } from 'generated/prisma';
+import { UserType } from '@prisma/client';
 
 export interface JwtPayload {
   username?: string;

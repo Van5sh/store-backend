@@ -1,21 +1,20 @@
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 
 type CreateProductType = Pick<
   Prisma.ProductCreateInput,
-  'product_name' | 'product_price' | 'warehouse' | 'stores'
+  'productName' | 'productPrice'
 >;
 type UpdateProductType = Pick<
   Prisma.ProductUpdateInput,
-  'product_name' | 'product_price'
+  'productName' | 'productPrice'
 >;
+
 export class CreateProductDto implements CreateProductType {
-  product_name: string;
-  product_price: number;
-  warehouse: Prisma.WareHouseCreateNestedOneWithoutProductsInput;
-  stores: Prisma.StoreandProductCreateNestedManyWithoutProductInput;
+  productName: string;
+  productPrice: number;
 }
 
 export class UpdateProductDto implements UpdateProductType {
-  product_name: string;
-  product_price: number;
+  productName: string;
+  productPrice: number;
 }

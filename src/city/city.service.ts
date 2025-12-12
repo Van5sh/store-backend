@@ -8,10 +8,13 @@ export class CityService {
   async create(createCityDto: CreateCityDto) {
     try {
       return this.prisma.city.create({
-        data: createCityDto,
+        data: {
+          cityName: createCityDto.cityName,
+          state: createCityDto.state,
+        },
       });
     } catch (error) {
-      throw new Error(`Error creating city: ${error}`);
+      throw new Error(`Error creating city:  ${error}`);
     }
   }
 
@@ -27,7 +30,7 @@ export class CityService {
     try {
       return this.prisma.city.findUnique({
         where: {
-          city_id: id,
+          cityId: id,
         },
       });
     } catch (error) {
@@ -39,7 +42,7 @@ export class CityService {
     try {
       return this.prisma.city.findUnique({
         where: {
-          city,
+          cityName: city,
         },
       });
     } catch (error) {
@@ -50,11 +53,11 @@ export class CityService {
   async updateCity(id: string, updateCityDto: UpdateCityDto) {
     try {
       const city = await this.prisma.city.findUnique({
-        where: { city_id: id },
+        where: { cityId: id },
       });
       if (!city) throw new Error('City not found');
       return this.prisma.city.update({
-        where: { city_id: id },
+        where: { cityId: id },
         data: updateCityDto,
       });
     } catch (error) {
@@ -65,11 +68,11 @@ export class CityService {
   async removeCity(id: string) {
     try {
       const city = await this.prisma.city.findUnique({
-        where: { city_id: id },
+        where: { cityId: id },
       });
       if (!city) throw new Error('City not found');
       return this.prisma.city.delete({
-        where: { city_id: id },
+        where: { cityId: id },
       });
     } catch (error) {
       throw new Error(`Error deleting city: ${error}`);

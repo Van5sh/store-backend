@@ -25,7 +25,7 @@ export class WarehouseService {
   async findOneWarehouse(id: string) {
     try {
       const warehouse = await this.prisma.wareHouse.findUnique({
-        where: { warehouse_id: id },
+        where: { warehouseId: id },
       });
       return warehouse;
     } catch (error) {
@@ -37,11 +37,14 @@ export class WarehouseService {
     try {
       const warehouse = await this.prisma.wareHouse.create({
         data: {
-          warehouse_name: data.warehouse_name,
-          city: data.city,
-          warehouse_capacity: data.warehouse_capacity,
+          warehouseName: data.warehouseName,
+          warehouseCapacity: data.warehouseCapacity,
+          warehouseId: data.warehouseId,
+          city: { connect: { cityId: data.cityId } },
+          products: data.productIds
+            ? { connect: data.productIds.map((id) => ({ productId: id })) }
+            : undefined,
         },
-        include: { city: true },
       });
       return warehouse;
     } catch (error) {
@@ -52,12 +55,12 @@ export class WarehouseService {
   async updateWarehouse(data: UpdateWarehouseDto) {
     try {
       const warehouse = await this.prisma.wareHouse.update({
-        where: { warehouse_id: data.warehouse_id },
+        where: { warehouseId: data.warehouseId },
         data: {
-          warehouse_name: data.warehouse_name,
-          warehouse_capacity: data.warehouse_capacity,
-          city: data.city,
+          warehouseName: data.warehouseName,
+          warehouseCapacity: data.warehouseCapacity,
         },
+        include: { city: true },
       });
       return warehouse;
     } catch (error) {
@@ -68,13 +71,13 @@ export class WarehouseService {
   async deleteWarehouse(id: string) {
     try {
       const warehouse = await this.prisma.wareHouse.findUnique({
-        where: { warehouse_id: id },
+        where: { warehouseId: id },
       });
       if (!warehouse) {
         throw new Error('Warehouse not found');
       }
       const deletedWarehouse = await this.prisma.wareHouse.delete({
-        where: { warehouse_id: id },
+        where: { warehouseId: id },
       });
       return deletedWarehouse;
     } catch (error) {

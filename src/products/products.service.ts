@@ -20,7 +20,7 @@ export class ProductsService {
     try {
       const product = await this.prisma.product.findUnique({
         where: {
-          product_id: id,
+          productId: id,
         },
       });
       if (!product) {
@@ -35,7 +35,7 @@ export class ProductsService {
   async findProductByName(name: string) {
     try {
       const product = await this.prisma.product.findFirst({
-        where: { product_name: name },
+        where: { productName: name },
       });
       if (!product) {
         throw new Error('Product not found');
@@ -48,7 +48,7 @@ export class ProductsService {
 
   async getProductsByStoreId(id: string) {
     try {
-      return this.prisma.storeandProduct.findMany({
+      return this.prisma.storeAndProduct.findMany({
         where: { storeId: id },
       });
     } catch (err) {
@@ -57,11 +57,10 @@ export class ProductsService {
   }
   async addProductToStore(storeId: string, productId: string) {
     try {
-      const res = await this.prisma.storeandProduct.create({
+      const res = await this.prisma.storeAndProduct.create({
         data: {
           storeId: storeId,
           productId: productId,
-          product_name: '',
         },
       });
       return res;

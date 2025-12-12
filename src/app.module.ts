@@ -13,17 +13,15 @@ import { ProductsModule } from './products/products.module';
 import { StoreModule } from './store/store.module';
 import { AuthModule } from './auth/auth.module';
 import { AuthController } from './auth/auth.controller';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './common/gaurds/auth.guard';
+// import { APP_GUARD } from '@nestjs/core';
+// import { AuthGuard } from './common/gaurds/auth.guard';
 
 @Module({
   imports: [
     DatabaseModule,
     CityModule,
     UsersModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     ProductsModule,
     StoreModule,
     AuthModule,
@@ -34,14 +32,6 @@ import { AuthGuard } from './common/gaurds/auth.guard';
     ProductsController,
     AuthController,
   ],
-  providers: [
-    AppService,
-    WarehouseService,
-    ProductsService,
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-  ],
+  providers: [AppService, WarehouseService, ProductsService],
 })
 export class AppModule {}

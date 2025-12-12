@@ -1,16 +1,20 @@
-import { Prisma } from 'generated/prisma';
+import { Prisma } from '@prisma/client';
 import { IsString } from 'class-validator';
 type StoreCreateType = Pick<
   Prisma.StoreCreateInput,
-  'storeId' | 'store_name' | 'products'
+  'storeId' | 'storeName' | 'city'
 >;
 
 type StoreUpdateType = Pick<
   Prisma.StoreUpdateInput,
-  'storeId' | 'store_name' | 'products'
+  'city' | 'storeName' | 'storeId'
 >;
 
 export class CreateStoreDto implements StoreCreateType {
+  @IsString()
+  storeName: string;
+
+  city: Prisma.CityCreateNestedOneWithoutStoresInput;
   @IsString()
   storeId: string;
 
@@ -29,5 +33,5 @@ export class UpdateStoreDto implements StoreUpdateType {
   store_name: string;
 
   @IsString()
-  city: string;
+  cityName: string;
 }

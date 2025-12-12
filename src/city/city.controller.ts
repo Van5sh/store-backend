@@ -16,7 +16,7 @@ import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
 import { RolesGuard } from 'src/common/gaurds/role.guard';
 import { Roles } from 'src/common/decorators/role.decorators';
 import { Public } from 'src/common/decorators/public.decorator';
-import { UserType } from 'generated/prisma';
+import { UserType } from '@prisma/client';
 
 @Controller('city')
 @UseGuards(RolesGuard)
@@ -62,6 +62,7 @@ export class CityController {
   async createCity(@Body() data: CreateCityDto) {
     try {
       const city = await this.cityService.create(data);
+      console.log(city);
       return city;
     } catch (err) {
       throw new HttpException(`${err}`, HttpStatus.SERVICE_UNAVAILABLE);
