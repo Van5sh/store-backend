@@ -22,7 +22,7 @@ export class StoreService {
       },
     });
   }
-  async createStore(dto: CreateStoreDto): Promise<any> {
+  async createStore(dto: CreateStoreDto) {
     return this.prisma.store.create({
       data: {
         storeName: dto.storeName,

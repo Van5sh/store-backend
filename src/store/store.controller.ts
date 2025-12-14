@@ -5,15 +5,16 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Post,
   // Post,
   UseFilters,
   UseGuards,
 } from '@nestjs/common';
 import { StoreService } from './store.service';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
-import { RolesGuard } from 'src/common/gaurds/role.guard';
-// import { CreateStoreDto } from './dto/store.dto';
-import { Roles } from 'src/common/decorators/role.decorators';
+import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
+import { RolesGuard } from '../common/gaurds/role.guard';
+import { CreateStoreDto } from './dto/store.dto';
+import { Roles } from '../common/decorators/role.decorators';
 
 @Controller('store')
 @UseFilters(new HttpExceptionFilter())
@@ -23,7 +24,8 @@ export class StoreController {
   @Get()
   async allStores() {
     try {
-      return this.storeService.allStores();
+      const stores = await this.storeService.allStores();
+      return stores;
     } catch (error) {
       throw new HttpException(
         `Error fetching stores: ${error}`,
@@ -35,7 +37,7 @@ export class StoreController {
   @Get('/:id')
   @Roles('admin', 'vendor')
   async getStoreById(@Param('id') id: string) {
-    return this.storeService.getStoreById(id);
+    return await this.storeService.getStoreById(id);
   }
 
   @UseGuards(RolesGuard)
@@ -44,10 +46,19 @@ export class StoreController {
   async getStoreByName(@Param('name') name: string) {
     return this.storeService.getStoreByName(name);
   }
-  // @UseGuards(RolesGuard)
-  // @Roles('admin', 'vendor')
-  // @Post()
-  // async createStore(@Body() createStoreDto: CreateStoreDto) {
-  //   return this.storeService.createStore(createStoreDto);
-  // }
+
+  @UseGuards(RolesGuard)
+  @Roles('admin', 'vendor')
+  @Post()
+  async createStore(@Body() createStoreDto: CreateStoreDto) {
+    try {
+      const store = await this.storeService.createStore(createStoreDto);
+      return store;
+    } catch (error) {
+      throw new HttpException(
+        `Error creating store: ${error}`,
+        HttpStatus.HTTP_VERSION_NOT_SUPPORTED,
+      );
+    }
+  }
 }
