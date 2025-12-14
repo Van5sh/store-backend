@@ -6,54 +6,35 @@ import { CreateStoreDto } from './dto/store.dto';
 export class StoreService {
   constructor(private readonly prisma: PrismaService) {}
   async allStores() {
-    try {
-      const stores = await this.prisma.store.findMany();
-      if (!stores) {
-        throw new Error('No stores Available as of now');
-      }
-      return stores;
-    } catch (err) {
-      throw new Error(`Error:${err}`);
-    }
+    return this.prisma.store.findMany();
   }
   async getStoreById(id: string) {
-    try {
-      const store = await this.prisma.store.findUnique({
-        where: {
-          storeId: id,
-        },
-      });
-      return store;
-    } catch (err) {
-      throw new Error(`Error:${err}`);
-    }
+    return this.prisma.store.findUnique({
+      where: {
+        storeId: id,
+      },
+    });
   }
   async getStoreByName(name: string) {
-    try {
-      const store = await this.prisma.store.findFirst({
-        where: {
-          storeName: name,
-        },
-      });
-      return store;
-    } catch (err) {
-      throw new Error(`${err}`);
-    }
+    return this.prisma.store.findFirst({
+      where: {
+        storeName: name,
+      },
+    });
   }
-  async createStore(createStore: CreateStoreDto) {
-    try {
-      const res = await this.prisma.store.create({
-        data: {
-          storeName: createStore.storeName,
-          city: createStore.city,
-          vendor: {
-            connect: { id: createStore.vendor },
-          },
+  async createStore(dto: CreateStoreDto): Promise<any> {
+    return this.prisma.store.create({
+      data: {
+        storeName: dto.storeName,
+
+        vendor: {
+          connect: { userid: dto.vendor as string },
         },
-      });
-      return res;
-    } catch (err) {
-      throw new Error(`${err}`);
-    }
+
+        city: {
+          connect: { cityName: dto.cityName },
+        },
+      },
+    });
   }
 }
