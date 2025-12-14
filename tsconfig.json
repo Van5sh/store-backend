@@ -9,7 +9,7 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    // "baseUrl": "http://localhost:3000/",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,

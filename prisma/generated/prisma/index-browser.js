@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.0.0
- * Query Engine version: 0c19ccc313cf9911a90d99d2ac2eb0280c76c513
+ * Prisma Client JS version: 7.1.0
+ * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
  */
 Prisma.prismaVersion = {
-  client: "7.0.0",
-  engine: "0c19ccc313cf9911a90d99d2ac2eb0280c76c513"
+  client: "7.1.0",
+  engine: "ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -125,20 +125,23 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   name: 'name',
   role: 'role',
-  password: 'password'
+  password: 'password',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProductScalarFieldEnum = {
   productId: 'productId',
   productName: 'productName',
   productPrice: 'productPrice',
-  warehouseId: 'warehouseId'
+  vendorId: 'vendorId'
 };
 
 exports.Prisma.CityScalarFieldEnum = {
   cityId: 'cityId',
   cityName: 'cityName',
-  state: 'state'
+  state: 'state',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.WareHouseScalarFieldEnum = {
@@ -154,25 +157,32 @@ exports.Prisma.WarehouseDetailsScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.WarehouseInventoryScalarFieldEnum = {
+  warehouseId: 'warehouseId',
+  productId: 'productId',
+  quantity: 'quantity'
+};
+
 exports.Prisma.SalesScalarFieldEnum = {
   id: 'id',
-  productName: 'productName',
+  productId: 'productId',
   quantity: 'quantity',
-  price: 'price',
-  productId: 'productId'
+  price: 'price'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {
   storeId: 'storeId',
   storeName: 'storeName',
   vendorId: 'vendorId',
-  cityId: 'cityId'
+  cityName: 'cityName',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.StoreAndProductScalarFieldEnum = {
   storeId: 'storeId',
   productId: 'productId',
-  productName: 'productName'
+  vendorId: 'vendorId'
 };
 
 exports.Prisma.OrderScalarFieldEnum = {
@@ -180,8 +190,13 @@ exports.Prisma.OrderScalarFieldEnum = {
   quantity: 'quantity',
   totalPrice: 'totalPrice',
   orderDate: 'orderDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   productId: 'productId',
-  vendorId: 'vendorId'
+  storeId: 'storeId',
+  customerId: 'customerId',
+  vendorId: 'vendorId',
+  warehouseId: 'warehouseId'
 };
 
 exports.Prisma.OrderDetailsScalarFieldEnum = {
@@ -223,6 +238,7 @@ exports.Prisma.ModelName = {
   City: 'City',
   WareHouse: 'WareHouse',
   WarehouseDetails: 'WarehouseDetails',
+  WarehouseInventory: 'WarehouseInventory',
   Sales: 'Sales',
   Store: 'Store',
   StoreAndProduct: 'StoreAndProduct',

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-// import { CreateStoreDto } from './dto/store.dto';
+import { CreateStoreDto } from './dto/store.dto';
 
 @Injectable()
 export class StoreService {
@@ -40,16 +40,20 @@ export class StoreService {
       throw new Error(`${err}`);
     }
   }
-  // async createStore(createStore: CreateStoreDto) {
-  //   try {
-  //     const res = await this.prisma.store.create({
-  //       data: {
-  //         storeName: createStore.store_name,
-  //       },
-  //     });
-  //     return res;
-  //   } catch (err) {
-  //     throw new Error(`${err}`);
-  //   }
-  // }
+  async createStore(createStore: CreateStoreDto) {
+    try {
+      const res = await this.prisma.store.create({
+        data: {
+          storeName: createStore.storeName,
+          city: createStore.city,
+          vendor: {
+            connect: { id: createStore.vendor },
+          },
+        },
+      });
+      return res;
+    } catch (err) {
+      throw new Error(`${err}`);
+    }
+  }
 }

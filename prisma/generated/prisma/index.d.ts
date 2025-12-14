@@ -39,6 +39,11 @@ export type WareHouse = $Result.DefaultSelection<Prisma.$WareHousePayload>
  */
 export type WarehouseDetails = $Result.DefaultSelection<Prisma.$WarehouseDetailsPayload>
 /**
+ * Model WarehouseInventory
+ * 
+ */
+export type WarehouseInventory = $Result.DefaultSelection<Prisma.$WarehouseInventoryPayload>
+/**
  * Model Sales
  * 
  */
@@ -99,7 +104,7 @@ export const UserType: typeof $Enums.UserType
  * ```
  *
  *
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
@@ -120,7 +125,7 @@ export class PrismaClient<
    * ```
    *
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
@@ -143,7 +148,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -155,7 +160,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -166,7 +171,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -178,7 +183,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -253,6 +258,16 @@ export class PrismaClient<
     * ```
     */
   get warehouseDetails(): Prisma.WarehouseDetailsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.warehouseInventory`: Exposes CRUD operations for the **WarehouseInventory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WarehouseInventories
+    * const warehouseInventories = await prisma.warehouseInventory.findMany()
+    * ```
+    */
+  get warehouseInventory(): Prisma.WarehouseInventoryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.sales`: Exposes CRUD operations for the **Sales** model.
@@ -363,8 +378,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.0.0
-   * Query Engine version: 0c19ccc313cf9911a90d99d2ac2eb0280c76c513
+   * Prisma Client JS version: 7.1.0
+   * Query Engine version: ab635e6b9d606fa5c8fb8b1a7f909c3c3c1c98ba
    */
   export type PrismaVersion = {
     client: string
@@ -752,6 +767,7 @@ export namespace Prisma {
     City: 'City',
     WareHouse: 'WareHouse',
     WarehouseDetails: 'WarehouseDetails',
+    WarehouseInventory: 'WarehouseInventory',
     Sales: 'Sales',
     Store: 'Store',
     StoreAndProduct: 'StoreAndProduct',
@@ -773,7 +789,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "product" | "city" | "wareHouse" | "warehouseDetails" | "sales" | "store" | "storeAndProduct" | "order" | "orderDetails" | "complaint"
+      modelProps: "user" | "product" | "city" | "wareHouse" | "warehouseDetails" | "warehouseInventory" | "sales" | "store" | "storeAndProduct" | "order" | "orderDetails" | "complaint"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1144,6 +1160,80 @@ export namespace Prisma {
           count: {
             args: Prisma.WarehouseDetailsCountArgs<ExtArgs>
             result: $Utils.Optional<WarehouseDetailsCountAggregateOutputType> | number
+          }
+        }
+      }
+      WarehouseInventory: {
+        payload: Prisma.$WarehouseInventoryPayload<ExtArgs>
+        fields: Prisma.WarehouseInventoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WarehouseInventoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WarehouseInventoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          findFirst: {
+            args: Prisma.WarehouseInventoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WarehouseInventoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          findMany: {
+            args: Prisma.WarehouseInventoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>[]
+          }
+          create: {
+            args: Prisma.WarehouseInventoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          createMany: {
+            args: Prisma.WarehouseInventoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WarehouseInventoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>[]
+          }
+          delete: {
+            args: Prisma.WarehouseInventoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          update: {
+            args: Prisma.WarehouseInventoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.WarehouseInventoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WarehouseInventoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WarehouseInventoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.WarehouseInventoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WarehouseInventoryPayload>
+          }
+          aggregate: {
+            args: Prisma.WarehouseInventoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWarehouseInventory>
+          }
+          groupBy: {
+            args: Prisma.WarehouseInventoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WarehouseInventoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WarehouseInventoryCountArgs<ExtArgs>
+            result: $Utils.Optional<WarehouseInventoryCountAggregateOutputType> | number
           }
         }
       }
@@ -1645,7 +1735,7 @@ export namespace Prisma {
      *  { emit: 'stdout', level: 'error' }
      * 
      * ```
-     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     * Read more in our [docs](https://pris.ly/d/logging).
      */
     log?: (LogLevel | LogDefinition)[]
     /**
@@ -1681,6 +1771,22 @@ export namespace Prisma {
      * ```
      */
     omit?: Prisma.GlobalOmitConfig
+    /**
+     * SQL commenter plugins that add metadata to SQL queries as comments.
+     * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   adapter,
+     *   comments: [
+     *     traceContext(),
+     *     queryInsights(),
+     *   ],
+     * })
+     * ```
+     */
+    comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
@@ -1688,6 +1794,7 @@ export namespace Prisma {
     city?: CityOmit
     wareHouse?: WareHouseOmit
     warehouseDetails?: WarehouseDetailsOmit
+    warehouseInventory?: WarehouseInventoryOmit
     sales?: SalesOmit
     store?: StoreOmit
     storeAndProduct?: StoreAndProductOmit
@@ -1779,6 +1886,9 @@ export namespace Prisma {
     Complaints: number
     WarehouseDetails: number
     orders: number
+    vendorOrders: number
+    Products: number
+    storeAndProducts: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1787,6 +1897,9 @@ export namespace Prisma {
     Complaints?: boolean | UserCountOutputTypeCountComplaintsArgs
     WarehouseDetails?: boolean | UserCountOutputTypeCountWarehouseDetailsArgs
     orders?: boolean | UserCountOutputTypeCountOrdersArgs
+    vendorOrders?: boolean | UserCountOutputTypeCountVendorOrdersArgs
+    Products?: boolean | UserCountOutputTypeCountProductsArgs
+    storeAndProducts?: boolean | UserCountOutputTypeCountStoreAndProductsArgs
   }
 
   // Custom InputTypes
@@ -1835,18 +1948,41 @@ export namespace Prisma {
     where?: OrderWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVendorOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountStoreAndProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoreAndProductWhereInput
+  }
+
 
   /**
    * Count Type ProductCountOutputType
    */
 
   export type ProductCountOutputType = {
+    inventory: number
     sales: number
     orders: number
     storeProducts: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    inventory?: boolean | ProductCountOutputTypeCountInventoryArgs
     sales?: boolean | ProductCountOutputTypeCountSalesArgs
     orders?: boolean | ProductCountOutputTypeCountOrdersArgs
     storeProducts?: boolean | ProductCountOutputTypeCountStoreProductsArgs
@@ -1861,6 +1997,13 @@ export namespace Prisma {
      * Select specific fields to fetch from the ProductCountOutputType
      */
     select?: ProductCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WarehouseInventoryWhereInput
   }
 
   /**
@@ -1939,13 +2082,15 @@ export namespace Prisma {
    */
 
   export type WareHouseCountOutputType = {
-    products: number
     warehouseDetails: number
+    warehouseInventory: number
+    orders: number
   }
 
   export type WareHouseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    products?: boolean | WareHouseCountOutputTypeCountProductsArgs
     warehouseDetails?: boolean | WareHouseCountOutputTypeCountWarehouseDetailsArgs
+    warehouseInventory?: boolean | WareHouseCountOutputTypeCountWarehouseInventoryArgs
+    orders?: boolean | WareHouseCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -1962,15 +2107,22 @@ export namespace Prisma {
   /**
    * WareHouseCountOutputType without action
    */
-  export type WareHouseCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProductWhereInput
+  export type WareHouseCountOutputTypeCountWarehouseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WarehouseDetailsWhereInput
   }
 
   /**
    * WareHouseCountOutputType without action
    */
-  export type WareHouseCountOutputTypeCountWarehouseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WarehouseDetailsWhereInput
+  export type WareHouseCountOutputTypeCountWarehouseInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WarehouseInventoryWhereInput
+  }
+
+  /**
+   * WareHouseCountOutputType without action
+   */
+  export type WareHouseCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -1980,10 +2132,12 @@ export namespace Prisma {
 
   export type StoreCountOutputType = {
     storeProducts: number
+    orders: number
   }
 
   export type StoreCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     storeProducts?: boolean | StoreCountOutputTypeCountStoreProductsArgs
+    orders?: boolean | StoreCountOutputTypeCountOrdersArgs
   }
 
   // Custom InputTypes
@@ -2002,6 +2156,13 @@ export namespace Prisma {
    */
   export type StoreCountOutputTypeCountStoreProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StoreAndProductWhereInput
+  }
+
+  /**
+   * StoreCountOutputType without action
+   */
+  export type StoreCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderWhereInput
   }
 
 
@@ -2065,6 +2226,8 @@ export namespace Prisma {
     name: string | null
     role: $Enums.UserType | null
     password: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -2073,6 +2236,8 @@ export namespace Prisma {
     name: string | null
     role: $Enums.UserType | null
     password: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -2081,6 +2246,8 @@ export namespace Prisma {
     name: number
     role: number
     password: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -2091,6 +2258,8 @@ export namespace Prisma {
     name?: true
     role?: true
     password?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -2099,6 +2268,8 @@ export namespace Prisma {
     name?: true
     role?: true
     password?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -2107,6 +2278,8 @@ export namespace Prisma {
     name?: true
     role?: true
     password?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2188,6 +2361,8 @@ export namespace Prisma {
     name: string | null
     role: $Enums.UserType
     password: string
+    createdAt: Date
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -2213,11 +2388,16 @@ export namespace Prisma {
     name?: boolean
     role?: boolean
     password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     orderDetails?: boolean | User$orderDetailsArgs<ExtArgs>
     stores?: boolean | User$storesArgs<ExtArgs>
     Complaints?: boolean | User$ComplaintsArgs<ExtArgs>
     WarehouseDetails?: boolean | User$WarehouseDetailsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    vendorOrders?: boolean | User$vendorOrdersArgs<ExtArgs>
+    Products?: boolean | User$ProductsArgs<ExtArgs>
+    storeAndProducts?: boolean | User$storeAndProductsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2227,6 +2407,8 @@ export namespace Prisma {
     name?: boolean
     role?: boolean
     password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2235,6 +2417,8 @@ export namespace Prisma {
     name?: boolean
     role?: boolean
     password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -2243,15 +2427,20 @@ export namespace Prisma {
     name?: boolean
     role?: boolean
     password?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userid" | "email" | "name" | "role" | "password", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userid" | "email" | "name" | "role" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     orderDetails?: boolean | User$orderDetailsArgs<ExtArgs>
     stores?: boolean | User$storesArgs<ExtArgs>
     Complaints?: boolean | User$ComplaintsArgs<ExtArgs>
     WarehouseDetails?: boolean | User$WarehouseDetailsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    vendorOrders?: boolean | User$vendorOrdersArgs<ExtArgs>
+    Products?: boolean | User$ProductsArgs<ExtArgs>
+    storeAndProducts?: boolean | User$storeAndProductsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2265,6 +2454,9 @@ export namespace Prisma {
       Complaints: Prisma.$ComplaintPayload<ExtArgs>[]
       WarehouseDetails: Prisma.$WarehouseDetailsPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      vendorOrders: Prisma.$OrderPayload<ExtArgs>[]
+      Products: Prisma.$ProductPayload<ExtArgs>[]
+      storeAndProducts: Prisma.$StoreAndProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       userid: string
@@ -2272,6 +2464,8 @@ export namespace Prisma {
       name: string | null
       role: $Enums.UserType
       password: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2671,6 +2865,9 @@ export namespace Prisma {
     Complaints<T extends User$ComplaintsArgs<ExtArgs> = {}>(args?: Subset<T, User$ComplaintsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComplaintPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     WarehouseDetails<T extends User$WarehouseDetailsArgs<ExtArgs> = {}>(args?: Subset<T, User$WarehouseDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseDetailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    vendorOrders<T extends User$vendorOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$vendorOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Products<T extends User$ProductsArgs<ExtArgs> = {}>(args?: Subset<T, User$ProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    storeAndProducts<T extends User$storeAndProductsArgs<ExtArgs> = {}>(args?: Subset<T, User$storeAndProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoreAndProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2705,6 +2902,8 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserType'>
     readonly password: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -3213,6 +3412,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.vendorOrders
+   */
+  export type User$vendorOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.Products
+   */
+  export type User$ProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    cursor?: ProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * User.storeAndProducts
+   */
+  export type User$storeAndProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StoreAndProduct
+     */
+    select?: StoreAndProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the StoreAndProduct
+     */
+    omit?: StoreAndProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreAndProductInclude<ExtArgs> | null
+    where?: StoreAndProductWhereInput
+    orderBy?: StoreAndProductOrderByWithRelationInput | StoreAndProductOrderByWithRelationInput[]
+    cursor?: StoreAndProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StoreAndProductScalarFieldEnum | StoreAndProductScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3255,21 +3526,21 @@ export namespace Prisma {
     productId: string | null
     productName: string | null
     productPrice: number | null
-    warehouseId: string | null
+    vendorId: string | null
   }
 
   export type ProductMaxAggregateOutputType = {
     productId: string | null
     productName: string | null
     productPrice: number | null
-    warehouseId: string | null
+    vendorId: string | null
   }
 
   export type ProductCountAggregateOutputType = {
     productId: number
     productName: number
     productPrice: number
-    warehouseId: number
+    vendorId: number
     _all: number
   }
 
@@ -3286,21 +3557,21 @@ export namespace Prisma {
     productId?: true
     productName?: true
     productPrice?: true
-    warehouseId?: true
+    vendorId?: true
   }
 
   export type ProductMaxAggregateInputType = {
     productId?: true
     productName?: true
     productPrice?: true
-    warehouseId?: true
+    vendorId?: true
   }
 
   export type ProductCountAggregateInputType = {
     productId?: true
     productName?: true
     productPrice?: true
-    warehouseId?: true
+    vendorId?: true
     _all?: true
   }
 
@@ -3394,7 +3665,7 @@ export namespace Prisma {
     productId: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
     _count: ProductCountAggregateOutputType | null
     _avg: ProductAvgAggregateOutputType | null
     _sum: ProductSumAggregateOutputType | null
@@ -3420,8 +3691,9 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productPrice?: boolean
-    warehouseId?: boolean
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendorId?: boolean
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
+    inventory?: boolean | Product$inventoryArgs<ExtArgs>
     sales?: boolean | Product$salesArgs<ExtArgs>
     orders?: boolean | Product$ordersArgs<ExtArgs>
     storeProducts?: boolean | Product$storeProductsArgs<ExtArgs>
@@ -3432,44 +3704,46 @@ export namespace Prisma {
     productId?: boolean
     productName?: boolean
     productPrice?: boolean
-    warehouseId?: boolean
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendorId?: boolean
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     productId?: boolean
     productName?: boolean
     productPrice?: boolean
-    warehouseId?: boolean
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendorId?: boolean
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectScalar = {
     productId?: boolean
     productName?: boolean
     productPrice?: boolean
-    warehouseId?: boolean
+    vendorId?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"productId" | "productName" | "productPrice" | "warehouseId", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"productId" | "productName" | "productPrice" | "vendorId", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
+    inventory?: boolean | Product$inventoryArgs<ExtArgs>
     sales?: boolean | Product$salesArgs<ExtArgs>
     orders?: boolean | Product$ordersArgs<ExtArgs>
     storeProducts?: boolean | Product$storeProductsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type ProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Product"
     objects: {
-      warehouse: Prisma.$WareHousePayload<ExtArgs>
+      vendor: Prisma.$UserPayload<ExtArgs>
+      inventory: Prisma.$WarehouseInventoryPayload<ExtArgs>[]
       sales: Prisma.$SalesPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
       storeProducts: Prisma.$StoreAndProductPayload<ExtArgs>[]
@@ -3478,7 +3752,7 @@ export namespace Prisma {
       productId: string
       productName: string
       productPrice: number
-      warehouseId: string
+      vendorId: string
     }, ExtArgs["result"]["product"]>
     composites: {}
   }
@@ -3873,7 +4147,8 @@ export namespace Prisma {
    */
   export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    warehouse<T extends WareHouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WareHouseDefaultArgs<ExtArgs>>): Prisma__WareHouseClient<$Result.GetResult<Prisma.$WareHousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    inventory<T extends Product$inventoryArgs<ExtArgs> = {}>(args?: Subset<T, Product$inventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sales<T extends Product$salesArgs<ExtArgs> = {}>(args?: Subset<T, Product$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SalesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends Product$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Product$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     storeProducts<T extends Product$storeProductsArgs<ExtArgs> = {}>(args?: Subset<T, Product$storeProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoreAndProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3909,7 +4184,7 @@ export namespace Prisma {
     readonly productId: FieldRef<"Product", 'String'>
     readonly productName: FieldRef<"Product", 'String'>
     readonly productPrice: FieldRef<"Product", 'Float'>
-    readonly warehouseId: FieldRef<"Product", 'String'>
+    readonly vendorId: FieldRef<"Product", 'String'>
   }
     
 
@@ -4306,6 +4581,30 @@ export namespace Prisma {
   }
 
   /**
+   * Product.inventory
+   */
+  export type Product$inventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    where?: WarehouseInventoryWhereInput
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    cursor?: WarehouseInventoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WarehouseInventoryScalarFieldEnum | WarehouseInventoryScalarFieldEnum[]
+  }
+
+  /**
    * Product.sales
    */
   export type Product$salesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4410,18 +4709,21 @@ export namespace Prisma {
     cityId: string | null
     cityName: string | null
     state: string | null
+    createdAt: Date | null
   }
 
   export type CityMaxAggregateOutputType = {
     cityId: string | null
     cityName: string | null
     state: string | null
+    createdAt: Date | null
   }
 
   export type CityCountAggregateOutputType = {
     cityId: number
     cityName: number
     state: number
+    createdAt: number
     _all: number
   }
 
@@ -4430,18 +4732,21 @@ export namespace Prisma {
     cityId?: true
     cityName?: true
     state?: true
+    createdAt?: true
   }
 
   export type CityMaxAggregateInputType = {
     cityId?: true
     cityName?: true
     state?: true
+    createdAt?: true
   }
 
   export type CityCountAggregateInputType = {
     cityId?: true
     cityName?: true
     state?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -4521,6 +4826,7 @@ export namespace Prisma {
     cityId: string
     cityName: string
     state: string
+    createdAt: Date
     _count: CityCountAggregateOutputType | null
     _min: CityMinAggregateOutputType | null
     _max: CityMaxAggregateOutputType | null
@@ -4544,6 +4850,7 @@ export namespace Prisma {
     cityId?: boolean
     cityName?: boolean
     state?: boolean
+    createdAt?: boolean
     warehouses?: boolean | City$warehousesArgs<ExtArgs>
     warehouseDetails?: boolean | City$warehouseDetailsArgs<ExtArgs>
     Stores?: boolean | City$StoresArgs<ExtArgs>
@@ -4554,21 +4861,24 @@ export namespace Prisma {
     cityId?: boolean
     cityName?: boolean
     state?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["city"]>
 
   export type CitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     cityId?: boolean
     cityName?: boolean
     state?: boolean
+    createdAt?: boolean
   }, ExtArgs["result"]["city"]>
 
   export type CitySelectScalar = {
     cityId?: boolean
     cityName?: boolean
     state?: boolean
+    createdAt?: boolean
   }
 
-  export type CityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"cityId" | "cityName" | "state", ExtArgs["result"]["city"]>
+  export type CityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"cityId" | "cityName" | "state" | "createdAt", ExtArgs["result"]["city"]>
   export type CityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     warehouses?: boolean | City$warehousesArgs<ExtArgs>
     warehouseDetails?: boolean | City$warehouseDetailsArgs<ExtArgs>
@@ -4589,6 +4899,7 @@ export namespace Prisma {
       cityId: string
       cityName: string
       state: string
+      createdAt: Date
     }, ExtArgs["result"]["city"]>
     composites: {}
   }
@@ -5018,6 +5329,7 @@ export namespace Prisma {
     readonly cityId: FieldRef<"City", 'String'>
     readonly cityName: FieldRef<"City", 'String'>
     readonly state: FieldRef<"City", 'String'>
+    readonly createdAt: FieldRef<"City", 'DateTime'>
   }
     
 
@@ -5687,8 +5999,9 @@ export namespace Prisma {
     warehouseCapacity?: boolean
     cityId?: boolean
     city?: boolean | CityDefaultArgs<ExtArgs>
-    products?: boolean | WareHouse$productsArgs<ExtArgs>
     warehouseDetails?: boolean | WareHouse$warehouseDetailsArgs<ExtArgs>
+    warehouseInventory?: boolean | WareHouse$warehouseInventoryArgs<ExtArgs>
+    orders?: boolean | WareHouse$ordersArgs<ExtArgs>
     _count?: boolean | WareHouseCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["wareHouse"]>
 
@@ -5718,8 +6031,9 @@ export namespace Prisma {
   export type WareHouseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"warehouseId" | "warehouseName" | "warehouseCapacity" | "cityId", ExtArgs["result"]["wareHouse"]>
   export type WareHouseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     city?: boolean | CityDefaultArgs<ExtArgs>
-    products?: boolean | WareHouse$productsArgs<ExtArgs>
     warehouseDetails?: boolean | WareHouse$warehouseDetailsArgs<ExtArgs>
+    warehouseInventory?: boolean | WareHouse$warehouseInventoryArgs<ExtArgs>
+    orders?: boolean | WareHouse$ordersArgs<ExtArgs>
     _count?: boolean | WareHouseCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type WareHouseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5733,8 +6047,9 @@ export namespace Prisma {
     name: "WareHouse"
     objects: {
       city: Prisma.$CityPayload<ExtArgs>
-      products: Prisma.$ProductPayload<ExtArgs>[]
       warehouseDetails: Prisma.$WarehouseDetailsPayload<ExtArgs>[]
+      warehouseInventory: Prisma.$WarehouseInventoryPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       warehouseId: string
@@ -6136,8 +6451,9 @@ export namespace Prisma {
   export interface Prisma__WareHouseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    products<T extends WareHouse$productsArgs<ExtArgs> = {}>(args?: Subset<T, WareHouse$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     warehouseDetails<T extends WareHouse$warehouseDetailsArgs<ExtArgs> = {}>(args?: Subset<T, WareHouse$warehouseDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseDetailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    warehouseInventory<T extends WareHouse$warehouseInventoryArgs<ExtArgs> = {}>(args?: Subset<T, WareHouse$warehouseInventoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends WareHouse$ordersArgs<ExtArgs> = {}>(args?: Subset<T, WareHouse$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6567,30 +6883,6 @@ export namespace Prisma {
   }
 
   /**
-   * WareHouse.products
-   */
-  export type WareHouse$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Product
-     */
-    select?: ProductSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Product
-     */
-    omit?: ProductOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProductInclude<ExtArgs> | null
-    where?: ProductWhereInput
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
-    cursor?: ProductWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
-  }
-
-  /**
    * WareHouse.warehouseDetails
    */
   export type WareHouse$warehouseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6612,6 +6904,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WarehouseDetailsScalarFieldEnum | WarehouseDetailsScalarFieldEnum[]
+  }
+
+  /**
+   * WareHouse.warehouseInventory
+   */
+  export type WareHouse$warehouseInventoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    where?: WarehouseInventoryWhereInput
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    cursor?: WarehouseInventoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WarehouseInventoryScalarFieldEnum | WarehouseInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * WareHouse.orders
+   */
+  export type WareHouse$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
   /**
@@ -7682,6 +8022,1080 @@ export namespace Prisma {
 
 
   /**
+   * Model WarehouseInventory
+   */
+
+  export type AggregateWarehouseInventory = {
+    _count: WarehouseInventoryCountAggregateOutputType | null
+    _avg: WarehouseInventoryAvgAggregateOutputType | null
+    _sum: WarehouseInventorySumAggregateOutputType | null
+    _min: WarehouseInventoryMinAggregateOutputType | null
+    _max: WarehouseInventoryMaxAggregateOutputType | null
+  }
+
+  export type WarehouseInventoryAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type WarehouseInventorySumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type WarehouseInventoryMinAggregateOutputType = {
+    warehouseId: string | null
+    productId: string | null
+    quantity: number | null
+  }
+
+  export type WarehouseInventoryMaxAggregateOutputType = {
+    warehouseId: string | null
+    productId: string | null
+    quantity: number | null
+  }
+
+  export type WarehouseInventoryCountAggregateOutputType = {
+    warehouseId: number
+    productId: number
+    quantity: number
+    _all: number
+  }
+
+
+  export type WarehouseInventoryAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type WarehouseInventorySumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type WarehouseInventoryMinAggregateInputType = {
+    warehouseId?: true
+    productId?: true
+    quantity?: true
+  }
+
+  export type WarehouseInventoryMaxAggregateInputType = {
+    warehouseId?: true
+    productId?: true
+    quantity?: true
+  }
+
+  export type WarehouseInventoryCountAggregateInputType = {
+    warehouseId?: true
+    productId?: true
+    quantity?: true
+    _all?: true
+  }
+
+  export type WarehouseInventoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WarehouseInventory to aggregate.
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WarehouseInventories to fetch.
+     */
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WarehouseInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WarehouseInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WarehouseInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WarehouseInventories
+    **/
+    _count?: true | WarehouseInventoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WarehouseInventoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WarehouseInventorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WarehouseInventoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WarehouseInventoryMaxAggregateInputType
+  }
+
+  export type GetWarehouseInventoryAggregateType<T extends WarehouseInventoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateWarehouseInventory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWarehouseInventory[P]>
+      : GetScalarType<T[P], AggregateWarehouseInventory[P]>
+  }
+
+
+
+
+  export type WarehouseInventoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WarehouseInventoryWhereInput
+    orderBy?: WarehouseInventoryOrderByWithAggregationInput | WarehouseInventoryOrderByWithAggregationInput[]
+    by: WarehouseInventoryScalarFieldEnum[] | WarehouseInventoryScalarFieldEnum
+    having?: WarehouseInventoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WarehouseInventoryCountAggregateInputType | true
+    _avg?: WarehouseInventoryAvgAggregateInputType
+    _sum?: WarehouseInventorySumAggregateInputType
+    _min?: WarehouseInventoryMinAggregateInputType
+    _max?: WarehouseInventoryMaxAggregateInputType
+  }
+
+  export type WarehouseInventoryGroupByOutputType = {
+    warehouseId: string
+    productId: string
+    quantity: number
+    _count: WarehouseInventoryCountAggregateOutputType | null
+    _avg: WarehouseInventoryAvgAggregateOutputType | null
+    _sum: WarehouseInventorySumAggregateOutputType | null
+    _min: WarehouseInventoryMinAggregateOutputType | null
+    _max: WarehouseInventoryMaxAggregateOutputType | null
+  }
+
+  type GetWarehouseInventoryGroupByPayload<T extends WarehouseInventoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WarehouseInventoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WarehouseInventoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WarehouseInventoryGroupByOutputType[P]>
+            : GetScalarType<T[P], WarehouseInventoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WarehouseInventorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    warehouseId?: boolean
+    productId?: boolean
+    quantity?: boolean
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["warehouseInventory"]>
+
+  export type WarehouseInventorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    warehouseId?: boolean
+    productId?: boolean
+    quantity?: boolean
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["warehouseInventory"]>
+
+  export type WarehouseInventorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    warehouseId?: boolean
+    productId?: boolean
+    quantity?: boolean
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["warehouseInventory"]>
+
+  export type WarehouseInventorySelectScalar = {
+    warehouseId?: boolean
+    productId?: boolean
+    quantity?: boolean
+  }
+
+  export type WarehouseInventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"warehouseId" | "productId" | "quantity", ExtArgs["result"]["warehouseInventory"]>
+  export type WarehouseInventoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type WarehouseInventoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type WarehouseInventoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $WarehouseInventoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WarehouseInventory"
+    objects: {
+      warehouse: Prisma.$WareHousePayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      warehouseId: string
+      productId: string
+      quantity: number
+    }, ExtArgs["result"]["warehouseInventory"]>
+    composites: {}
+  }
+
+  type WarehouseInventoryGetPayload<S extends boolean | null | undefined | WarehouseInventoryDefaultArgs> = $Result.GetResult<Prisma.$WarehouseInventoryPayload, S>
+
+  type WarehouseInventoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WarehouseInventoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WarehouseInventoryCountAggregateInputType | true
+    }
+
+  export interface WarehouseInventoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WarehouseInventory'], meta: { name: 'WarehouseInventory' } }
+    /**
+     * Find zero or one WarehouseInventory that matches the filter.
+     * @param {WarehouseInventoryFindUniqueArgs} args - Arguments to find a WarehouseInventory
+     * @example
+     * // Get one WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WarehouseInventoryFindUniqueArgs>(args: SelectSubset<T, WarehouseInventoryFindUniqueArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WarehouseInventory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WarehouseInventoryFindUniqueOrThrowArgs} args - Arguments to find a WarehouseInventory
+     * @example
+     * // Get one WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WarehouseInventoryFindUniqueOrThrowArgs>(args: SelectSubset<T, WarehouseInventoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WarehouseInventory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryFindFirstArgs} args - Arguments to find a WarehouseInventory
+     * @example
+     * // Get one WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WarehouseInventoryFindFirstArgs>(args?: SelectSubset<T, WarehouseInventoryFindFirstArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WarehouseInventory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryFindFirstOrThrowArgs} args - Arguments to find a WarehouseInventory
+     * @example
+     * // Get one WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WarehouseInventoryFindFirstOrThrowArgs>(args?: SelectSubset<T, WarehouseInventoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WarehouseInventories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WarehouseInventories
+     * const warehouseInventories = await prisma.warehouseInventory.findMany()
+     * 
+     * // Get first 10 WarehouseInventories
+     * const warehouseInventories = await prisma.warehouseInventory.findMany({ take: 10 })
+     * 
+     * // Only select the `warehouseId`
+     * const warehouseInventoryWithWarehouseIdOnly = await prisma.warehouseInventory.findMany({ select: { warehouseId: true } })
+     * 
+     */
+    findMany<T extends WarehouseInventoryFindManyArgs>(args?: SelectSubset<T, WarehouseInventoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WarehouseInventory.
+     * @param {WarehouseInventoryCreateArgs} args - Arguments to create a WarehouseInventory.
+     * @example
+     * // Create one WarehouseInventory
+     * const WarehouseInventory = await prisma.warehouseInventory.create({
+     *   data: {
+     *     // ... data to create a WarehouseInventory
+     *   }
+     * })
+     * 
+     */
+    create<T extends WarehouseInventoryCreateArgs>(args: SelectSubset<T, WarehouseInventoryCreateArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WarehouseInventories.
+     * @param {WarehouseInventoryCreateManyArgs} args - Arguments to create many WarehouseInventories.
+     * @example
+     * // Create many WarehouseInventories
+     * const warehouseInventory = await prisma.warehouseInventory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WarehouseInventoryCreateManyArgs>(args?: SelectSubset<T, WarehouseInventoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WarehouseInventories and returns the data saved in the database.
+     * @param {WarehouseInventoryCreateManyAndReturnArgs} args - Arguments to create many WarehouseInventories.
+     * @example
+     * // Create many WarehouseInventories
+     * const warehouseInventory = await prisma.warehouseInventory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WarehouseInventories and only return the `warehouseId`
+     * const warehouseInventoryWithWarehouseIdOnly = await prisma.warehouseInventory.createManyAndReturn({
+     *   select: { warehouseId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WarehouseInventoryCreateManyAndReturnArgs>(args?: SelectSubset<T, WarehouseInventoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WarehouseInventory.
+     * @param {WarehouseInventoryDeleteArgs} args - Arguments to delete one WarehouseInventory.
+     * @example
+     * // Delete one WarehouseInventory
+     * const WarehouseInventory = await prisma.warehouseInventory.delete({
+     *   where: {
+     *     // ... filter to delete one WarehouseInventory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WarehouseInventoryDeleteArgs>(args: SelectSubset<T, WarehouseInventoryDeleteArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WarehouseInventory.
+     * @param {WarehouseInventoryUpdateArgs} args - Arguments to update one WarehouseInventory.
+     * @example
+     * // Update one WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WarehouseInventoryUpdateArgs>(args: SelectSubset<T, WarehouseInventoryUpdateArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WarehouseInventories.
+     * @param {WarehouseInventoryDeleteManyArgs} args - Arguments to filter WarehouseInventories to delete.
+     * @example
+     * // Delete a few WarehouseInventories
+     * const { count } = await prisma.warehouseInventory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WarehouseInventoryDeleteManyArgs>(args?: SelectSubset<T, WarehouseInventoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WarehouseInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WarehouseInventories
+     * const warehouseInventory = await prisma.warehouseInventory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WarehouseInventoryUpdateManyArgs>(args: SelectSubset<T, WarehouseInventoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WarehouseInventories and returns the data updated in the database.
+     * @param {WarehouseInventoryUpdateManyAndReturnArgs} args - Arguments to update many WarehouseInventories.
+     * @example
+     * // Update many WarehouseInventories
+     * const warehouseInventory = await prisma.warehouseInventory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WarehouseInventories and only return the `warehouseId`
+     * const warehouseInventoryWithWarehouseIdOnly = await prisma.warehouseInventory.updateManyAndReturn({
+     *   select: { warehouseId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WarehouseInventoryUpdateManyAndReturnArgs>(args: SelectSubset<T, WarehouseInventoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WarehouseInventory.
+     * @param {WarehouseInventoryUpsertArgs} args - Arguments to update or create a WarehouseInventory.
+     * @example
+     * // Update or create a WarehouseInventory
+     * const warehouseInventory = await prisma.warehouseInventory.upsert({
+     *   create: {
+     *     // ... data to create a WarehouseInventory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WarehouseInventory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WarehouseInventoryUpsertArgs>(args: SelectSubset<T, WarehouseInventoryUpsertArgs<ExtArgs>>): Prisma__WarehouseInventoryClient<$Result.GetResult<Prisma.$WarehouseInventoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WarehouseInventories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryCountArgs} args - Arguments to filter WarehouseInventories to count.
+     * @example
+     * // Count the number of WarehouseInventories
+     * const count = await prisma.warehouseInventory.count({
+     *   where: {
+     *     // ... the filter for the WarehouseInventories we want to count
+     *   }
+     * })
+    **/
+    count<T extends WarehouseInventoryCountArgs>(
+      args?: Subset<T, WarehouseInventoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WarehouseInventoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WarehouseInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WarehouseInventoryAggregateArgs>(args: Subset<T, WarehouseInventoryAggregateArgs>): Prisma.PrismaPromise<GetWarehouseInventoryAggregateType<T>>
+
+    /**
+     * Group by WarehouseInventory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WarehouseInventoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WarehouseInventoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WarehouseInventoryGroupByArgs['orderBy'] }
+        : { orderBy?: WarehouseInventoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WarehouseInventoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWarehouseInventoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WarehouseInventory model
+   */
+  readonly fields: WarehouseInventoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WarehouseInventory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WarehouseInventoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    warehouse<T extends WareHouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WareHouseDefaultArgs<ExtArgs>>): Prisma__WareHouseClient<$Result.GetResult<Prisma.$WareHousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WarehouseInventory model
+   */
+  interface WarehouseInventoryFieldRefs {
+    readonly warehouseId: FieldRef<"WarehouseInventory", 'String'>
+    readonly productId: FieldRef<"WarehouseInventory", 'String'>
+    readonly quantity: FieldRef<"WarehouseInventory", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WarehouseInventory findUnique
+   */
+  export type WarehouseInventoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which WarehouseInventory to fetch.
+     */
+    where: WarehouseInventoryWhereUniqueInput
+  }
+
+  /**
+   * WarehouseInventory findUniqueOrThrow
+   */
+  export type WarehouseInventoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which WarehouseInventory to fetch.
+     */
+    where: WarehouseInventoryWhereUniqueInput
+  }
+
+  /**
+   * WarehouseInventory findFirst
+   */
+  export type WarehouseInventoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which WarehouseInventory to fetch.
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WarehouseInventories to fetch.
+     */
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WarehouseInventories.
+     */
+    cursor?: WarehouseInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WarehouseInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WarehouseInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WarehouseInventories.
+     */
+    distinct?: WarehouseInventoryScalarFieldEnum | WarehouseInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * WarehouseInventory findFirstOrThrow
+   */
+  export type WarehouseInventoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which WarehouseInventory to fetch.
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WarehouseInventories to fetch.
+     */
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WarehouseInventories.
+     */
+    cursor?: WarehouseInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WarehouseInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WarehouseInventories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WarehouseInventories.
+     */
+    distinct?: WarehouseInventoryScalarFieldEnum | WarehouseInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * WarehouseInventory findMany
+   */
+  export type WarehouseInventoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter, which WarehouseInventories to fetch.
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WarehouseInventories to fetch.
+     */
+    orderBy?: WarehouseInventoryOrderByWithRelationInput | WarehouseInventoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WarehouseInventories.
+     */
+    cursor?: WarehouseInventoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WarehouseInventories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WarehouseInventories.
+     */
+    skip?: number
+    distinct?: WarehouseInventoryScalarFieldEnum | WarehouseInventoryScalarFieldEnum[]
+  }
+
+  /**
+   * WarehouseInventory create
+   */
+  export type WarehouseInventoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a WarehouseInventory.
+     */
+    data: XOR<WarehouseInventoryCreateInput, WarehouseInventoryUncheckedCreateInput>
+  }
+
+  /**
+   * WarehouseInventory createMany
+   */
+  export type WarehouseInventoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WarehouseInventories.
+     */
+    data: WarehouseInventoryCreateManyInput | WarehouseInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WarehouseInventory createManyAndReturn
+   */
+  export type WarehouseInventoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many WarehouseInventories.
+     */
+    data: WarehouseInventoryCreateManyInput | WarehouseInventoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WarehouseInventory update
+   */
+  export type WarehouseInventoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a WarehouseInventory.
+     */
+    data: XOR<WarehouseInventoryUpdateInput, WarehouseInventoryUncheckedUpdateInput>
+    /**
+     * Choose, which WarehouseInventory to update.
+     */
+    where: WarehouseInventoryWhereUniqueInput
+  }
+
+  /**
+   * WarehouseInventory updateMany
+   */
+  export type WarehouseInventoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WarehouseInventories.
+     */
+    data: XOR<WarehouseInventoryUpdateManyMutationInput, WarehouseInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which WarehouseInventories to update
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * Limit how many WarehouseInventories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WarehouseInventory updateManyAndReturn
+   */
+  export type WarehouseInventoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * The data used to update WarehouseInventories.
+     */
+    data: XOR<WarehouseInventoryUpdateManyMutationInput, WarehouseInventoryUncheckedUpdateManyInput>
+    /**
+     * Filter which WarehouseInventories to update
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * Limit how many WarehouseInventories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * WarehouseInventory upsert
+   */
+  export type WarehouseInventoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the WarehouseInventory to update in case it exists.
+     */
+    where: WarehouseInventoryWhereUniqueInput
+    /**
+     * In case the WarehouseInventory found by the `where` argument doesn't exist, create a new WarehouseInventory with this data.
+     */
+    create: XOR<WarehouseInventoryCreateInput, WarehouseInventoryUncheckedCreateInput>
+    /**
+     * In case the WarehouseInventory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WarehouseInventoryUpdateInput, WarehouseInventoryUncheckedUpdateInput>
+  }
+
+  /**
+   * WarehouseInventory delete
+   */
+  export type WarehouseInventoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+    /**
+     * Filter which WarehouseInventory to delete.
+     */
+    where: WarehouseInventoryWhereUniqueInput
+  }
+
+  /**
+   * WarehouseInventory deleteMany
+   */
+  export type WarehouseInventoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WarehouseInventories to delete
+     */
+    where?: WarehouseInventoryWhereInput
+    /**
+     * Limit how many WarehouseInventories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WarehouseInventory without action
+   */
+  export type WarehouseInventoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WarehouseInventory
+     */
+    select?: WarehouseInventorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WarehouseInventory
+     */
+    omit?: WarehouseInventoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WarehouseInventoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Sales
    */
 
@@ -7705,26 +9119,23 @@ export namespace Prisma {
 
   export type SalesMinAggregateOutputType = {
     id: string | null
-    productName: string | null
+    productId: string | null
     quantity: number | null
     price: number | null
-    productId: string | null
   }
 
   export type SalesMaxAggregateOutputType = {
     id: string | null
-    productName: string | null
+    productId: string | null
     quantity: number | null
     price: number | null
-    productId: string | null
   }
 
   export type SalesCountAggregateOutputType = {
     id: number
-    productName: number
+    productId: number
     quantity: number
     price: number
-    productId: number
     _all: number
   }
 
@@ -7741,26 +9152,23 @@ export namespace Prisma {
 
   export type SalesMinAggregateInputType = {
     id?: true
-    productName?: true
+    productId?: true
     quantity?: true
     price?: true
-    productId?: true
   }
 
   export type SalesMaxAggregateInputType = {
     id?: true
-    productName?: true
+    productId?: true
     quantity?: true
     price?: true
-    productId?: true
   }
 
   export type SalesCountAggregateInputType = {
     id?: true
-    productName?: true
+    productId?: true
     quantity?: true
     price?: true
-    productId?: true
     _all?: true
   }
 
@@ -7852,10 +9260,9 @@ export namespace Prisma {
 
   export type SalesGroupByOutputType = {
     id: string
-    productName: string
+    productId: string
     quantity: number
     price: number
-    productId: string
     _count: SalesCountAggregateOutputType | null
     _avg: SalesAvgAggregateOutputType | null
     _sum: SalesSumAggregateOutputType | null
@@ -7879,40 +9286,36 @@ export namespace Prisma {
 
   export type SalesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    productName?: boolean
+    productId?: boolean
     quantity?: boolean
     price?: boolean
-    productId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sales"]>
 
   export type SalesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    productName?: boolean
+    productId?: boolean
     quantity?: boolean
     price?: boolean
-    productId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sales"]>
 
   export type SalesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    productName?: boolean
+    productId?: boolean
     quantity?: boolean
     price?: boolean
-    productId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["sales"]>
 
   export type SalesSelectScalar = {
     id?: boolean
-    productName?: boolean
+    productId?: boolean
     quantity?: boolean
     price?: boolean
-    productId?: boolean
   }
 
-  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productName" | "quantity" | "price" | "productId", ExtArgs["result"]["sales"]>
+  export type SalesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "quantity" | "price", ExtArgs["result"]["sales"]>
   export type SalesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
   }
@@ -7930,10 +9333,9 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      productName: string
+      productId: string
       quantity: number
       price: number
-      productId: string
     }, ExtArgs["result"]["sales"]>
     composites: {}
   }
@@ -8359,10 +9761,9 @@ export namespace Prisma {
    */
   interface SalesFieldRefs {
     readonly id: FieldRef<"Sales", 'String'>
-    readonly productName: FieldRef<"Sales", 'String'>
+    readonly productId: FieldRef<"Sales", 'String'>
     readonly quantity: FieldRef<"Sales", 'Int'>
     readonly price: FieldRef<"Sales", 'Float'>
-    readonly productId: FieldRef<"Sales", 'String'>
   }
     
 
@@ -8791,21 +10192,27 @@ export namespace Prisma {
     storeId: string | null
     storeName: string | null
     vendorId: string | null
-    cityId: string | null
+    cityName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type StoreMaxAggregateOutputType = {
     storeId: string | null
     storeName: string | null
     vendorId: string | null
-    cityId: string | null
+    cityName: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type StoreCountAggregateOutputType = {
     storeId: number
     storeName: number
     vendorId: number
-    cityId: number
+    cityName: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -8814,21 +10221,27 @@ export namespace Prisma {
     storeId?: true
     storeName?: true
     vendorId?: true
-    cityId?: true
+    cityName?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type StoreMaxAggregateInputType = {
     storeId?: true
     storeName?: true
     vendorId?: true
-    cityId?: true
+    cityName?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type StoreCountAggregateInputType = {
     storeId?: true
     storeName?: true
     vendorId?: true
-    cityId?: true
+    cityName?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8908,7 +10321,9 @@ export namespace Prisma {
     storeId: string
     storeName: string
     vendorId: string
-    cityId: string
+    cityName: string
+    createdAt: Date
+    updatedAt: Date
     _count: StoreCountAggregateOutputType | null
     _min: StoreMinAggregateOutputType | null
     _max: StoreMaxAggregateOutputType | null
@@ -8932,10 +10347,13 @@ export namespace Prisma {
     storeId?: boolean
     storeName?: boolean
     vendorId?: boolean
-    cityId?: boolean
+    cityName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vendor?: boolean | UserDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
     storeProducts?: boolean | Store$storeProductsArgs<ExtArgs>
+    orders?: boolean | Store$ordersArgs<ExtArgs>
     _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["store"]>
 
@@ -8943,7 +10361,9 @@ export namespace Prisma {
     storeId?: boolean
     storeName?: boolean
     vendorId?: boolean
-    cityId?: boolean
+    cityName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vendor?: boolean | UserDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["store"]>
@@ -8952,7 +10372,9 @@ export namespace Prisma {
     storeId?: boolean
     storeName?: boolean
     vendorId?: boolean
-    cityId?: boolean
+    cityName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     vendor?: boolean | UserDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["store"]>
@@ -8961,14 +10383,17 @@ export namespace Prisma {
     storeId?: boolean
     storeName?: boolean
     vendorId?: boolean
-    cityId?: boolean
+    cityName?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"storeId" | "storeName" | "vendorId" | "cityId", ExtArgs["result"]["store"]>
+  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"storeId" | "storeName" | "vendorId" | "cityName" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
   export type StoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vendor?: boolean | UserDefaultArgs<ExtArgs>
     city?: boolean | CityDefaultArgs<ExtArgs>
     storeProducts?: boolean | Store$storeProductsArgs<ExtArgs>
+    orders?: boolean | Store$ordersArgs<ExtArgs>
     _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8986,12 +10411,15 @@ export namespace Prisma {
       vendor: Prisma.$UserPayload<ExtArgs>
       city: Prisma.$CityPayload<ExtArgs>
       storeProducts: Prisma.$StoreAndProductPayload<ExtArgs>[]
+      orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       storeId: string
       storeName: string
       vendorId: string
-      cityId: string
+      cityName: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["store"]>
     composites: {}
   }
@@ -9389,6 +10817,7 @@ export namespace Prisma {
     vendor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     storeProducts<T extends Store$storeProductsArgs<ExtArgs> = {}>(args?: Subset<T, Store$storeProductsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StoreAndProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    orders<T extends Store$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Store$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9421,7 +10850,9 @@ export namespace Prisma {
     readonly storeId: FieldRef<"Store", 'String'>
     readonly storeName: FieldRef<"Store", 'String'>
     readonly vendorId: FieldRef<"Store", 'String'>
-    readonly cityId: FieldRef<"Store", 'String'>
+    readonly cityName: FieldRef<"Store", 'String'>
+    readonly createdAt: FieldRef<"Store", 'DateTime'>
+    readonly updatedAt: FieldRef<"Store", 'DateTime'>
   }
     
 
@@ -9842,6 +11273,30 @@ export namespace Prisma {
   }
 
   /**
+   * Store.orders
+   */
+  export type Store$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Order
+     */
+    select?: OrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Order
+     */
+    omit?: OrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderInclude<ExtArgs> | null
+    where?: OrderWhereInput
+    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    cursor?: OrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
    * Store without action
    */
   export type StoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9873,19 +11328,19 @@ export namespace Prisma {
   export type StoreAndProductMinAggregateOutputType = {
     storeId: string | null
     productId: string | null
-    productName: string | null
+    vendorId: string | null
   }
 
   export type StoreAndProductMaxAggregateOutputType = {
     storeId: string | null
     productId: string | null
-    productName: string | null
+    vendorId: string | null
   }
 
   export type StoreAndProductCountAggregateOutputType = {
     storeId: number
     productId: number
-    productName: number
+    vendorId: number
     _all: number
   }
 
@@ -9893,19 +11348,19 @@ export namespace Prisma {
   export type StoreAndProductMinAggregateInputType = {
     storeId?: true
     productId?: true
-    productName?: true
+    vendorId?: true
   }
 
   export type StoreAndProductMaxAggregateInputType = {
     storeId?: true
     productId?: true
-    productName?: true
+    vendorId?: true
   }
 
   export type StoreAndProductCountAggregateInputType = {
     storeId?: true
     productId?: true
-    productName?: true
+    vendorId?: true
     _all?: true
   }
 
@@ -9984,7 +11439,7 @@ export namespace Prisma {
   export type StoreAndProductGroupByOutputType = {
     storeId: string
     productId: string
-    productName: string | null
+    vendorId: string
     _count: StoreAndProductCountAggregateOutputType | null
     _min: StoreAndProductMinAggregateOutputType | null
     _max: StoreAndProductMaxAggregateOutputType | null
@@ -10007,45 +11462,51 @@ export namespace Prisma {
   export type StoreAndProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storeId?: boolean
     productId?: boolean
-    productName?: boolean
+    vendorId?: boolean
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeAndProduct"]>
 
   export type StoreAndProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storeId?: boolean
     productId?: boolean
-    productName?: boolean
+    vendorId?: boolean
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeAndProduct"]>
 
   export type StoreAndProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     storeId?: boolean
     productId?: boolean
-    productName?: boolean
+    vendorId?: boolean
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["storeAndProduct"]>
 
   export type StoreAndProductSelectScalar = {
     storeId?: boolean
     productId?: boolean
-    productName?: boolean
+    vendorId?: boolean
   }
 
-  export type StoreAndProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"storeId" | "productId" | "productName", ExtArgs["result"]["storeAndProduct"]>
+  export type StoreAndProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"storeId" | "productId" | "vendorId", ExtArgs["result"]["storeAndProduct"]>
   export type StoreAndProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type StoreAndProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type StoreAndProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     store?: boolean | StoreDefaultArgs<ExtArgs>
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    vendor?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $StoreAndProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10053,11 +11514,12 @@ export namespace Prisma {
     objects: {
       store: Prisma.$StorePayload<ExtArgs>
       product: Prisma.$ProductPayload<ExtArgs>
+      vendor: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       storeId: string
       productId: string
-      productName: string | null
+      vendorId: string
     }, ExtArgs["result"]["storeAndProduct"]>
     composites: {}
   }
@@ -10454,6 +11916,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     store<T extends StoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoreDefaultArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    vendor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10485,7 +11948,7 @@ export namespace Prisma {
   interface StoreAndProductFieldRefs {
     readonly storeId: FieldRef<"StoreAndProduct", 'String'>
     readonly productId: FieldRef<"StoreAndProduct", 'String'>
-    readonly productName: FieldRef<"StoreAndProduct", 'String'>
+    readonly vendorId: FieldRef<"StoreAndProduct", 'String'>
   }
     
 
@@ -10927,8 +12390,13 @@ export namespace Prisma {
     quantity: number | null
     totalPrice: number | null
     orderDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
     productId: string | null
+    storeId: string | null
+    customerId: string | null
     vendorId: string | null
+    warehouseId: string | null
   }
 
   export type OrderMaxAggregateOutputType = {
@@ -10936,8 +12404,13 @@ export namespace Prisma {
     quantity: number | null
     totalPrice: number | null
     orderDate: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
     productId: string | null
+    storeId: string | null
+    customerId: string | null
     vendorId: string | null
+    warehouseId: string | null
   }
 
   export type OrderCountAggregateOutputType = {
@@ -10945,8 +12418,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate: number
+    createdAt: number
+    updatedAt: number
     productId: number
+    storeId: number
+    customerId: number
     vendorId: number
+    warehouseId: number
     _all: number
   }
 
@@ -10966,8 +12444,13 @@ export namespace Prisma {
     quantity?: true
     totalPrice?: true
     orderDate?: true
+    createdAt?: true
+    updatedAt?: true
     productId?: true
+    storeId?: true
+    customerId?: true
     vendorId?: true
+    warehouseId?: true
   }
 
   export type OrderMaxAggregateInputType = {
@@ -10975,8 +12458,13 @@ export namespace Prisma {
     quantity?: true
     totalPrice?: true
     orderDate?: true
+    createdAt?: true
+    updatedAt?: true
     productId?: true
+    storeId?: true
+    customerId?: true
     vendorId?: true
+    warehouseId?: true
   }
 
   export type OrderCountAggregateInputType = {
@@ -10984,8 +12472,13 @@ export namespace Prisma {
     quantity?: true
     totalPrice?: true
     orderDate?: true
+    createdAt?: true
+    updatedAt?: true
     productId?: true
+    storeId?: true
+    customerId?: true
     vendorId?: true
+    warehouseId?: true
     _all?: true
   }
 
@@ -11080,8 +12573,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate: Date
+    createdAt: Date
+    updatedAt: Date
     productId: string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
     _count: OrderCountAggregateOutputType | null
     _avg: OrderAvgAggregateOutputType | null
     _sum: OrderSumAggregateOutputType | null
@@ -11108,10 +12606,18 @@ export namespace Prisma {
     quantity?: boolean
     totalPrice?: boolean
     orderDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     productId?: boolean
+    storeId?: boolean
+    customerId?: boolean
     vendorId?: boolean
+    warehouseId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
     orderDetails?: boolean | Order$orderDetailsArgs<ExtArgs>
     complaints?: boolean | Order$complaintsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
@@ -11122,10 +12628,18 @@ export namespace Prisma {
     quantity?: boolean
     totalPrice?: boolean
     orderDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     productId?: boolean
+    storeId?: boolean
+    customerId?: boolean
     vendorId?: boolean
+    warehouseId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -11133,10 +12647,18 @@ export namespace Prisma {
     quantity?: boolean
     totalPrice?: boolean
     orderDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     productId?: boolean
+    storeId?: boolean
+    customerId?: boolean
     vendorId?: boolean
+    warehouseId?: boolean
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["order"]>
 
   export type OrderSelectScalar = {
@@ -11144,32 +12666,49 @@ export namespace Prisma {
     quantity?: boolean
     totalPrice?: boolean
     orderDate?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     productId?: boolean
+    storeId?: boolean
+    customerId?: boolean
     vendorId?: boolean
+    warehouseId?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"orderId" | "quantity" | "totalPrice" | "orderDate" | "productId" | "vendorId", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"orderId" | "quantity" | "totalPrice" | "orderDate" | "createdAt" | "updatedAt" | "productId" | "storeId" | "customerId" | "vendorId" | "warehouseId", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
     orderDetails?: boolean | Order$orderDetailsArgs<ExtArgs>
     complaints?: boolean | Order$complaintsArgs<ExtArgs>
     _count?: boolean | OrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
   }
   export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductDefaultArgs<ExtArgs>
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    customer?: boolean | UserDefaultArgs<ExtArgs>
     vendor?: boolean | UserDefaultArgs<ExtArgs>
+    warehouse?: boolean | WareHouseDefaultArgs<ExtArgs>
   }
 
   export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Order"
     objects: {
       product: Prisma.$ProductPayload<ExtArgs>
+      store: Prisma.$StorePayload<ExtArgs>
+      customer: Prisma.$UserPayload<ExtArgs>
       vendor: Prisma.$UserPayload<ExtArgs>
+      warehouse: Prisma.$WareHousePayload<ExtArgs>
       orderDetails: Prisma.$OrderDetailsPayload<ExtArgs>[]
       complaints: Prisma.$ComplaintPayload<ExtArgs>[]
     }
@@ -11178,8 +12717,13 @@ export namespace Prisma {
       quantity: number
       totalPrice: number
       orderDate: Date
+      createdAt: Date
+      updatedAt: Date
       productId: string
+      storeId: string
+      customerId: string
       vendorId: string
+      warehouseId: string
     }, ExtArgs["result"]["order"]>
     composites: {}
   }
@@ -11575,7 +13119,10 @@ export namespace Prisma {
   export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    store<T extends StoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoreDefaultArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    customer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     vendor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    warehouse<T extends WareHouseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WareHouseDefaultArgs<ExtArgs>>): Prisma__WareHouseClient<$Result.GetResult<Prisma.$WareHousePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     orderDetails<T extends Order$orderDetailsArgs<ExtArgs> = {}>(args?: Subset<T, Order$orderDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderDetailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     complaints<T extends Order$complaintsArgs<ExtArgs> = {}>(args?: Subset<T, Order$complaintsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComplaintPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -11611,8 +13158,13 @@ export namespace Prisma {
     readonly quantity: FieldRef<"Order", 'Int'>
     readonly totalPrice: FieldRef<"Order", 'Float'>
     readonly orderDate: FieldRef<"Order", 'DateTime'>
+    readonly createdAt: FieldRef<"Order", 'DateTime'>
+    readonly updatedAt: FieldRef<"Order", 'DateTime'>
     readonly productId: FieldRef<"Order", 'String'>
+    readonly storeId: FieldRef<"Order", 'String'>
+    readonly customerId: FieldRef<"Order", 'String'>
     readonly vendorId: FieldRef<"Order", 'String'>
+    readonly warehouseId: FieldRef<"Order", 'String'>
   }
     
 
@@ -14187,7 +15739,9 @@ export namespace Prisma {
     email: 'email',
     name: 'name',
     role: 'role',
-    password: 'password'
+    password: 'password',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -14197,7 +15751,7 @@ export namespace Prisma {
     productId: 'productId',
     productName: 'productName',
     productPrice: 'productPrice',
-    warehouseId: 'warehouseId'
+    vendorId: 'vendorId'
   };
 
   export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
@@ -14206,7 +15760,8 @@ export namespace Prisma {
   export const CityScalarFieldEnum: {
     cityId: 'cityId',
     cityName: 'cityName',
-    state: 'state'
+    state: 'state',
+    createdAt: 'createdAt'
   };
 
   export type CityScalarFieldEnum = (typeof CityScalarFieldEnum)[keyof typeof CityScalarFieldEnum]
@@ -14231,12 +15786,20 @@ export namespace Prisma {
   export type WarehouseDetailsScalarFieldEnum = (typeof WarehouseDetailsScalarFieldEnum)[keyof typeof WarehouseDetailsScalarFieldEnum]
 
 
+  export const WarehouseInventoryScalarFieldEnum: {
+    warehouseId: 'warehouseId',
+    productId: 'productId',
+    quantity: 'quantity'
+  };
+
+  export type WarehouseInventoryScalarFieldEnum = (typeof WarehouseInventoryScalarFieldEnum)[keyof typeof WarehouseInventoryScalarFieldEnum]
+
+
   export const SalesScalarFieldEnum: {
     id: 'id',
-    productName: 'productName',
+    productId: 'productId',
     quantity: 'quantity',
-    price: 'price',
-    productId: 'productId'
+    price: 'price'
   };
 
   export type SalesScalarFieldEnum = (typeof SalesScalarFieldEnum)[keyof typeof SalesScalarFieldEnum]
@@ -14246,7 +15809,9 @@ export namespace Prisma {
     storeId: 'storeId',
     storeName: 'storeName',
     vendorId: 'vendorId',
-    cityId: 'cityId'
+    cityName: 'cityName',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
@@ -14255,7 +15820,7 @@ export namespace Prisma {
   export const StoreAndProductScalarFieldEnum: {
     storeId: 'storeId',
     productId: 'productId',
-    productName: 'productName'
+    vendorId: 'vendorId'
   };
 
   export type StoreAndProductScalarFieldEnum = (typeof StoreAndProductScalarFieldEnum)[keyof typeof StoreAndProductScalarFieldEnum]
@@ -14266,8 +15831,13 @@ export namespace Prisma {
     quantity: 'quantity',
     totalPrice: 'totalPrice',
     orderDate: 'orderDate',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     productId: 'productId',
-    vendorId: 'vendorId'
+    storeId: 'storeId',
+    customerId: 'customerId',
+    vendorId: 'vendorId',
+    warehouseId: 'warehouseId'
   };
 
   export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
@@ -14350,6 +15920,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -14375,20 +15959,6 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
-
-
-  /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
   /**
    * Deep Input Types
    */
@@ -14403,11 +15973,16 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     role?: EnumUserTypeFilter<"User"> | $Enums.UserType
     password?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     orderDetails?: OrderDetailsListRelationFilter
     stores?: StoreListRelationFilter
     Complaints?: ComplaintListRelationFilter
     WarehouseDetails?: WarehouseDetailsListRelationFilter
     orders?: OrderListRelationFilter
+    vendorOrders?: OrderListRelationFilter
+    Products?: ProductListRelationFilter
+    storeAndProducts?: StoreAndProductListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14416,11 +15991,16 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     role?: SortOrder
     password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     orderDetails?: OrderDetailsOrderByRelationAggregateInput
     stores?: StoreOrderByRelationAggregateInput
     Complaints?: ComplaintOrderByRelationAggregateInput
     WarehouseDetails?: WarehouseDetailsOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
+    vendorOrders?: OrderOrderByRelationAggregateInput
+    Products?: ProductOrderByRelationAggregateInput
+    storeAndProducts?: StoreAndProductOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14432,11 +16012,16 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     role?: EnumUserTypeFilter<"User"> | $Enums.UserType
     password?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     orderDetails?: OrderDetailsListRelationFilter
     stores?: StoreListRelationFilter
     Complaints?: ComplaintListRelationFilter
     WarehouseDetails?: WarehouseDetailsListRelationFilter
     orders?: OrderListRelationFilter
+    vendorOrders?: OrderListRelationFilter
+    Products?: ProductListRelationFilter
+    storeAndProducts?: StoreAndProductListRelationFilter
   }, "userid" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -14445,6 +16030,8 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     role?: SortOrder
     password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -14459,6 +16046,8 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumUserTypeWithAggregatesFilter<"User"> | $Enums.UserType
     password?: StringWithAggregatesFilter<"User"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
   export type ProductWhereInput = {
@@ -14468,8 +16057,9 @@ export namespace Prisma {
     productId?: StringFilter<"Product"> | string
     productName?: StringFilter<"Product"> | string
     productPrice?: FloatFilter<"Product"> | number
-    warehouseId?: StringFilter<"Product"> | string
-    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
+    vendorId?: StringFilter<"Product"> | string
+    vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    inventory?: WarehouseInventoryListRelationFilter
     sales?: SalesListRelationFilter
     orders?: OrderListRelationFilter
     storeProducts?: StoreAndProductListRelationFilter
@@ -14479,8 +16069,9 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productPrice?: SortOrder
-    warehouseId?: SortOrder
-    warehouse?: WareHouseOrderByWithRelationInput
+    vendorId?: SortOrder
+    vendor?: UserOrderByWithRelationInput
+    inventory?: WarehouseInventoryOrderByRelationAggregateInput
     sales?: SalesOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
     storeProducts?: StoreAndProductOrderByRelationAggregateInput
@@ -14488,23 +16079,25 @@ export namespace Prisma {
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
     productId?: string
+    vendorId_productName?: ProductVendorIdProductNameCompoundUniqueInput
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
     NOT?: ProductWhereInput | ProductWhereInput[]
     productName?: StringFilter<"Product"> | string
     productPrice?: FloatFilter<"Product"> | number
-    warehouseId?: StringFilter<"Product"> | string
-    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
+    vendorId?: StringFilter<"Product"> | string
+    vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    inventory?: WarehouseInventoryListRelationFilter
     sales?: SalesListRelationFilter
     orders?: OrderListRelationFilter
     storeProducts?: StoreAndProductListRelationFilter
-  }, "productId">
+  }, "productId" | "vendorId_productName">
 
   export type ProductOrderByWithAggregationInput = {
     productId?: SortOrder
     productName?: SortOrder
     productPrice?: SortOrder
-    warehouseId?: SortOrder
+    vendorId?: SortOrder
     _count?: ProductCountOrderByAggregateInput
     _avg?: ProductAvgOrderByAggregateInput
     _max?: ProductMaxOrderByAggregateInput
@@ -14519,7 +16112,7 @@ export namespace Prisma {
     productId?: StringWithAggregatesFilter<"Product"> | string
     productName?: StringWithAggregatesFilter<"Product"> | string
     productPrice?: FloatWithAggregatesFilter<"Product"> | number
-    warehouseId?: StringWithAggregatesFilter<"Product"> | string
+    vendorId?: StringWithAggregatesFilter<"Product"> | string
   }
 
   export type CityWhereInput = {
@@ -14529,6 +16122,7 @@ export namespace Prisma {
     cityId?: StringFilter<"City"> | string
     cityName?: StringFilter<"City"> | string
     state?: StringFilter<"City"> | string
+    createdAt?: DateTimeFilter<"City"> | Date | string
     warehouses?: WareHouseListRelationFilter
     warehouseDetails?: WarehouseDetailsListRelationFilter
     Stores?: StoreListRelationFilter
@@ -14538,6 +16132,7 @@ export namespace Prisma {
     cityId?: SortOrder
     cityName?: SortOrder
     state?: SortOrder
+    createdAt?: SortOrder
     warehouses?: WareHouseOrderByRelationAggregateInput
     warehouseDetails?: WarehouseDetailsOrderByRelationAggregateInput
     Stores?: StoreOrderByRelationAggregateInput
@@ -14550,6 +16145,7 @@ export namespace Prisma {
     OR?: CityWhereInput[]
     NOT?: CityWhereInput | CityWhereInput[]
     state?: StringFilter<"City"> | string
+    createdAt?: DateTimeFilter<"City"> | Date | string
     warehouses?: WareHouseListRelationFilter
     warehouseDetails?: WarehouseDetailsListRelationFilter
     Stores?: StoreListRelationFilter
@@ -14559,6 +16155,7 @@ export namespace Prisma {
     cityId?: SortOrder
     cityName?: SortOrder
     state?: SortOrder
+    createdAt?: SortOrder
     _count?: CityCountOrderByAggregateInput
     _max?: CityMaxOrderByAggregateInput
     _min?: CityMinOrderByAggregateInput
@@ -14571,6 +16168,7 @@ export namespace Prisma {
     cityId?: StringWithAggregatesFilter<"City"> | string
     cityName?: StringWithAggregatesFilter<"City"> | string
     state?: StringWithAggregatesFilter<"City"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"City"> | Date | string
   }
 
   export type WareHouseWhereInput = {
@@ -14582,8 +16180,9 @@ export namespace Prisma {
     warehouseCapacity?: IntFilter<"WareHouse"> | number
     cityId?: StringFilter<"WareHouse"> | string
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    products?: ProductListRelationFilter
     warehouseDetails?: WarehouseDetailsListRelationFilter
+    warehouseInventory?: WarehouseInventoryListRelationFilter
+    orders?: OrderListRelationFilter
   }
 
   export type WareHouseOrderByWithRelationInput = {
@@ -14592,8 +16191,9 @@ export namespace Prisma {
     warehouseCapacity?: SortOrder
     cityId?: SortOrder
     city?: CityOrderByWithRelationInput
-    products?: ProductOrderByRelationAggregateInput
     warehouseDetails?: WarehouseDetailsOrderByRelationAggregateInput
+    warehouseInventory?: WarehouseInventoryOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
   }
 
   export type WareHouseWhereUniqueInput = Prisma.AtLeast<{
@@ -14605,8 +16205,9 @@ export namespace Prisma {
     warehouseCapacity?: IntFilter<"WareHouse"> | number
     cityId?: StringFilter<"WareHouse"> | string
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
-    products?: ProductListRelationFilter
     warehouseDetails?: WarehouseDetailsListRelationFilter
+    warehouseInventory?: WarehouseInventoryListRelationFilter
+    orders?: OrderListRelationFilter
   }, "warehouseId">
 
   export type WareHouseOrderByWithAggregationInput = {
@@ -14653,7 +16254,7 @@ export namespace Prisma {
   }
 
   export type WarehouseDetailsWhereUniqueInput = Prisma.AtLeast<{
-    cityId_warehouseId?: WarehouseDetailsCityIdWarehouseIdCompoundUniqueInput
+    cityId_warehouseId_userId?: WarehouseDetailsCityIdWarehouseIdUserIdCompoundUniqueInput
     AND?: WarehouseDetailsWhereInput | WarehouseDetailsWhereInput[]
     OR?: WarehouseDetailsWhereInput[]
     NOT?: WarehouseDetailsWhereInput | WarehouseDetailsWhereInput[]
@@ -14663,7 +16264,7 @@ export namespace Prisma {
     warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "cityId_warehouseId">
+  }, "cityId_warehouseId_userId">
 
   export type WarehouseDetailsOrderByWithAggregationInput = {
     warehouseId?: SortOrder
@@ -14683,24 +16284,73 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"WarehouseDetails"> | string
   }
 
+  export type WarehouseInventoryWhereInput = {
+    AND?: WarehouseInventoryWhereInput | WarehouseInventoryWhereInput[]
+    OR?: WarehouseInventoryWhereInput[]
+    NOT?: WarehouseInventoryWhereInput | WarehouseInventoryWhereInput[]
+    warehouseId?: StringFilter<"WarehouseInventory"> | string
+    productId?: StringFilter<"WarehouseInventory"> | string
+    quantity?: IntFilter<"WarehouseInventory"> | number
+    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type WarehouseInventoryOrderByWithRelationInput = {
+    warehouseId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+    warehouse?: WareHouseOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type WarehouseInventoryWhereUniqueInput = Prisma.AtLeast<{
+    warehouseId_productId?: WarehouseInventoryWarehouseIdProductIdCompoundUniqueInput
+    AND?: WarehouseInventoryWhereInput | WarehouseInventoryWhereInput[]
+    OR?: WarehouseInventoryWhereInput[]
+    NOT?: WarehouseInventoryWhereInput | WarehouseInventoryWhereInput[]
+    warehouseId?: StringFilter<"WarehouseInventory"> | string
+    productId?: StringFilter<"WarehouseInventory"> | string
+    quantity?: IntFilter<"WarehouseInventory"> | number
+    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "warehouseId_productId">
+
+  export type WarehouseInventoryOrderByWithAggregationInput = {
+    warehouseId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+    _count?: WarehouseInventoryCountOrderByAggregateInput
+    _avg?: WarehouseInventoryAvgOrderByAggregateInput
+    _max?: WarehouseInventoryMaxOrderByAggregateInput
+    _min?: WarehouseInventoryMinOrderByAggregateInput
+    _sum?: WarehouseInventorySumOrderByAggregateInput
+  }
+
+  export type WarehouseInventoryScalarWhereWithAggregatesInput = {
+    AND?: WarehouseInventoryScalarWhereWithAggregatesInput | WarehouseInventoryScalarWhereWithAggregatesInput[]
+    OR?: WarehouseInventoryScalarWhereWithAggregatesInput[]
+    NOT?: WarehouseInventoryScalarWhereWithAggregatesInput | WarehouseInventoryScalarWhereWithAggregatesInput[]
+    warehouseId?: StringWithAggregatesFilter<"WarehouseInventory"> | string
+    productId?: StringWithAggregatesFilter<"WarehouseInventory"> | string
+    quantity?: IntWithAggregatesFilter<"WarehouseInventory"> | number
+  }
+
   export type SalesWhereInput = {
     AND?: SalesWhereInput | SalesWhereInput[]
     OR?: SalesWhereInput[]
     NOT?: SalesWhereInput | SalesWhereInput[]
     id?: StringFilter<"Sales"> | string
-    productName?: StringFilter<"Sales"> | string
+    productId?: StringFilter<"Sales"> | string
     quantity?: IntFilter<"Sales"> | number
     price?: FloatFilter<"Sales"> | number
-    productId?: StringFilter<"Sales"> | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }
 
   export type SalesOrderByWithRelationInput = {
     id?: SortOrder
-    productName?: SortOrder
+    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-    productId?: SortOrder
     product?: ProductOrderByWithRelationInput
   }
 
@@ -14709,19 +16359,17 @@ export namespace Prisma {
     AND?: SalesWhereInput | SalesWhereInput[]
     OR?: SalesWhereInput[]
     NOT?: SalesWhereInput | SalesWhereInput[]
-    productName?: StringFilter<"Sales"> | string
+    productId?: StringFilter<"Sales"> | string
     quantity?: IntFilter<"Sales"> | number
     price?: FloatFilter<"Sales"> | number
-    productId?: StringFilter<"Sales"> | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
   }, "id">
 
   export type SalesOrderByWithAggregationInput = {
     id?: SortOrder
-    productName?: SortOrder
+    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-    productId?: SortOrder
     _count?: SalesCountOrderByAggregateInput
     _avg?: SalesAvgOrderByAggregateInput
     _max?: SalesMaxOrderByAggregateInput
@@ -14734,10 +16382,9 @@ export namespace Prisma {
     OR?: SalesScalarWhereWithAggregatesInput[]
     NOT?: SalesScalarWhereWithAggregatesInput | SalesScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Sales"> | string
-    productName?: StringWithAggregatesFilter<"Sales"> | string
+    productId?: StringWithAggregatesFilter<"Sales"> | string
     quantity?: IntWithAggregatesFilter<"Sales"> | number
     price?: FloatWithAggregatesFilter<"Sales"> | number
-    productId?: StringWithAggregatesFilter<"Sales"> | string
   }
 
   export type StoreWhereInput = {
@@ -14747,40 +16394,52 @@ export namespace Prisma {
     storeId?: StringFilter<"Store"> | string
     storeName?: StringFilter<"Store"> | string
     vendorId?: StringFilter<"Store"> | string
-    cityId?: StringFilter<"Store"> | string
+    cityName?: StringFilter<"Store"> | string
+    createdAt?: DateTimeFilter<"Store"> | Date | string
+    updatedAt?: DateTimeFilter<"Store"> | Date | string
     vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
     storeProducts?: StoreAndProductListRelationFilter
+    orders?: OrderListRelationFilter
   }
 
   export type StoreOrderByWithRelationInput = {
     storeId?: SortOrder
     storeName?: SortOrder
     vendorId?: SortOrder
-    cityId?: SortOrder
+    cityName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     vendor?: UserOrderByWithRelationInput
     city?: CityOrderByWithRelationInput
     storeProducts?: StoreAndProductOrderByRelationAggregateInput
+    orders?: OrderOrderByRelationAggregateInput
   }
 
   export type StoreWhereUniqueInput = Prisma.AtLeast<{
     storeId?: string
+    vendorId_cityName?: StoreVendorIdCityNameCompoundUniqueInput
     AND?: StoreWhereInput | StoreWhereInput[]
     OR?: StoreWhereInput[]
     NOT?: StoreWhereInput | StoreWhereInput[]
     storeName?: StringFilter<"Store"> | string
     vendorId?: StringFilter<"Store"> | string
-    cityId?: StringFilter<"Store"> | string
+    cityName?: StringFilter<"Store"> | string
+    createdAt?: DateTimeFilter<"Store"> | Date | string
+    updatedAt?: DateTimeFilter<"Store"> | Date | string
     vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
     city?: XOR<CityScalarRelationFilter, CityWhereInput>
     storeProducts?: StoreAndProductListRelationFilter
-  }, "storeId">
+    orders?: OrderListRelationFilter
+  }, "storeId" | "vendorId_cityName">
 
   export type StoreOrderByWithAggregationInput = {
     storeId?: SortOrder
     storeName?: SortOrder
     vendorId?: SortOrder
-    cityId?: SortOrder
+    cityName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: StoreCountOrderByAggregateInput
     _max?: StoreMaxOrderByAggregateInput
     _min?: StoreMinOrderByAggregateInput
@@ -14793,7 +16452,9 @@ export namespace Prisma {
     storeId?: StringWithAggregatesFilter<"Store"> | string
     storeName?: StringWithAggregatesFilter<"Store"> | string
     vendorId?: StringWithAggregatesFilter<"Store"> | string
-    cityId?: StringWithAggregatesFilter<"Store"> | string
+    cityName?: StringWithAggregatesFilter<"Store"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
   }
 
   export type StoreAndProductWhereInput = {
@@ -14802,35 +16463,38 @@ export namespace Prisma {
     NOT?: StoreAndProductWhereInput | StoreAndProductWhereInput[]
     storeId?: StringFilter<"StoreAndProduct"> | string
     productId?: StringFilter<"StoreAndProduct"> | string
-    productName?: StringNullableFilter<"StoreAndProduct"> | string | null
+    vendorId?: StringFilter<"StoreAndProduct"> | string
     store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type StoreAndProductOrderByWithRelationInput = {
     storeId?: SortOrder
     productId?: SortOrder
-    productName?: SortOrderInput | SortOrder
+    vendorId?: SortOrder
     store?: StoreOrderByWithRelationInput
     product?: ProductOrderByWithRelationInput
+    vendor?: UserOrderByWithRelationInput
   }
 
   export type StoreAndProductWhereUniqueInput = Prisma.AtLeast<{
-    storeId_productId?: StoreAndProductStoreIdProductIdCompoundUniqueInput
+    storeId_productId_vendorId?: StoreAndProductStoreIdProductIdVendorIdCompoundUniqueInput
     AND?: StoreAndProductWhereInput | StoreAndProductWhereInput[]
     OR?: StoreAndProductWhereInput[]
     NOT?: StoreAndProductWhereInput | StoreAndProductWhereInput[]
     storeId?: StringFilter<"StoreAndProduct"> | string
     productId?: StringFilter<"StoreAndProduct"> | string
-    productName?: StringNullableFilter<"StoreAndProduct"> | string | null
+    vendorId?: StringFilter<"StoreAndProduct"> | string
     store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
-  }, "storeId_productId">
+    vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "storeId_productId_vendorId">
 
   export type StoreAndProductOrderByWithAggregationInput = {
     storeId?: SortOrder
     productId?: SortOrder
-    productName?: SortOrderInput | SortOrder
+    vendorId?: SortOrder
     _count?: StoreAndProductCountOrderByAggregateInput
     _max?: StoreAndProductMaxOrderByAggregateInput
     _min?: StoreAndProductMinOrderByAggregateInput
@@ -14842,7 +16506,7 @@ export namespace Prisma {
     NOT?: StoreAndProductScalarWhereWithAggregatesInput | StoreAndProductScalarWhereWithAggregatesInput[]
     storeId?: StringWithAggregatesFilter<"StoreAndProduct"> | string
     productId?: StringWithAggregatesFilter<"StoreAndProduct"> | string
-    productName?: StringNullableWithAggregatesFilter<"StoreAndProduct"> | string | null
+    vendorId?: StringWithAggregatesFilter<"StoreAndProduct"> | string
   }
 
   export type OrderWhereInput = {
@@ -14853,10 +16517,18 @@ export namespace Prisma {
     quantity?: IntFilter<"Order"> | number
     totalPrice?: FloatFilter<"Order"> | number
     orderDate?: DateTimeFilter<"Order"> | Date | string
+    createdAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
     productId?: StringFilter<"Order"> | string
+    storeId?: StringFilter<"Order"> | string
+    customerId?: StringFilter<"Order"> | string
     vendorId?: StringFilter<"Order"> | string
+    warehouseId?: StringFilter<"Order"> | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
     orderDetails?: OrderDetailsListRelationFilter
     complaints?: ComplaintListRelationFilter
   }
@@ -14866,10 +16538,18 @@ export namespace Prisma {
     quantity?: SortOrder
     totalPrice?: SortOrder
     orderDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     productId?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
     vendorId?: SortOrder
+    warehouseId?: SortOrder
     product?: ProductOrderByWithRelationInput
+    store?: StoreOrderByWithRelationInput
+    customer?: UserOrderByWithRelationInput
     vendor?: UserOrderByWithRelationInput
+    warehouse?: WareHouseOrderByWithRelationInput
     orderDetails?: OrderDetailsOrderByRelationAggregateInput
     complaints?: ComplaintOrderByRelationAggregateInput
   }
@@ -14882,10 +16562,18 @@ export namespace Prisma {
     quantity?: IntFilter<"Order"> | number
     totalPrice?: FloatFilter<"Order"> | number
     orderDate?: DateTimeFilter<"Order"> | Date | string
+    createdAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
     productId?: StringFilter<"Order"> | string
+    storeId?: StringFilter<"Order"> | string
+    customerId?: StringFilter<"Order"> | string
     vendorId?: StringFilter<"Order"> | string
+    warehouseId?: StringFilter<"Order"> | string
     product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
+    customer?: XOR<UserScalarRelationFilter, UserWhereInput>
     vendor?: XOR<UserScalarRelationFilter, UserWhereInput>
+    warehouse?: XOR<WareHouseScalarRelationFilter, WareHouseWhereInput>
     orderDetails?: OrderDetailsListRelationFilter
     complaints?: ComplaintListRelationFilter
   }, "orderId">
@@ -14895,8 +16583,13 @@ export namespace Prisma {
     quantity?: SortOrder
     totalPrice?: SortOrder
     orderDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     productId?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
     vendorId?: SortOrder
+    warehouseId?: SortOrder
     _count?: OrderCountOrderByAggregateInput
     _avg?: OrderAvgOrderByAggregateInput
     _max?: OrderMaxOrderByAggregateInput
@@ -14912,8 +16605,13 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"Order"> | number
     totalPrice?: FloatWithAggregatesFilter<"Order"> | number
     orderDate?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     productId?: StringWithAggregatesFilter<"Order"> | string
+    storeId?: StringWithAggregatesFilter<"Order"> | string
+    customerId?: StringWithAggregatesFilter<"Order"> | string
     vendorId?: StringWithAggregatesFilter<"Order"> | string
+    warehouseId?: StringWithAggregatesFilter<"Order"> | string
   }
 
   export type OrderDetailsWhereInput = {
@@ -15024,11 +16722,16 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
     stores?: StoreCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutVendorInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15037,11 +16740,16 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
     stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserUpdateInput = {
@@ -15050,11 +16758,16 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
     stores?: StoreUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutVendorNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15063,11 +16776,16 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
     stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15076,6 +16794,8 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -15084,6 +16804,8 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -15092,13 +16814,16 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductCreateInput = {
     productId?: string
     productName: string
     productPrice: number
-    warehouse: WareHouseCreateNestedOneWithoutProductsInput
+    vendor: UserCreateNestedOneWithoutProductsInput
+    inventory?: WarehouseInventoryCreateNestedManyWithoutProductInput
     sales?: SalesCreateNestedManyWithoutProductInput
     orders?: OrderCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
@@ -15108,7 +16833,8 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
+    inventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput
     sales?: SalesUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
@@ -15118,7 +16844,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouse?: WareHouseUpdateOneRequiredWithoutProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutProductsNestedInput
+    inventory?: WarehouseInventoryUpdateManyWithoutProductNestedInput
     sales?: SalesUpdateManyWithoutProductNestedInput
     orders?: OrderUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
@@ -15128,7 +16855,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouseId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    inventory?: WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput
     sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
@@ -15138,7 +16866,7 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
   }
 
   export type ProductUpdateManyMutationInput = {
@@ -15151,13 +16879,14 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouseId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CityCreateInput = {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseCreateNestedManyWithoutCityInput
     warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutCityInput
     Stores?: StoreCreateNestedManyWithoutCityInput
@@ -15167,6 +16896,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseUncheckedCreateNestedManyWithoutCityInput
     warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutCityInput
     Stores?: StoreUncheckedCreateNestedManyWithoutCityInput
@@ -15176,6 +16906,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUpdateManyWithoutCityNestedInput
     warehouseDetails?: WarehouseDetailsUpdateManyWithoutCityNestedInput
     Stores?: StoreUpdateManyWithoutCityNestedInput
@@ -15185,6 +16916,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUncheckedUpdateManyWithoutCityNestedInput
     warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutCityNestedInput
     Stores?: StoreUncheckedUpdateManyWithoutCityNestedInput
@@ -15194,18 +16926,21 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
   }
 
   export type CityUpdateManyMutationInput = {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CityUncheckedUpdateManyInput = {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WareHouseCreateInput = {
@@ -15213,8 +16948,9 @@ export namespace Prisma {
     warehouseName: string
     warehouseCapacity: number
     city: CityCreateNestedOneWithoutWarehousesInput
-    products?: ProductCreateNestedManyWithoutWarehouseInput
     warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryCreateNestedManyWithoutWarehouseInput
+    orders?: OrderCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseUncheckedCreateInput = {
@@ -15222,8 +16958,9 @@ export namespace Prisma {
     warehouseName: string
     warehouseCapacity: number
     cityId: string
-    products?: ProductUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutWarehouseInput
+    orders?: OrderUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseUpdateInput = {
@@ -15231,8 +16968,9 @@ export namespace Prisma {
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
     city?: CityUpdateOneRequiredWithoutWarehousesNestedInput
-    products?: ProductUpdateManyWithoutWarehouseNestedInput
     warehouseDetails?: WarehouseDetailsUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WareHouseUncheckedUpdateInput = {
@@ -15240,8 +16978,9 @@ export namespace Prisma {
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
     cityId?: StringFieldUpdateOperationsInput | string
-    products?: ProductUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUncheckedUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WareHouseCreateManyInput = {
@@ -15304,9 +17043,48 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type WarehouseInventoryCreateInput = {
+    quantity?: number
+    warehouse: WareHouseCreateNestedOneWithoutWarehouseInventoryInput
+    product: ProductCreateNestedOneWithoutInventoryInput
+  }
+
+  export type WarehouseInventoryUncheckedCreateInput = {
+    warehouseId: string
+    productId: string
+    quantity?: number
+  }
+
+  export type WarehouseInventoryUpdateInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    warehouse?: WareHouseUpdateOneRequiredWithoutWarehouseInventoryNestedInput
+    product?: ProductUpdateOneRequiredWithoutInventoryNestedInput
+  }
+
+  export type WarehouseInventoryUncheckedUpdateInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WarehouseInventoryCreateManyInput = {
+    warehouseId: string
+    productId: string
+    quantity?: number
+  }
+
+  export type WarehouseInventoryUpdateManyMutationInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WarehouseInventoryUncheckedUpdateManyInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
   export type SalesCreateInput = {
     id?: string
-    productName: string
     quantity: number
     price: number
     product: ProductCreateNestedOneWithoutSalesInput
@@ -15314,15 +17092,13 @@ export namespace Prisma {
 
   export type SalesUncheckedCreateInput = {
     id?: string
-    productName: string
+    productId: string
     quantity: number
     price: number
-    productId: string
   }
 
   export type SalesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     product?: ProductUpdateOneRequiredWithoutSalesNestedInput
@@ -15330,124 +17106,138 @@ export namespace Prisma {
 
   export type SalesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    productId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SalesCreateManyInput = {
     id?: string
-    productName: string
+    productId: string
     quantity: number
     price: number
-    productId: string
   }
 
   export type SalesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type SalesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    productId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreCreateInput = {
     storeId?: string
     storeName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vendor: UserCreateNestedOneWithoutStoresInput
     city: CityCreateNestedOneWithoutStoresInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutStoreInput
+    orders?: OrderCreateNestedManyWithoutStoreInput
   }
 
   export type StoreUncheckedCreateInput = {
     storeId?: string
     storeName: string
     vendorId: string
-    cityId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutStoreInput
+    orders?: OrderUncheckedCreateNestedManyWithoutStoreInput
   }
 
   export type StoreUpdateInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: UserUpdateOneRequiredWithoutStoresNestedInput
     city?: CityUpdateOneRequiredWithoutStoresNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutStoreNestedInput
+    orders?: OrderUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
-    cityId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutStoreNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreCreateManyInput = {
     storeId?: string
     storeName: string
     vendorId: string
-    cityId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type StoreUpdateManyMutationInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StoreUncheckedUpdateManyInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
-    cityId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StoreAndProductCreateInput = {
-    productName?: string | null
     store: StoreCreateNestedOneWithoutStoreProductsInput
     product: ProductCreateNestedOneWithoutStoreProductsInput
+    vendor: UserCreateNestedOneWithoutStoreAndProductsInput
   }
 
   export type StoreAndProductUncheckedCreateInput = {
     storeId: string
     productId: string
-    productName?: string | null
+    vendorId: string
   }
 
   export type StoreAndProductUpdateInput = {
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
     store?: StoreUpdateOneRequiredWithoutStoreProductsNestedInput
     product?: ProductUpdateOneRequiredWithoutStoreProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutStoreAndProductsNestedInput
   }
 
   export type StoreAndProductUncheckedUpdateInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreAndProductCreateManyInput = {
     storeId: string
     productId: string
-    productName?: string | null
+    vendorId: string
   }
 
   export type StoreAndProductUpdateManyMutationInput = {
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+
   }
 
   export type StoreAndProductUncheckedUpdateManyInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderCreateInput = {
@@ -15455,8 +17245,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutOrdersInput
-    vendor: UserCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
     orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
     complaints?: ComplaintCreateNestedManyWithoutOrderInput
   }
@@ -15466,8 +17261,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     productId: string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -15477,8 +17277,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
-    vendor?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
     orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUpdateManyWithoutOrderNestedInput
   }
@@ -15488,8 +17293,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -15499,8 +17309,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     productId: string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
   }
 
   export type OrderUpdateManyMutationInput = {
@@ -15508,6 +17323,8 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderUncheckedUpdateManyInput = {
@@ -15515,8 +17332,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderDetailsCreateInput = {
@@ -15644,6 +17466,17 @@ export namespace Prisma {
     not?: NestedEnumUserTypeFilter<$PrismaModel> | $Enums.UserType
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type OrderDetailsListRelationFilter = {
     every?: OrderDetailsWhereInput
     some?: OrderDetailsWhereInput
@@ -15674,6 +17507,18 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type ProductListRelationFilter = {
+    every?: ProductWhereInput
+    some?: ProductWhereInput
+    none?: ProductWhereInput
+  }
+
+  export type StoreAndProductListRelationFilter = {
+    every?: StoreAndProductWhereInput
+    some?: StoreAndProductWhereInput
+    none?: StoreAndProductWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -15699,12 +17544,22 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type ProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoreAndProductOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     userid?: SortOrder
     email?: SortOrder
     name?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -15713,6 +17568,8 @@ export namespace Prisma {
     name?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -15721,6 +17578,8 @@ export namespace Prisma {
     name?: SortOrder
     role?: SortOrder
     password?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -15769,6 +17628,20 @@ export namespace Prisma {
     _max?: NestedEnumUserTypeFilter<$PrismaModel>
   }
 
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -15780,9 +17653,15 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type WareHouseScalarRelationFilter = {
-    is?: WareHouseWhereInput
-    isNot?: WareHouseWhereInput
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type WarehouseInventoryListRelationFilter = {
+    every?: WarehouseInventoryWhereInput
+    some?: WarehouseInventoryWhereInput
+    none?: WarehouseInventoryWhereInput
   }
 
   export type SalesListRelationFilter = {
@@ -15791,25 +17670,24 @@ export namespace Prisma {
     none?: SalesWhereInput
   }
 
-  export type StoreAndProductListRelationFilter = {
-    every?: StoreAndProductWhereInput
-    some?: StoreAndProductWhereInput
-    none?: StoreAndProductWhereInput
+  export type WarehouseInventoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type SalesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type StoreAndProductOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type ProductVendorIdProductNameCompoundUniqueInput = {
+    vendorId: string
+    productName: string
   }
 
   export type ProductCountOrderByAggregateInput = {
     productId?: SortOrder
     productName?: SortOrder
     productPrice?: SortOrder
-    warehouseId?: SortOrder
+    vendorId?: SortOrder
   }
 
   export type ProductAvgOrderByAggregateInput = {
@@ -15820,14 +17698,14 @@ export namespace Prisma {
     productId?: SortOrder
     productName?: SortOrder
     productPrice?: SortOrder
-    warehouseId?: SortOrder
+    vendorId?: SortOrder
   }
 
   export type ProductMinOrderByAggregateInput = {
     productId?: SortOrder
     productName?: SortOrder
     productPrice?: SortOrder
-    warehouseId?: SortOrder
+    vendorId?: SortOrder
   }
 
   export type ProductSumOrderByAggregateInput = {
@@ -15864,18 +17742,21 @@ export namespace Prisma {
     cityId?: SortOrder
     cityName?: SortOrder
     state?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CityMaxOrderByAggregateInput = {
     cityId?: SortOrder
     cityName?: SortOrder
     state?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CityMinOrderByAggregateInput = {
     cityId?: SortOrder
     cityName?: SortOrder
     state?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -15892,16 +17773,6 @@ export namespace Prisma {
   export type CityScalarRelationFilter = {
     is?: CityWhereInput
     isNot?: CityWhereInput
-  }
-
-  export type ProductListRelationFilter = {
-    every?: ProductWhereInput
-    some?: ProductWhereInput
-    none?: ProductWhereInput
-  }
-
-  export type ProductOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type WareHouseCountOrderByAggregateInput = {
@@ -15949,14 +17820,15 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type UserScalarRelationFilter = {
-    is?: UserWhereInput
-    isNot?: UserWhereInput
+  export type WareHouseScalarRelationFilter = {
+    is?: WareHouseWhereInput
+    isNot?: WareHouseWhereInput
   }
 
-  export type WarehouseDetailsCityIdWarehouseIdCompoundUniqueInput = {
+  export type WarehouseDetailsCityIdWarehouseIdUserIdCompoundUniqueInput = {
     cityId: string
     warehouseId: string
+    userId: string
   }
 
   export type WarehouseDetailsCountOrderByAggregateInput = {
@@ -15982,12 +17854,42 @@ export namespace Prisma {
     isNot?: ProductWhereInput
   }
 
+  export type WarehouseInventoryWarehouseIdProductIdCompoundUniqueInput = {
+    warehouseId: string
+    productId: string
+  }
+
+  export type WarehouseInventoryCountOrderByAggregateInput = {
+    warehouseId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type WarehouseInventoryAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type WarehouseInventoryMaxOrderByAggregateInput = {
+    warehouseId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type WarehouseInventoryMinOrderByAggregateInput = {
+    warehouseId?: SortOrder
+    productId?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type WarehouseInventorySumOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
   export type SalesCountOrderByAggregateInput = {
     id?: SortOrder
-    productName?: SortOrder
+    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-    productId?: SortOrder
   }
 
   export type SalesAvgOrderByAggregateInput = {
@@ -15997,18 +17899,16 @@ export namespace Prisma {
 
   export type SalesMaxOrderByAggregateInput = {
     id?: SortOrder
-    productName?: SortOrder
+    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-    productId?: SortOrder
   }
 
   export type SalesMinOrderByAggregateInput = {
     id?: SortOrder
-    productName?: SortOrder
+    productId?: SortOrder
     quantity?: SortOrder
     price?: SortOrder
-    productId?: SortOrder
   }
 
   export type SalesSumOrderByAggregateInput = {
@@ -16016,25 +17916,36 @@ export namespace Prisma {
     price?: SortOrder
   }
 
+  export type StoreVendorIdCityNameCompoundUniqueInput = {
+    vendorId: string
+    cityName: string
+  }
+
   export type StoreCountOrderByAggregateInput = {
     storeId?: SortOrder
     storeName?: SortOrder
     vendorId?: SortOrder
-    cityId?: SortOrder
+    cityName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StoreMaxOrderByAggregateInput = {
     storeId?: SortOrder
     storeName?: SortOrder
     vendorId?: SortOrder
-    cityId?: SortOrder
+    cityName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StoreMinOrderByAggregateInput = {
     storeId?: SortOrder
     storeName?: SortOrder
     vendorId?: SortOrder
-    cityId?: SortOrder
+    cityName?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StoreScalarRelationFilter = {
@@ -16042,38 +17953,28 @@ export namespace Prisma {
     isNot?: StoreWhereInput
   }
 
-  export type StoreAndProductStoreIdProductIdCompoundUniqueInput = {
+  export type StoreAndProductStoreIdProductIdVendorIdCompoundUniqueInput = {
     storeId: string
     productId: string
+    vendorId: string
   }
 
   export type StoreAndProductCountOrderByAggregateInput = {
     storeId?: SortOrder
     productId?: SortOrder
-    productName?: SortOrder
+    vendorId?: SortOrder
   }
 
   export type StoreAndProductMaxOrderByAggregateInput = {
     storeId?: SortOrder
     productId?: SortOrder
-    productName?: SortOrder
+    vendorId?: SortOrder
   }
 
   export type StoreAndProductMinOrderByAggregateInput = {
     storeId?: SortOrder
     productId?: SortOrder
-    productName?: SortOrder
-  }
-
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+    vendorId?: SortOrder
   }
 
   export type OrderCountOrderByAggregateInput = {
@@ -16081,8 +17982,13 @@ export namespace Prisma {
     quantity?: SortOrder
     totalPrice?: SortOrder
     orderDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     productId?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
     vendorId?: SortOrder
+    warehouseId?: SortOrder
   }
 
   export type OrderAvgOrderByAggregateInput = {
@@ -16095,8 +18001,13 @@ export namespace Prisma {
     quantity?: SortOrder
     totalPrice?: SortOrder
     orderDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     productId?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
     vendorId?: SortOrder
+    warehouseId?: SortOrder
   }
 
   export type OrderMinOrderByAggregateInput = {
@@ -16104,27 +18015,18 @@ export namespace Prisma {
     quantity?: SortOrder
     totalPrice?: SortOrder
     orderDate?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     productId?: SortOrder
+    storeId?: SortOrder
+    customerId?: SortOrder
     vendorId?: SortOrder
+    warehouseId?: SortOrder
   }
 
   export type OrderSumOrderByAggregateInput = {
     quantity?: SortOrder
     totalPrice?: SortOrder
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type OrderScalarRelationFilter = {
@@ -16204,11 +18106,32 @@ export namespace Prisma {
     connect?: WarehouseDetailsWhereUniqueInput | WarehouseDetailsWhereUniqueInput[]
   }
 
+  export type OrderCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput> | OrderCreateWithoutCustomerInput[] | OrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutCustomerInput | OrderCreateOrConnectWithoutCustomerInput[]
+    createMany?: OrderCreateManyCustomerInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type OrderCreateNestedManyWithoutVendorInput = {
     create?: XOR<OrderCreateWithoutVendorInput, OrderUncheckedCreateWithoutVendorInput> | OrderCreateWithoutVendorInput[] | OrderUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutVendorInput | OrderCreateOrConnectWithoutVendorInput[]
     createMany?: OrderCreateManyVendorInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ProductCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput> | ProductCreateWithoutVendorInput[] | ProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutVendorInput | ProductCreateOrConnectWithoutVendorInput[]
+    createMany?: ProductCreateManyVendorInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type StoreAndProductCreateNestedManyWithoutVendorInput = {
+    create?: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput> | StoreAndProductCreateWithoutVendorInput[] | StoreAndProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: StoreAndProductCreateOrConnectWithoutVendorInput | StoreAndProductCreateOrConnectWithoutVendorInput[]
+    createMany?: StoreAndProductCreateManyVendorInputEnvelope
+    connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
   }
 
   export type OrderDetailsUncheckedCreateNestedManyWithoutUserInput = {
@@ -16239,11 +18162,32 @@ export namespace Prisma {
     connect?: WarehouseDetailsWhereUniqueInput | WarehouseDetailsWhereUniqueInput[]
   }
 
+  export type OrderUncheckedCreateNestedManyWithoutCustomerInput = {
+    create?: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput> | OrderCreateWithoutCustomerInput[] | OrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutCustomerInput | OrderCreateOrConnectWithoutCustomerInput[]
+    createMany?: OrderCreateManyCustomerInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type OrderUncheckedCreateNestedManyWithoutVendorInput = {
     create?: XOR<OrderCreateWithoutVendorInput, OrderUncheckedCreateWithoutVendorInput> | OrderCreateWithoutVendorInput[] | OrderUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutVendorInput | OrderCreateOrConnectWithoutVendorInput[]
     createMany?: OrderCreateManyVendorInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type ProductUncheckedCreateNestedManyWithoutVendorInput = {
+    create?: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput> | ProductCreateWithoutVendorInput[] | ProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutVendorInput | ProductCreateOrConnectWithoutVendorInput[]
+    createMany?: ProductCreateManyVendorInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type StoreAndProductUncheckedCreateNestedManyWithoutVendorInput = {
+    create?: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput> | StoreAndProductCreateWithoutVendorInput[] | StoreAndProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: StoreAndProductCreateOrConnectWithoutVendorInput | StoreAndProductCreateOrConnectWithoutVendorInput[]
+    createMany?: StoreAndProductCreateManyVendorInputEnvelope
+    connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -16256,6 +18200,10 @@ export namespace Prisma {
 
   export type EnumUserTypeFieldUpdateOperationsInput = {
     set?: $Enums.UserType
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type OrderDetailsUpdateManyWithoutUserNestedInput = {
@@ -16314,6 +18262,20 @@ export namespace Prisma {
     deleteMany?: WarehouseDetailsScalarWhereInput | WarehouseDetailsScalarWhereInput[]
   }
 
+  export type OrderUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput> | OrderCreateWithoutCustomerInput[] | OrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutCustomerInput | OrderCreateOrConnectWithoutCustomerInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutCustomerInput | OrderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: OrderCreateManyCustomerInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutCustomerInput | OrderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutCustomerInput | OrderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type OrderUpdateManyWithoutVendorNestedInput = {
     create?: XOR<OrderCreateWithoutVendorInput, OrderUncheckedCreateWithoutVendorInput> | OrderCreateWithoutVendorInput[] | OrderUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutVendorInput | OrderCreateOrConnectWithoutVendorInput[]
@@ -16326,6 +18288,34 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutVendorInput | OrderUpdateWithWhereUniqueWithoutVendorInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutVendorInput | OrderUpdateManyWithWhereWithoutVendorInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type ProductUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput> | ProductCreateWithoutVendorInput[] | ProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutVendorInput | ProductCreateOrConnectWithoutVendorInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutVendorInput | ProductUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ProductCreateManyVendorInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutVendorInput | ProductUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutVendorInput | ProductUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type StoreAndProductUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput> | StoreAndProductCreateWithoutVendorInput[] | StoreAndProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: StoreAndProductCreateOrConnectWithoutVendorInput | StoreAndProductCreateOrConnectWithoutVendorInput[]
+    upsert?: StoreAndProductUpsertWithWhereUniqueWithoutVendorInput | StoreAndProductUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: StoreAndProductCreateManyVendorInputEnvelope
+    set?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    disconnect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    delete?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    update?: StoreAndProductUpdateWithWhereUniqueWithoutVendorInput | StoreAndProductUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: StoreAndProductUpdateManyWithWhereWithoutVendorInput | StoreAndProductUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
   }
 
   export type OrderDetailsUncheckedUpdateManyWithoutUserNestedInput = {
@@ -16384,6 +18374,20 @@ export namespace Prisma {
     deleteMany?: WarehouseDetailsScalarWhereInput | WarehouseDetailsScalarWhereInput[]
   }
 
+  export type OrderUncheckedUpdateManyWithoutCustomerNestedInput = {
+    create?: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput> | OrderCreateWithoutCustomerInput[] | OrderUncheckedCreateWithoutCustomerInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutCustomerInput | OrderCreateOrConnectWithoutCustomerInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutCustomerInput | OrderUpsertWithWhereUniqueWithoutCustomerInput[]
+    createMany?: OrderCreateManyCustomerInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutCustomerInput | OrderUpdateWithWhereUniqueWithoutCustomerInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutCustomerInput | OrderUpdateManyWithWhereWithoutCustomerInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type OrderUncheckedUpdateManyWithoutVendorNestedInput = {
     create?: XOR<OrderCreateWithoutVendorInput, OrderUncheckedCreateWithoutVendorInput> | OrderCreateWithoutVendorInput[] | OrderUncheckedCreateWithoutVendorInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutVendorInput | OrderCreateOrConnectWithoutVendorInput[]
@@ -16398,10 +18402,45 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
-  export type WareHouseCreateNestedOneWithoutProductsInput = {
-    create?: XOR<WareHouseCreateWithoutProductsInput, WareHouseUncheckedCreateWithoutProductsInput>
-    connectOrCreate?: WareHouseCreateOrConnectWithoutProductsInput
-    connect?: WareHouseWhereUniqueInput
+  export type ProductUncheckedUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput> | ProductCreateWithoutVendorInput[] | ProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutVendorInput | ProductCreateOrConnectWithoutVendorInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutVendorInput | ProductUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: ProductCreateManyVendorInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutVendorInput | ProductUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutVendorInput | ProductUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput = {
+    create?: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput> | StoreAndProductCreateWithoutVendorInput[] | StoreAndProductUncheckedCreateWithoutVendorInput[]
+    connectOrCreate?: StoreAndProductCreateOrConnectWithoutVendorInput | StoreAndProductCreateOrConnectWithoutVendorInput[]
+    upsert?: StoreAndProductUpsertWithWhereUniqueWithoutVendorInput | StoreAndProductUpsertWithWhereUniqueWithoutVendorInput[]
+    createMany?: StoreAndProductCreateManyVendorInputEnvelope
+    set?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    disconnect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    delete?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+    update?: StoreAndProductUpdateWithWhereUniqueWithoutVendorInput | StoreAndProductUpdateWithWhereUniqueWithoutVendorInput[]
+    updateMany?: StoreAndProductUpdateManyWithWhereWithoutVendorInput | StoreAndProductUpdateManyWithWhereWithoutVendorInput[]
+    deleteMany?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutProductsInput = {
+    create?: XOR<UserCreateWithoutProductsInput, UserUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProductsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WarehouseInventoryCreateNestedManyWithoutProductInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput> | WarehouseInventoryCreateWithoutProductInput[] | WarehouseInventoryUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutProductInput | WarehouseInventoryCreateOrConnectWithoutProductInput[]
+    createMany?: WarehouseInventoryCreateManyProductInputEnvelope
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
   }
 
   export type SalesCreateNestedManyWithoutProductInput = {
@@ -16423,6 +18462,13 @@ export namespace Prisma {
     connectOrCreate?: StoreAndProductCreateOrConnectWithoutProductInput | StoreAndProductCreateOrConnectWithoutProductInput[]
     createMany?: StoreAndProductCreateManyProductInputEnvelope
     connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+  }
+
+  export type WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput> | WarehouseInventoryCreateWithoutProductInput[] | WarehouseInventoryUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutProductInput | WarehouseInventoryCreateOrConnectWithoutProductInput[]
+    createMany?: WarehouseInventoryCreateManyProductInputEnvelope
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
   }
 
   export type SalesUncheckedCreateNestedManyWithoutProductInput = {
@@ -16454,12 +18500,26 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type WareHouseUpdateOneRequiredWithoutProductsNestedInput = {
-    create?: XOR<WareHouseCreateWithoutProductsInput, WareHouseUncheckedCreateWithoutProductsInput>
-    connectOrCreate?: WareHouseCreateOrConnectWithoutProductsInput
-    upsert?: WareHouseUpsertWithoutProductsInput
-    connect?: WareHouseWhereUniqueInput
-    update?: XOR<XOR<WareHouseUpdateToOneWithWhereWithoutProductsInput, WareHouseUpdateWithoutProductsInput>, WareHouseUncheckedUpdateWithoutProductsInput>
+  export type UserUpdateOneRequiredWithoutProductsNestedInput = {
+    create?: XOR<UserCreateWithoutProductsInput, UserUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProductsInput
+    upsert?: UserUpsertWithoutProductsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProductsInput, UserUpdateWithoutProductsInput>, UserUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type WarehouseInventoryUpdateManyWithoutProductNestedInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput> | WarehouseInventoryCreateWithoutProductInput[] | WarehouseInventoryUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutProductInput | WarehouseInventoryCreateOrConnectWithoutProductInput[]
+    upsert?: WarehouseInventoryUpsertWithWhereUniqueWithoutProductInput | WarehouseInventoryUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: WarehouseInventoryCreateManyProductInputEnvelope
+    set?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    disconnect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    delete?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    update?: WarehouseInventoryUpdateWithWhereUniqueWithoutProductInput | WarehouseInventoryUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: WarehouseInventoryUpdateManyWithWhereWithoutProductInput | WarehouseInventoryUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
   }
 
   export type SalesUpdateManyWithoutProductNestedInput = {
@@ -16502,6 +18562,20 @@ export namespace Prisma {
     update?: StoreAndProductUpdateWithWhereUniqueWithoutProductInput | StoreAndProductUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: StoreAndProductUpdateManyWithWhereWithoutProductInput | StoreAndProductUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
+  }
+
+  export type WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput> | WarehouseInventoryCreateWithoutProductInput[] | WarehouseInventoryUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutProductInput | WarehouseInventoryCreateOrConnectWithoutProductInput[]
+    upsert?: WarehouseInventoryUpsertWithWhereUniqueWithoutProductInput | WarehouseInventoryUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: WarehouseInventoryCreateManyProductInputEnvelope
+    set?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    disconnect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    delete?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    update?: WarehouseInventoryUpdateWithWhereUniqueWithoutProductInput | WarehouseInventoryUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: WarehouseInventoryUpdateManyWithWhereWithoutProductInput | WarehouseInventoryUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
   }
 
   export type SalesUncheckedUpdateManyWithoutProductNestedInput = {
@@ -16678,13 +18752,6 @@ export namespace Prisma {
     connect?: CityWhereUniqueInput
   }
 
-  export type ProductCreateNestedManyWithoutWarehouseInput = {
-    create?: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput> | ProductCreateWithoutWarehouseInput[] | ProductUncheckedCreateWithoutWarehouseInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutWarehouseInput | ProductCreateOrConnectWithoutWarehouseInput[]
-    createMany?: ProductCreateManyWarehouseInputEnvelope
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-  }
-
   export type WarehouseDetailsCreateNestedManyWithoutWarehouseInput = {
     create?: XOR<WarehouseDetailsCreateWithoutWarehouseInput, WarehouseDetailsUncheckedCreateWithoutWarehouseInput> | WarehouseDetailsCreateWithoutWarehouseInput[] | WarehouseDetailsUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseDetailsCreateOrConnectWithoutWarehouseInput | WarehouseDetailsCreateOrConnectWithoutWarehouseInput[]
@@ -16692,11 +18759,18 @@ export namespace Prisma {
     connect?: WarehouseDetailsWhereUniqueInput | WarehouseDetailsWhereUniqueInput[]
   }
 
-  export type ProductUncheckedCreateNestedManyWithoutWarehouseInput = {
-    create?: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput> | ProductCreateWithoutWarehouseInput[] | ProductUncheckedCreateWithoutWarehouseInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutWarehouseInput | ProductCreateOrConnectWithoutWarehouseInput[]
-    createMany?: ProductCreateManyWarehouseInputEnvelope
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  export type WarehouseInventoryCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput> | WarehouseInventoryCreateWithoutWarehouseInput[] | WarehouseInventoryUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutWarehouseInput | WarehouseInventoryCreateOrConnectWithoutWarehouseInput[]
+    createMany?: WarehouseInventoryCreateManyWarehouseInputEnvelope
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+  }
+
+  export type OrderCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput> | OrderCreateWithoutWarehouseInput[] | OrderUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutWarehouseInput | OrderCreateOrConnectWithoutWarehouseInput[]
+    createMany?: OrderCreateManyWarehouseInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput = {
@@ -16704,6 +18778,20 @@ export namespace Prisma {
     connectOrCreate?: WarehouseDetailsCreateOrConnectWithoutWarehouseInput | WarehouseDetailsCreateOrConnectWithoutWarehouseInput[]
     createMany?: WarehouseDetailsCreateManyWarehouseInputEnvelope
     connect?: WarehouseDetailsWhereUniqueInput | WarehouseDetailsWhereUniqueInput[]
+  }
+
+  export type WarehouseInventoryUncheckedCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput> | WarehouseInventoryCreateWithoutWarehouseInput[] | WarehouseInventoryUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutWarehouseInput | WarehouseInventoryCreateOrConnectWithoutWarehouseInput[]
+    createMany?: WarehouseInventoryCreateManyWarehouseInputEnvelope
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutWarehouseInput = {
+    create?: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput> | OrderCreateWithoutWarehouseInput[] | OrderUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutWarehouseInput | OrderCreateOrConnectWithoutWarehouseInput[]
+    createMany?: OrderCreateManyWarehouseInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -16722,20 +18810,6 @@ export namespace Prisma {
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutWarehousesInput, CityUpdateWithoutWarehousesInput>, CityUncheckedUpdateWithoutWarehousesInput>
   }
 
-  export type ProductUpdateManyWithoutWarehouseNestedInput = {
-    create?: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput> | ProductCreateWithoutWarehouseInput[] | ProductUncheckedCreateWithoutWarehouseInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutWarehouseInput | ProductCreateOrConnectWithoutWarehouseInput[]
-    upsert?: ProductUpsertWithWhereUniqueWithoutWarehouseInput | ProductUpsertWithWhereUniqueWithoutWarehouseInput[]
-    createMany?: ProductCreateManyWarehouseInputEnvelope
-    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    update?: ProductUpdateWithWhereUniqueWithoutWarehouseInput | ProductUpdateWithWhereUniqueWithoutWarehouseInput[]
-    updateMany?: ProductUpdateManyWithWhereWithoutWarehouseInput | ProductUpdateManyWithWhereWithoutWarehouseInput[]
-    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
-  }
-
   export type WarehouseDetailsUpdateManyWithoutWarehouseNestedInput = {
     create?: XOR<WarehouseDetailsCreateWithoutWarehouseInput, WarehouseDetailsUncheckedCreateWithoutWarehouseInput> | WarehouseDetailsCreateWithoutWarehouseInput[] | WarehouseDetailsUncheckedCreateWithoutWarehouseInput[]
     connectOrCreate?: WarehouseDetailsCreateOrConnectWithoutWarehouseInput | WarehouseDetailsCreateOrConnectWithoutWarehouseInput[]
@@ -16750,18 +18824,32 @@ export namespace Prisma {
     deleteMany?: WarehouseDetailsScalarWhereInput | WarehouseDetailsScalarWhereInput[]
   }
 
-  export type ProductUncheckedUpdateManyWithoutWarehouseNestedInput = {
-    create?: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput> | ProductCreateWithoutWarehouseInput[] | ProductUncheckedCreateWithoutWarehouseInput[]
-    connectOrCreate?: ProductCreateOrConnectWithoutWarehouseInput | ProductCreateOrConnectWithoutWarehouseInput[]
-    upsert?: ProductUpsertWithWhereUniqueWithoutWarehouseInput | ProductUpsertWithWhereUniqueWithoutWarehouseInput[]
-    createMany?: ProductCreateManyWarehouseInputEnvelope
-    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
-    update?: ProductUpdateWithWhereUniqueWithoutWarehouseInput | ProductUpdateWithWhereUniqueWithoutWarehouseInput[]
-    updateMany?: ProductUpdateManyWithWhereWithoutWarehouseInput | ProductUpdateManyWithWhereWithoutWarehouseInput[]
-    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  export type WarehouseInventoryUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput> | WarehouseInventoryCreateWithoutWarehouseInput[] | WarehouseInventoryUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutWarehouseInput | WarehouseInventoryCreateOrConnectWithoutWarehouseInput[]
+    upsert?: WarehouseInventoryUpsertWithWhereUniqueWithoutWarehouseInput | WarehouseInventoryUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: WarehouseInventoryCreateManyWarehouseInputEnvelope
+    set?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    disconnect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    delete?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    update?: WarehouseInventoryUpdateWithWhereUniqueWithoutWarehouseInput | WarehouseInventoryUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: WarehouseInventoryUpdateManyWithWhereWithoutWarehouseInput | WarehouseInventoryUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
+  }
+
+  export type OrderUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput> | OrderCreateWithoutWarehouseInput[] | OrderUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutWarehouseInput | OrderCreateOrConnectWithoutWarehouseInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutWarehouseInput | OrderUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: OrderCreateManyWarehouseInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutWarehouseInput | OrderUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutWarehouseInput | OrderUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput = {
@@ -16776,6 +18864,34 @@ export namespace Prisma {
     update?: WarehouseDetailsUpdateWithWhereUniqueWithoutWarehouseInput | WarehouseDetailsUpdateWithWhereUniqueWithoutWarehouseInput[]
     updateMany?: WarehouseDetailsUpdateManyWithWhereWithoutWarehouseInput | WarehouseDetailsUpdateManyWithWhereWithoutWarehouseInput[]
     deleteMany?: WarehouseDetailsScalarWhereInput | WarehouseDetailsScalarWhereInput[]
+  }
+
+  export type WarehouseInventoryUncheckedUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput> | WarehouseInventoryCreateWithoutWarehouseInput[] | WarehouseInventoryUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: WarehouseInventoryCreateOrConnectWithoutWarehouseInput | WarehouseInventoryCreateOrConnectWithoutWarehouseInput[]
+    upsert?: WarehouseInventoryUpsertWithWhereUniqueWithoutWarehouseInput | WarehouseInventoryUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: WarehouseInventoryCreateManyWarehouseInputEnvelope
+    set?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    disconnect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    delete?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    connect?: WarehouseInventoryWhereUniqueInput | WarehouseInventoryWhereUniqueInput[]
+    update?: WarehouseInventoryUpdateWithWhereUniqueWithoutWarehouseInput | WarehouseInventoryUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: WarehouseInventoryUpdateManyWithWhereWithoutWarehouseInput | WarehouseInventoryUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
+  }
+
+  export type OrderUncheckedUpdateManyWithoutWarehouseNestedInput = {
+    create?: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput> | OrderCreateWithoutWarehouseInput[] | OrderUncheckedCreateWithoutWarehouseInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutWarehouseInput | OrderCreateOrConnectWithoutWarehouseInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutWarehouseInput | OrderUpsertWithWhereUniqueWithoutWarehouseInput[]
+    createMany?: OrderCreateManyWarehouseInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutWarehouseInput | OrderUpdateWithWhereUniqueWithoutWarehouseInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutWarehouseInput | OrderUpdateManyWithWhereWithoutWarehouseInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
   export type WareHouseCreateNestedOneWithoutWarehouseDetailsInput = {
@@ -16820,6 +18936,34 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWarehouseDetailsInput, UserUpdateWithoutWarehouseDetailsInput>, UserUncheckedUpdateWithoutWarehouseDetailsInput>
   }
 
+  export type WareHouseCreateNestedOneWithoutWarehouseInventoryInput = {
+    create?: XOR<WareHouseCreateWithoutWarehouseInventoryInput, WareHouseUncheckedCreateWithoutWarehouseInventoryInput>
+    connectOrCreate?: WareHouseCreateOrConnectWithoutWarehouseInventoryInput
+    connect?: WareHouseWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutInventoryInput = {
+    create?: XOR<ProductCreateWithoutInventoryInput, ProductUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutInventoryInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type WareHouseUpdateOneRequiredWithoutWarehouseInventoryNestedInput = {
+    create?: XOR<WareHouseCreateWithoutWarehouseInventoryInput, WareHouseUncheckedCreateWithoutWarehouseInventoryInput>
+    connectOrCreate?: WareHouseCreateOrConnectWithoutWarehouseInventoryInput
+    upsert?: WareHouseUpsertWithoutWarehouseInventoryInput
+    connect?: WareHouseWhereUniqueInput
+    update?: XOR<XOR<WareHouseUpdateToOneWithWhereWithoutWarehouseInventoryInput, WareHouseUpdateWithoutWarehouseInventoryInput>, WareHouseUncheckedUpdateWithoutWarehouseInventoryInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutInventoryNestedInput = {
+    create?: XOR<ProductCreateWithoutInventoryInput, ProductUncheckedCreateWithoutInventoryInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutInventoryInput
+    upsert?: ProductUpsertWithoutInventoryInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutInventoryInput, ProductUpdateWithoutInventoryInput>, ProductUncheckedUpdateWithoutInventoryInput>
+  }
+
   export type ProductCreateNestedOneWithoutSalesInput = {
     create?: XOR<ProductCreateWithoutSalesInput, ProductUncheckedCreateWithoutSalesInput>
     connectOrCreate?: ProductCreateOrConnectWithoutSalesInput
@@ -16853,11 +18997,25 @@ export namespace Prisma {
     connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
   }
 
+  export type OrderCreateNestedManyWithoutStoreInput = {
+    create?: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput> | OrderCreateWithoutStoreInput[] | OrderUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutStoreInput | OrderCreateOrConnectWithoutStoreInput[]
+    createMany?: OrderCreateManyStoreInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
   export type StoreAndProductUncheckedCreateNestedManyWithoutStoreInput = {
     create?: XOR<StoreAndProductCreateWithoutStoreInput, StoreAndProductUncheckedCreateWithoutStoreInput> | StoreAndProductCreateWithoutStoreInput[] | StoreAndProductUncheckedCreateWithoutStoreInput[]
     connectOrCreate?: StoreAndProductCreateOrConnectWithoutStoreInput | StoreAndProductCreateOrConnectWithoutStoreInput[]
     createMany?: StoreAndProductCreateManyStoreInputEnvelope
     connect?: StoreAndProductWhereUniqueInput | StoreAndProductWhereUniqueInput[]
+  }
+
+  export type OrderUncheckedCreateNestedManyWithoutStoreInput = {
+    create?: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput> | OrderCreateWithoutStoreInput[] | OrderUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutStoreInput | OrderCreateOrConnectWithoutStoreInput[]
+    createMany?: OrderCreateManyStoreInputEnvelope
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutStoresNestedInput = {
@@ -16890,6 +19048,20 @@ export namespace Prisma {
     deleteMany?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
   }
 
+  export type OrderUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput> | OrderCreateWithoutStoreInput[] | OrderUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutStoreInput | OrderCreateOrConnectWithoutStoreInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutStoreInput | OrderUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: OrderCreateManyStoreInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutStoreInput | OrderUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutStoreInput | OrderUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type StoreAndProductUncheckedUpdateManyWithoutStoreNestedInput = {
     create?: XOR<StoreAndProductCreateWithoutStoreInput, StoreAndProductUncheckedCreateWithoutStoreInput> | StoreAndProductCreateWithoutStoreInput[] | StoreAndProductUncheckedCreateWithoutStoreInput[]
     connectOrCreate?: StoreAndProductCreateOrConnectWithoutStoreInput | StoreAndProductCreateOrConnectWithoutStoreInput[]
@@ -16904,6 +19076,20 @@ export namespace Prisma {
     deleteMany?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
   }
 
+  export type OrderUncheckedUpdateManyWithoutStoreNestedInput = {
+    create?: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput> | OrderCreateWithoutStoreInput[] | OrderUncheckedCreateWithoutStoreInput[]
+    connectOrCreate?: OrderCreateOrConnectWithoutStoreInput | OrderCreateOrConnectWithoutStoreInput[]
+    upsert?: OrderUpsertWithWhereUniqueWithoutStoreInput | OrderUpsertWithWhereUniqueWithoutStoreInput[]
+    createMany?: OrderCreateManyStoreInputEnvelope
+    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+    update?: OrderUpdateWithWhereUniqueWithoutStoreInput | OrderUpdateWithWhereUniqueWithoutStoreInput[]
+    updateMany?: OrderUpdateManyWithWhereWithoutStoreInput | OrderUpdateManyWithWhereWithoutStoreInput[]
+    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
   export type StoreCreateNestedOneWithoutStoreProductsInput = {
     create?: XOR<StoreCreateWithoutStoreProductsInput, StoreUncheckedCreateWithoutStoreProductsInput>
     connectOrCreate?: StoreCreateOrConnectWithoutStoreProductsInput
@@ -16914,6 +19100,12 @@ export namespace Prisma {
     create?: XOR<ProductCreateWithoutStoreProductsInput, ProductUncheckedCreateWithoutStoreProductsInput>
     connectOrCreate?: ProductCreateOrConnectWithoutStoreProductsInput
     connect?: ProductWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutStoreAndProductsInput = {
+    create?: XOR<UserCreateWithoutStoreAndProductsInput, UserUncheckedCreateWithoutStoreAndProductsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStoreAndProductsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type StoreUpdateOneRequiredWithoutStoreProductsNestedInput = {
@@ -16932,16 +19124,42 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutStoreProductsInput, ProductUpdateWithoutStoreProductsInput>, ProductUncheckedUpdateWithoutStoreProductsInput>
   }
 
+  export type UserUpdateOneRequiredWithoutStoreAndProductsNestedInput = {
+    create?: XOR<UserCreateWithoutStoreAndProductsInput, UserUncheckedCreateWithoutStoreAndProductsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStoreAndProductsInput
+    upsert?: UserUpsertWithoutStoreAndProductsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStoreAndProductsInput, UserUpdateWithoutStoreAndProductsInput>, UserUncheckedUpdateWithoutStoreAndProductsInput>
+  }
+
   export type ProductCreateNestedOneWithoutOrdersInput = {
     create?: XOR<ProductCreateWithoutOrdersInput, ProductUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: ProductCreateOrConnectWithoutOrdersInput
     connect?: ProductWhereUniqueInput
   }
 
+  export type StoreCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<StoreCreateWithoutOrdersInput, StoreUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: StoreCreateOrConnectWithoutOrdersInput
+    connect?: StoreWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutOrdersInput = {
     create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutVendorOrdersInput = {
+    create?: XOR<UserCreateWithoutVendorOrdersInput, UserUncheckedCreateWithoutVendorOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVendorOrdersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type WareHouseCreateNestedOneWithoutOrdersInput = {
+    create?: XOR<WareHouseCreateWithoutOrdersInput, WareHouseUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: WareHouseCreateOrConnectWithoutOrdersInput
+    connect?: WareHouseWhereUniqueInput
   }
 
   export type OrderDetailsCreateNestedManyWithoutOrderInput = {
@@ -16972,10 +19190,6 @@ export namespace Prisma {
     connect?: ComplaintWhereUniqueInput | ComplaintWhereUniqueInput[]
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
-
   export type ProductUpdateOneRequiredWithoutOrdersNestedInput = {
     create?: XOR<ProductCreateWithoutOrdersInput, ProductUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: ProductCreateOrConnectWithoutOrdersInput
@@ -16984,12 +19198,36 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutOrdersInput, ProductUpdateWithoutOrdersInput>, ProductUncheckedUpdateWithoutOrdersInput>
   }
 
+  export type StoreUpdateOneRequiredWithoutOrdersNestedInput = {
+    create?: XOR<StoreCreateWithoutOrdersInput, StoreUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: StoreCreateOrConnectWithoutOrdersInput
+    upsert?: StoreUpsertWithoutOrdersInput
+    connect?: StoreWhereUniqueInput
+    update?: XOR<XOR<StoreUpdateToOneWithWhereWithoutOrdersInput, StoreUpdateWithoutOrdersInput>, StoreUncheckedUpdateWithoutOrdersInput>
+  }
+
   export type UserUpdateOneRequiredWithoutOrdersNestedInput = {
     create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
     connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
     upsert?: UserUpsertWithoutOrdersInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOrdersInput, UserUpdateWithoutOrdersInput>, UserUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutVendorOrdersNestedInput = {
+    create?: XOR<UserCreateWithoutVendorOrdersInput, UserUncheckedCreateWithoutVendorOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVendorOrdersInput
+    upsert?: UserUpsertWithoutVendorOrdersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVendorOrdersInput, UserUpdateWithoutVendorOrdersInput>, UserUncheckedUpdateWithoutVendorOrdersInput>
+  }
+
+  export type WareHouseUpdateOneRequiredWithoutOrdersNestedInput = {
+    create?: XOR<WareHouseCreateWithoutOrdersInput, WareHouseUncheckedCreateWithoutOrdersInput>
+    connectOrCreate?: WareHouseCreateOrConnectWithoutOrdersInput
+    upsert?: WareHouseUpsertWithoutOrdersInput
+    connect?: WareHouseWhereUniqueInput
+    update?: XOR<XOR<WareHouseUpdateToOneWithWhereWithoutOrdersInput, WareHouseUpdateWithoutOrdersInput>, WareHouseUncheckedUpdateWithoutOrdersInput>
   }
 
   export type OrderDetailsUpdateManyWithoutOrderNestedInput = {
@@ -17139,6 +19377,17 @@ export namespace Prisma {
     not?: NestedEnumUserTypeFilter<$PrismaModel> | $Enums.UserType
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -17205,6 +19454,20 @@ export namespace Prisma {
     _max?: NestedEnumUserTypeFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -17248,31 +19511,6 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
   export type OrderDetailsCreateWithoutUserInput = {
     order: OrderCreateNestedOneWithoutOrderDetailsInput
   }
@@ -17294,15 +19532,21 @@ export namespace Prisma {
   export type StoreCreateWithoutVendorInput = {
     storeId?: string
     storeName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     city: CityCreateNestedOneWithoutStoresInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutStoreInput
+    orders?: OrderCreateNestedManyWithoutStoreInput
   }
 
   export type StoreUncheckedCreateWithoutVendorInput = {
     storeId?: string
     storeName: string
-    cityId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutStoreInput
+    orders?: OrderUncheckedCreateNestedManyWithoutStoreInput
   }
 
   export type StoreCreateOrConnectWithoutVendorInput = {
@@ -17359,12 +19603,57 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OrderCreateWithoutCustomerInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
+    orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutCustomerInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    storeId: string
+    vendorId: string
+    warehouseId: string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutCustomerInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type OrderCreateManyCustomerInputEnvelope = {
+    data: OrderCreateManyCustomerInput | OrderCreateManyCustomerInput[]
+    skipDuplicates?: boolean
+  }
+
   export type OrderCreateWithoutVendorInput = {
     orderId?: string
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
     orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
     complaints?: ComplaintCreateNestedManyWithoutOrderInput
   }
@@ -17374,7 +19663,12 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     productId: string
+    storeId: string
+    customerId: string
+    warehouseId: string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -17386,6 +19680,56 @@ export namespace Prisma {
 
   export type OrderCreateManyVendorInputEnvelope = {
     data: OrderCreateManyVendorInput | OrderCreateManyVendorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProductCreateWithoutVendorInput = {
+    productId?: string
+    productName: string
+    productPrice: number
+    inventory?: WarehouseInventoryCreateNestedManyWithoutProductInput
+    sales?: SalesCreateNestedManyWithoutProductInput
+    orders?: OrderCreateNestedManyWithoutProductInput
+    storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutVendorInput = {
+    productId?: string
+    productName: string
+    productPrice: number
+    inventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput
+    sales?: SalesUncheckedCreateNestedManyWithoutProductInput
+    orders?: OrderUncheckedCreateNestedManyWithoutProductInput
+    storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutVendorInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput>
+  }
+
+  export type ProductCreateManyVendorInputEnvelope = {
+    data: ProductCreateManyVendorInput | ProductCreateManyVendorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type StoreAndProductCreateWithoutVendorInput = {
+    store: StoreCreateNestedOneWithoutStoreProductsInput
+    product: ProductCreateNestedOneWithoutStoreProductsInput
+  }
+
+  export type StoreAndProductUncheckedCreateWithoutVendorInput = {
+    storeId: string
+    productId: string
+  }
+
+  export type StoreAndProductCreateOrConnectWithoutVendorInput = {
+    where: StoreAndProductWhereUniqueInput
+    create: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput>
+  }
+
+  export type StoreAndProductCreateManyVendorInputEnvelope = {
+    data: StoreAndProductCreateManyVendorInput | StoreAndProductCreateManyVendorInput[]
     skipDuplicates?: boolean
   }
 
@@ -17436,7 +19780,9 @@ export namespace Prisma {
     storeId?: StringFilter<"Store"> | string
     storeName?: StringFilter<"Store"> | string
     vendorId?: StringFilter<"Store"> | string
-    cityId?: StringFilter<"Store"> | string
+    cityName?: StringFilter<"Store"> | string
+    createdAt?: DateTimeFilter<"Store"> | Date | string
+    updatedAt?: DateTimeFilter<"Store"> | Date | string
   }
 
   export type ComplaintUpsertWithWhereUniqueWithoutUserInput = {
@@ -17491,6 +19837,39 @@ export namespace Prisma {
     userId?: StringFilter<"WarehouseDetails"> | string
   }
 
+  export type OrderUpsertWithWhereUniqueWithoutCustomerInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutCustomerInput, OrderUncheckedUpdateWithoutCustomerInput>
+    create: XOR<OrderCreateWithoutCustomerInput, OrderUncheckedCreateWithoutCustomerInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutCustomerInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutCustomerInput, OrderUncheckedUpdateWithoutCustomerInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutCustomerInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutCustomerInput>
+  }
+
+  export type OrderScalarWhereInput = {
+    AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    OR?: OrderScalarWhereInput[]
+    NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
+    orderId?: StringFilter<"Order"> | string
+    quantity?: IntFilter<"Order"> | number
+    totalPrice?: FloatFilter<"Order"> | number
+    orderDate?: DateTimeFilter<"Order"> | Date | string
+    createdAt?: DateTimeFilter<"Order"> | Date | string
+    updatedAt?: DateTimeFilter<"Order"> | Date | string
+    productId?: StringFilter<"Order"> | string
+    storeId?: StringFilter<"Order"> | string
+    customerId?: StringFilter<"Order"> | string
+    vendorId?: StringFilter<"Order"> | string
+    warehouseId?: StringFilter<"Order"> | string
+  }
+
   export type OrderUpsertWithWhereUniqueWithoutVendorInput = {
     where: OrderWhereUniqueInput
     update: XOR<OrderUpdateWithoutVendorInput, OrderUncheckedUpdateWithoutVendorInput>
@@ -17507,49 +19886,124 @@ export namespace Prisma {
     data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutVendorInput>
   }
 
-  export type OrderScalarWhereInput = {
-    AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
-    OR?: OrderScalarWhereInput[]
-    NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
-    orderId?: StringFilter<"Order"> | string
-    quantity?: IntFilter<"Order"> | number
-    totalPrice?: FloatFilter<"Order"> | number
-    orderDate?: DateTimeFilter<"Order"> | Date | string
-    productId?: StringFilter<"Order"> | string
-    vendorId?: StringFilter<"Order"> | string
+  export type ProductUpsertWithWhereUniqueWithoutVendorInput = {
+    where: ProductWhereUniqueInput
+    update: XOR<ProductUpdateWithoutVendorInput, ProductUncheckedUpdateWithoutVendorInput>
+    create: XOR<ProductCreateWithoutVendorInput, ProductUncheckedCreateWithoutVendorInput>
   }
 
-  export type WareHouseCreateWithoutProductsInput = {
-    warehouseId?: string
-    warehouseName: string
-    warehouseCapacity: number
-    city: CityCreateNestedOneWithoutWarehousesInput
-    warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutWarehouseInput
+  export type ProductUpdateWithWhereUniqueWithoutVendorInput = {
+    where: ProductWhereUniqueInput
+    data: XOR<ProductUpdateWithoutVendorInput, ProductUncheckedUpdateWithoutVendorInput>
   }
 
-  export type WareHouseUncheckedCreateWithoutProductsInput = {
-    warehouseId?: string
-    warehouseName: string
-    warehouseCapacity: number
-    cityId: string
-    warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput
+  export type ProductUpdateManyWithWhereWithoutVendorInput = {
+    where: ProductScalarWhereInput
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutVendorInput>
   }
 
-  export type WareHouseCreateOrConnectWithoutProductsInput = {
-    where: WareHouseWhereUniqueInput
-    create: XOR<WareHouseCreateWithoutProductsInput, WareHouseUncheckedCreateWithoutProductsInput>
+  export type ProductScalarWhereInput = {
+    AND?: ProductScalarWhereInput | ProductScalarWhereInput[]
+    OR?: ProductScalarWhereInput[]
+    NOT?: ProductScalarWhereInput | ProductScalarWhereInput[]
+    productId?: StringFilter<"Product"> | string
+    productName?: StringFilter<"Product"> | string
+    productPrice?: FloatFilter<"Product"> | number
+    vendorId?: StringFilter<"Product"> | string
+  }
+
+  export type StoreAndProductUpsertWithWhereUniqueWithoutVendorInput = {
+    where: StoreAndProductWhereUniqueInput
+    update: XOR<StoreAndProductUpdateWithoutVendorInput, StoreAndProductUncheckedUpdateWithoutVendorInput>
+    create: XOR<StoreAndProductCreateWithoutVendorInput, StoreAndProductUncheckedCreateWithoutVendorInput>
+  }
+
+  export type StoreAndProductUpdateWithWhereUniqueWithoutVendorInput = {
+    where: StoreAndProductWhereUniqueInput
+    data: XOR<StoreAndProductUpdateWithoutVendorInput, StoreAndProductUncheckedUpdateWithoutVendorInput>
+  }
+
+  export type StoreAndProductUpdateManyWithWhereWithoutVendorInput = {
+    where: StoreAndProductScalarWhereInput
+    data: XOR<StoreAndProductUpdateManyMutationInput, StoreAndProductUncheckedUpdateManyWithoutVendorInput>
+  }
+
+  export type StoreAndProductScalarWhereInput = {
+    AND?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
+    OR?: StoreAndProductScalarWhereInput[]
+    NOT?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
+    storeId?: StringFilter<"StoreAndProduct"> | string
+    productId?: StringFilter<"StoreAndProduct"> | string
+    vendorId?: StringFilter<"StoreAndProduct"> | string
+  }
+
+  export type UserCreateWithoutProductsInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
+    stores?: StoreCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserUncheckedCreateWithoutProductsInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
+    stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserCreateOrConnectWithoutProductsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProductsInput, UserUncheckedCreateWithoutProductsInput>
+  }
+
+  export type WarehouseInventoryCreateWithoutProductInput = {
+    quantity?: number
+    warehouse: WareHouseCreateNestedOneWithoutWarehouseInventoryInput
+  }
+
+  export type WarehouseInventoryUncheckedCreateWithoutProductInput = {
+    warehouseId: string
+    quantity?: number
+  }
+
+  export type WarehouseInventoryCreateOrConnectWithoutProductInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    create: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput>
+  }
+
+  export type WarehouseInventoryCreateManyProductInputEnvelope = {
+    data: WarehouseInventoryCreateManyProductInput | WarehouseInventoryCreateManyProductInput[]
+    skipDuplicates?: boolean
   }
 
   export type SalesCreateWithoutProductInput = {
     id?: string
-    productName: string
     quantity: number
     price: number
   }
 
   export type SalesUncheckedCreateWithoutProductInput = {
     id?: string
-    productName: string
     quantity: number
     price: number
   }
@@ -17569,7 +20023,12 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
-    vendor: UserCreateNestedOneWithoutOrdersInput
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
     orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
     complaints?: ComplaintCreateNestedManyWithoutOrderInput
   }
@@ -17579,7 +20038,12 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
     complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
   }
@@ -17595,13 +20059,13 @@ export namespace Prisma {
   }
 
   export type StoreAndProductCreateWithoutProductInput = {
-    productName?: string | null
     store: StoreCreateNestedOneWithoutStoreProductsInput
+    vendor: UserCreateNestedOneWithoutStoreAndProductsInput
   }
 
   export type StoreAndProductUncheckedCreateWithoutProductInput = {
     storeId: string
-    productName?: string | null
+    vendorId: string
   }
 
   export type StoreAndProductCreateOrConnectWithoutProductInput = {
@@ -17614,31 +20078,74 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WareHouseUpsertWithoutProductsInput = {
-    update: XOR<WareHouseUpdateWithoutProductsInput, WareHouseUncheckedUpdateWithoutProductsInput>
-    create: XOR<WareHouseCreateWithoutProductsInput, WareHouseUncheckedCreateWithoutProductsInput>
-    where?: WareHouseWhereInput
+  export type UserUpsertWithoutProductsInput = {
+    update: XOR<UserUpdateWithoutProductsInput, UserUncheckedUpdateWithoutProductsInput>
+    create: XOR<UserCreateWithoutProductsInput, UserUncheckedCreateWithoutProductsInput>
+    where?: UserWhereInput
   }
 
-  export type WareHouseUpdateToOneWithWhereWithoutProductsInput = {
-    where?: WareHouseWhereInput
-    data: XOR<WareHouseUpdateWithoutProductsInput, WareHouseUncheckedUpdateWithoutProductsInput>
+  export type UserUpdateToOneWithWhereWithoutProductsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProductsInput, UserUncheckedUpdateWithoutProductsInput>
   }
 
-  export type WareHouseUpdateWithoutProductsInput = {
-    warehouseId?: StringFieldUpdateOperationsInput | string
-    warehouseName?: StringFieldUpdateOperationsInput | string
-    warehouseCapacity?: IntFieldUpdateOperationsInput | number
-    city?: CityUpdateOneRequiredWithoutWarehousesNestedInput
-    warehouseDetails?: WarehouseDetailsUpdateManyWithoutWarehouseNestedInput
+  export type UserUpdateWithoutProductsInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
+    stores?: StoreUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
-  export type WareHouseUncheckedUpdateWithoutProductsInput = {
-    warehouseId?: StringFieldUpdateOperationsInput | string
-    warehouseName?: StringFieldUpdateOperationsInput | string
-    warehouseCapacity?: IntFieldUpdateOperationsInput | number
-    cityId?: StringFieldUpdateOperationsInput | string
-    warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput
+  export type UserUncheckedUpdateWithoutProductsInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
+    stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
+  export type WarehouseInventoryUpsertWithWhereUniqueWithoutProductInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    update: XOR<WarehouseInventoryUpdateWithoutProductInput, WarehouseInventoryUncheckedUpdateWithoutProductInput>
+    create: XOR<WarehouseInventoryCreateWithoutProductInput, WarehouseInventoryUncheckedCreateWithoutProductInput>
+  }
+
+  export type WarehouseInventoryUpdateWithWhereUniqueWithoutProductInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    data: XOR<WarehouseInventoryUpdateWithoutProductInput, WarehouseInventoryUncheckedUpdateWithoutProductInput>
+  }
+
+  export type WarehouseInventoryUpdateManyWithWhereWithoutProductInput = {
+    where: WarehouseInventoryScalarWhereInput
+    data: XOR<WarehouseInventoryUpdateManyMutationInput, WarehouseInventoryUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type WarehouseInventoryScalarWhereInput = {
+    AND?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
+    OR?: WarehouseInventoryScalarWhereInput[]
+    NOT?: WarehouseInventoryScalarWhereInput | WarehouseInventoryScalarWhereInput[]
+    warehouseId?: StringFilter<"WarehouseInventory"> | string
+    productId?: StringFilter<"WarehouseInventory"> | string
+    quantity?: IntFilter<"WarehouseInventory"> | number
   }
 
   export type SalesUpsertWithWhereUniqueWithoutProductInput = {
@@ -17662,10 +20169,9 @@ export namespace Prisma {
     OR?: SalesScalarWhereInput[]
     NOT?: SalesScalarWhereInput | SalesScalarWhereInput[]
     id?: StringFilter<"Sales"> | string
-    productName?: StringFilter<"Sales"> | string
+    productId?: StringFilter<"Sales"> | string
     quantity?: IntFilter<"Sales"> | number
     price?: FloatFilter<"Sales"> | number
-    productId?: StringFilter<"Sales"> | string
   }
 
   export type OrderUpsertWithWhereUniqueWithoutProductInput = {
@@ -17700,29 +20206,22 @@ export namespace Prisma {
     data: XOR<StoreAndProductUpdateManyMutationInput, StoreAndProductUncheckedUpdateManyWithoutProductInput>
   }
 
-  export type StoreAndProductScalarWhereInput = {
-    AND?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
-    OR?: StoreAndProductScalarWhereInput[]
-    NOT?: StoreAndProductScalarWhereInput | StoreAndProductScalarWhereInput[]
-    storeId?: StringFilter<"StoreAndProduct"> | string
-    productId?: StringFilter<"StoreAndProduct"> | string
-    productName?: StringNullableFilter<"StoreAndProduct"> | string | null
-  }
-
   export type WareHouseCreateWithoutCityInput = {
     warehouseId?: string
     warehouseName: string
     warehouseCapacity: number
-    products?: ProductCreateNestedManyWithoutWarehouseInput
     warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryCreateNestedManyWithoutWarehouseInput
+    orders?: OrderCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseUncheckedCreateWithoutCityInput = {
     warehouseId?: string
     warehouseName: string
     warehouseCapacity: number
-    products?: ProductUncheckedCreateNestedManyWithoutWarehouseInput
     warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutWarehouseInput
+    orders?: OrderUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseCreateOrConnectWithoutCityInput = {
@@ -17758,15 +20257,21 @@ export namespace Prisma {
   export type StoreCreateWithoutCityInput = {
     storeId?: string
     storeName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vendor: UserCreateNestedOneWithoutStoresInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutStoreInput
+    orders?: OrderCreateNestedManyWithoutStoreInput
   }
 
   export type StoreUncheckedCreateWithoutCityInput = {
     storeId?: string
     storeName: string
     vendorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutStoreInput
+    orders?: OrderUncheckedCreateNestedManyWithoutStoreInput
   }
 
   export type StoreCreateOrConnectWithoutCityInput = {
@@ -17841,6 +20346,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutCityInput
     Stores?: StoreCreateNestedManyWithoutCityInput
   }
@@ -17849,6 +20355,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutCityInput
     Stores?: StoreUncheckedCreateNestedManyWithoutCityInput
   }
@@ -17856,34 +20363,6 @@ export namespace Prisma {
   export type CityCreateOrConnectWithoutWarehousesInput = {
     where: CityWhereUniqueInput
     create: XOR<CityCreateWithoutWarehousesInput, CityUncheckedCreateWithoutWarehousesInput>
-  }
-
-  export type ProductCreateWithoutWarehouseInput = {
-    productId?: string
-    productName: string
-    productPrice: number
-    sales?: SalesCreateNestedManyWithoutProductInput
-    orders?: OrderCreateNestedManyWithoutProductInput
-    storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
-  }
-
-  export type ProductUncheckedCreateWithoutWarehouseInput = {
-    productId?: string
-    productName: string
-    productPrice: number
-    sales?: SalesUncheckedCreateNestedManyWithoutProductInput
-    orders?: OrderUncheckedCreateNestedManyWithoutProductInput
-    storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
-  }
-
-  export type ProductCreateOrConnectWithoutWarehouseInput = {
-    where: ProductWhereUniqueInput
-    create: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput>
-  }
-
-  export type ProductCreateManyWarehouseInputEnvelope = {
-    data: ProductCreateManyWarehouseInput | ProductCreateManyWarehouseInput[]
-    skipDuplicates?: boolean
   }
 
   export type WarehouseDetailsCreateWithoutWarehouseInput = {
@@ -17906,6 +20385,66 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type WarehouseInventoryCreateWithoutWarehouseInput = {
+    quantity?: number
+    product: ProductCreateNestedOneWithoutInventoryInput
+  }
+
+  export type WarehouseInventoryUncheckedCreateWithoutWarehouseInput = {
+    productId: string
+    quantity?: number
+  }
+
+  export type WarehouseInventoryCreateOrConnectWithoutWarehouseInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    create: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type WarehouseInventoryCreateManyWarehouseInputEnvelope = {
+    data: WarehouseInventoryCreateManyWarehouseInput | WarehouseInventoryCreateManyWarehouseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderCreateWithoutWarehouseInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutWarehouseInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    storeId: string
+    customerId: string
+    vendorId: string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutWarehouseInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type OrderCreateManyWarehouseInputEnvelope = {
+    data: OrderCreateManyWarehouseInput | OrderCreateManyWarehouseInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CityUpsertWithoutWarehousesInput = {
     update: XOR<CityUpdateWithoutWarehousesInput, CityUncheckedUpdateWithoutWarehousesInput>
     create: XOR<CityCreateWithoutWarehousesInput, CityUncheckedCreateWithoutWarehousesInput>
@@ -17921,6 +20460,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseDetails?: WarehouseDetailsUpdateManyWithoutCityNestedInput
     Stores?: StoreUpdateManyWithoutCityNestedInput
   }
@@ -17929,34 +20469,9 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutCityNestedInput
     Stores?: StoreUncheckedUpdateManyWithoutCityNestedInput
-  }
-
-  export type ProductUpsertWithWhereUniqueWithoutWarehouseInput = {
-    where: ProductWhereUniqueInput
-    update: XOR<ProductUpdateWithoutWarehouseInput, ProductUncheckedUpdateWithoutWarehouseInput>
-    create: XOR<ProductCreateWithoutWarehouseInput, ProductUncheckedCreateWithoutWarehouseInput>
-  }
-
-  export type ProductUpdateWithWhereUniqueWithoutWarehouseInput = {
-    where: ProductWhereUniqueInput
-    data: XOR<ProductUpdateWithoutWarehouseInput, ProductUncheckedUpdateWithoutWarehouseInput>
-  }
-
-  export type ProductUpdateManyWithWhereWithoutWarehouseInput = {
-    where: ProductScalarWhereInput
-    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutWarehouseInput>
-  }
-
-  export type ProductScalarWhereInput = {
-    AND?: ProductScalarWhereInput | ProductScalarWhereInput[]
-    OR?: ProductScalarWhereInput[]
-    NOT?: ProductScalarWhereInput | ProductScalarWhereInput[]
-    productId?: StringFilter<"Product"> | string
-    productName?: StringFilter<"Product"> | string
-    productPrice?: FloatFilter<"Product"> | number
-    warehouseId?: StringFilter<"Product"> | string
   }
 
   export type WarehouseDetailsUpsertWithWhereUniqueWithoutWarehouseInput = {
@@ -17975,12 +20490,45 @@ export namespace Prisma {
     data: XOR<WarehouseDetailsUpdateManyMutationInput, WarehouseDetailsUncheckedUpdateManyWithoutWarehouseInput>
   }
 
+  export type WarehouseInventoryUpsertWithWhereUniqueWithoutWarehouseInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    update: XOR<WarehouseInventoryUpdateWithoutWarehouseInput, WarehouseInventoryUncheckedUpdateWithoutWarehouseInput>
+    create: XOR<WarehouseInventoryCreateWithoutWarehouseInput, WarehouseInventoryUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type WarehouseInventoryUpdateWithWhereUniqueWithoutWarehouseInput = {
+    where: WarehouseInventoryWhereUniqueInput
+    data: XOR<WarehouseInventoryUpdateWithoutWarehouseInput, WarehouseInventoryUncheckedUpdateWithoutWarehouseInput>
+  }
+
+  export type WarehouseInventoryUpdateManyWithWhereWithoutWarehouseInput = {
+    where: WarehouseInventoryScalarWhereInput
+    data: XOR<WarehouseInventoryUpdateManyMutationInput, WarehouseInventoryUncheckedUpdateManyWithoutWarehouseInput>
+  }
+
+  export type OrderUpsertWithWhereUniqueWithoutWarehouseInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutWarehouseInput, OrderUncheckedUpdateWithoutWarehouseInput>
+    create: XOR<OrderCreateWithoutWarehouseInput, OrderUncheckedCreateWithoutWarehouseInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutWarehouseInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutWarehouseInput, OrderUncheckedUpdateWithoutWarehouseInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutWarehouseInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutWarehouseInput>
+  }
+
   export type WareHouseCreateWithoutWarehouseDetailsInput = {
     warehouseId?: string
     warehouseName: string
     warehouseCapacity: number
     city: CityCreateNestedOneWithoutWarehousesInput
-    products?: ProductCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryCreateNestedManyWithoutWarehouseInput
+    orders?: OrderCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseUncheckedCreateWithoutWarehouseDetailsInput = {
@@ -17988,7 +20536,8 @@ export namespace Prisma {
     warehouseName: string
     warehouseCapacity: number
     cityId: string
-    products?: ProductUncheckedCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutWarehouseInput
+    orders?: OrderUncheckedCreateNestedManyWithoutWarehouseInput
   }
 
   export type WareHouseCreateOrConnectWithoutWarehouseDetailsInput = {
@@ -18000,6 +20549,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseCreateNestedManyWithoutCityInput
     Stores?: StoreCreateNestedManyWithoutCityInput
   }
@@ -18008,6 +20558,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseUncheckedCreateNestedManyWithoutCityInput
     Stores?: StoreUncheckedCreateNestedManyWithoutCityInput
   }
@@ -18023,10 +20574,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
     stores?: StoreCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutVendorInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateWithoutWarehouseDetailsInput = {
@@ -18035,10 +20591,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
     stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserCreateOrConnectWithoutWarehouseDetailsInput = {
@@ -18062,7 +20623,8 @@ export namespace Prisma {
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
     city?: CityUpdateOneRequiredWithoutWarehousesNestedInput
-    products?: ProductUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WareHouseUncheckedUpdateWithoutWarehouseDetailsInput = {
@@ -18070,7 +20632,8 @@ export namespace Prisma {
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
     cityId?: StringFieldUpdateOperationsInput | string
-    products?: ProductUncheckedUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUncheckedUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type CityUpsertWithoutWarehouseDetailsInput = {
@@ -18088,6 +20651,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUpdateManyWithoutCityNestedInput
     Stores?: StoreUpdateManyWithoutCityNestedInput
   }
@@ -18096,6 +20660,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUncheckedUpdateManyWithoutCityNestedInput
     Stores?: StoreUncheckedUpdateManyWithoutCityNestedInput
   }
@@ -18117,10 +20682,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
     stores?: StoreUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutVendorNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWarehouseDetailsInput = {
@@ -18129,17 +20699,131 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
     stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
+  export type WareHouseCreateWithoutWarehouseInventoryInput = {
+    warehouseId?: string
+    warehouseName: string
+    warehouseCapacity: number
+    city: CityCreateNestedOneWithoutWarehousesInput
+    warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutWarehouseInput
+    orders?: OrderCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WareHouseUncheckedCreateWithoutWarehouseInventoryInput = {
+    warehouseId?: string
+    warehouseName: string
+    warehouseCapacity: number
+    cityId: string
+    warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput
+    orders?: OrderUncheckedCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WareHouseCreateOrConnectWithoutWarehouseInventoryInput = {
+    where: WareHouseWhereUniqueInput
+    create: XOR<WareHouseCreateWithoutWarehouseInventoryInput, WareHouseUncheckedCreateWithoutWarehouseInventoryInput>
+  }
+
+  export type ProductCreateWithoutInventoryInput = {
+    productId?: string
+    productName: string
+    productPrice: number
+    vendor: UserCreateNestedOneWithoutProductsInput
+    sales?: SalesCreateNestedManyWithoutProductInput
+    orders?: OrderCreateNestedManyWithoutProductInput
+    storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutInventoryInput = {
+    productId?: string
+    productName: string
+    productPrice: number
+    vendorId: string
+    sales?: SalesUncheckedCreateNestedManyWithoutProductInput
+    orders?: OrderUncheckedCreateNestedManyWithoutProductInput
+    storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutInventoryInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutInventoryInput, ProductUncheckedCreateWithoutInventoryInput>
+  }
+
+  export type WareHouseUpsertWithoutWarehouseInventoryInput = {
+    update: XOR<WareHouseUpdateWithoutWarehouseInventoryInput, WareHouseUncheckedUpdateWithoutWarehouseInventoryInput>
+    create: XOR<WareHouseCreateWithoutWarehouseInventoryInput, WareHouseUncheckedCreateWithoutWarehouseInventoryInput>
+    where?: WareHouseWhereInput
+  }
+
+  export type WareHouseUpdateToOneWithWhereWithoutWarehouseInventoryInput = {
+    where?: WareHouseWhereInput
+    data: XOR<WareHouseUpdateWithoutWarehouseInventoryInput, WareHouseUncheckedUpdateWithoutWarehouseInventoryInput>
+  }
+
+  export type WareHouseUpdateWithoutWarehouseInventoryInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    warehouseName?: StringFieldUpdateOperationsInput | string
+    warehouseCapacity?: IntFieldUpdateOperationsInput | number
+    city?: CityUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouseDetails?: WarehouseDetailsUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type WareHouseUncheckedUpdateWithoutWarehouseInventoryInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    warehouseName?: StringFieldUpdateOperationsInput | string
+    warehouseCapacity?: IntFieldUpdateOperationsInput | number
+    cityId?: StringFieldUpdateOperationsInput | string
+    warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type ProductUpsertWithoutInventoryInput = {
+    update: XOR<ProductUpdateWithoutInventoryInput, ProductUncheckedUpdateWithoutInventoryInput>
+    create: XOR<ProductCreateWithoutInventoryInput, ProductUncheckedCreateWithoutInventoryInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutInventoryInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutInventoryInput, ProductUncheckedUpdateWithoutInventoryInput>
+  }
+
+  export type ProductUpdateWithoutInventoryInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productPrice?: FloatFieldUpdateOperationsInput | number
+    vendor?: UserUpdateOneRequiredWithoutProductsNestedInput
+    sales?: SalesUpdateManyWithoutProductNestedInput
+    orders?: OrderUpdateManyWithoutProductNestedInput
+    storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutInventoryInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productPrice?: FloatFieldUpdateOperationsInput | number
+    vendorId?: StringFieldUpdateOperationsInput | string
+    sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+    storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateWithoutSalesInput = {
     productId?: string
     productName: string
     productPrice: number
-    warehouse: WareHouseCreateNestedOneWithoutProductsInput
+    vendor: UserCreateNestedOneWithoutProductsInput
+    inventory?: WarehouseInventoryCreateNestedManyWithoutProductInput
     orders?: OrderCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
   }
@@ -18148,7 +20832,8 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
+    inventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -18173,7 +20858,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouse?: WareHouseUpdateOneRequiredWithoutProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutProductsNestedInput
+    inventory?: WarehouseInventoryUpdateManyWithoutProductNestedInput
     orders?: OrderUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
   }
@@ -18182,7 +20868,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouseId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    inventory?: WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
   }
@@ -18193,10 +20880,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
     Complaints?: ComplaintCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutVendorInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateWithoutStoresInput = {
@@ -18205,10 +20897,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
     Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserCreateOrConnectWithoutStoresInput = {
@@ -18220,6 +20917,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseCreateNestedManyWithoutCityInput
     warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutCityInput
   }
@@ -18228,6 +20926,7 @@ export namespace Prisma {
     cityId?: string
     cityName: string
     state: string
+    createdAt?: Date | string
     warehouses?: WareHouseUncheckedCreateNestedManyWithoutCityInput
     warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutCityInput
   }
@@ -18238,13 +20937,13 @@ export namespace Prisma {
   }
 
   export type StoreAndProductCreateWithoutStoreInput = {
-    productName?: string | null
     product: ProductCreateNestedOneWithoutStoreProductsInput
+    vendor: UserCreateNestedOneWithoutStoreAndProductsInput
   }
 
   export type StoreAndProductUncheckedCreateWithoutStoreInput = {
     productId: string
-    productName?: string | null
+    vendorId: string
   }
 
   export type StoreAndProductCreateOrConnectWithoutStoreInput = {
@@ -18254,6 +20953,46 @@ export namespace Prisma {
 
   export type StoreAndProductCreateManyStoreInputEnvelope = {
     data: StoreAndProductCreateManyStoreInput | StoreAndProductCreateManyStoreInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OrderCreateWithoutStoreInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
+    orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderUncheckedCreateWithoutStoreInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    customerId: string
+    vendorId: string
+    warehouseId: string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
+    complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
+  }
+
+  export type OrderCreateOrConnectWithoutStoreInput = {
+    where: OrderWhereUniqueInput
+    create: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput>
+  }
+
+  export type OrderCreateManyStoreInputEnvelope = {
+    data: OrderCreateManyStoreInput | OrderCreateManyStoreInput[]
     skipDuplicates?: boolean
   }
 
@@ -18274,10 +21013,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
     Complaints?: ComplaintUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutVendorNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStoresInput = {
@@ -18286,10 +21030,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
     Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type CityUpsertWithoutStoresInput = {
@@ -18307,6 +21056,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUpdateManyWithoutCityNestedInput
     warehouseDetails?: WarehouseDetailsUpdateManyWithoutCityNestedInput
   }
@@ -18315,6 +21065,7 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
     cityName?: StringFieldUpdateOperationsInput | string
     state?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     warehouses?: WareHouseUncheckedUpdateManyWithoutCityNestedInput
     warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutCityNestedInput
   }
@@ -18335,18 +21086,40 @@ export namespace Prisma {
     data: XOR<StoreAndProductUpdateManyMutationInput, StoreAndProductUncheckedUpdateManyWithoutStoreInput>
   }
 
+  export type OrderUpsertWithWhereUniqueWithoutStoreInput = {
+    where: OrderWhereUniqueInput
+    update: XOR<OrderUpdateWithoutStoreInput, OrderUncheckedUpdateWithoutStoreInput>
+    create: XOR<OrderCreateWithoutStoreInput, OrderUncheckedCreateWithoutStoreInput>
+  }
+
+  export type OrderUpdateWithWhereUniqueWithoutStoreInput = {
+    where: OrderWhereUniqueInput
+    data: XOR<OrderUpdateWithoutStoreInput, OrderUncheckedUpdateWithoutStoreInput>
+  }
+
+  export type OrderUpdateManyWithWhereWithoutStoreInput = {
+    where: OrderScalarWhereInput
+    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutStoreInput>
+  }
+
   export type StoreCreateWithoutStoreProductsInput = {
     storeId?: string
     storeName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     vendor: UserCreateNestedOneWithoutStoresInput
     city: CityCreateNestedOneWithoutStoresInput
+    orders?: OrderCreateNestedManyWithoutStoreInput
   }
 
   export type StoreUncheckedCreateWithoutStoreProductsInput = {
     storeId?: string
     storeName: string
     vendorId: string
-    cityId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orders?: OrderUncheckedCreateNestedManyWithoutStoreInput
   }
 
   export type StoreCreateOrConnectWithoutStoreProductsInput = {
@@ -18358,7 +21131,8 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouse: WareHouseCreateNestedOneWithoutProductsInput
+    vendor: UserCreateNestedOneWithoutProductsInput
+    inventory?: WarehouseInventoryCreateNestedManyWithoutProductInput
     sales?: SalesCreateNestedManyWithoutProductInput
     orders?: OrderCreateNestedManyWithoutProductInput
   }
@@ -18367,7 +21141,8 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
+    inventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput
     sales?: SalesUncheckedCreateNestedManyWithoutProductInput
     orders?: OrderUncheckedCreateNestedManyWithoutProductInput
   }
@@ -18375,6 +21150,45 @@ export namespace Prisma {
   export type ProductCreateOrConnectWithoutStoreProductsInput = {
     where: ProductWhereUniqueInput
     create: XOR<ProductCreateWithoutStoreProductsInput, ProductUncheckedCreateWithoutStoreProductsInput>
+  }
+
+  export type UserCreateWithoutStoreAndProductsInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
+    stores?: StoreCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserUncheckedCreateWithoutStoreAndProductsInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
+    stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserCreateOrConnectWithoutStoreAndProductsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStoreAndProductsInput, UserUncheckedCreateWithoutStoreAndProductsInput>
   }
 
   export type StoreUpsertWithoutStoreProductsInput = {
@@ -18391,15 +21205,21 @@ export namespace Prisma {
   export type StoreUpdateWithoutStoreProductsInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: UserUpdateOneRequiredWithoutStoresNestedInput
     city?: CityUpdateOneRequiredWithoutStoresNestedInput
+    orders?: OrderUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateWithoutStoreProductsInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
-    cityId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orders?: OrderUncheckedUpdateManyWithoutStoreNestedInput
   }
 
   export type ProductUpsertWithoutStoreProductsInput = {
@@ -18417,7 +21237,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouse?: WareHouseUpdateOneRequiredWithoutProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutProductsNestedInput
+    inventory?: WarehouseInventoryUpdateManyWithoutProductNestedInput
     sales?: SalesUpdateManyWithoutProductNestedInput
     orders?: OrderUpdateManyWithoutProductNestedInput
   }
@@ -18426,16 +21247,63 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouseId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    inventory?: WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput
     sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
     orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type UserUpsertWithoutStoreAndProductsInput = {
+    update: XOR<UserUpdateWithoutStoreAndProductsInput, UserUncheckedUpdateWithoutStoreAndProductsInput>
+    create: XOR<UserCreateWithoutStoreAndProductsInput, UserUncheckedCreateWithoutStoreAndProductsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStoreAndProductsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStoreAndProductsInput, UserUncheckedUpdateWithoutStoreAndProductsInput>
+  }
+
+  export type UserUpdateWithoutStoreAndProductsInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
+    stores?: StoreUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStoreAndProductsInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
+    stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type ProductCreateWithoutOrdersInput = {
     productId?: string
     productName: string
     productPrice: number
-    warehouse: WareHouseCreateNestedOneWithoutProductsInput
+    vendor: UserCreateNestedOneWithoutProductsInput
+    inventory?: WarehouseInventoryCreateNestedManyWithoutProductInput
     sales?: SalesCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductCreateNestedManyWithoutProductInput
   }
@@ -18444,7 +21312,8 @@ export namespace Prisma {
     productId?: string
     productName: string
     productPrice: number
-    warehouseId: string
+    vendorId: string
+    inventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutProductInput
     sales?: SalesUncheckedCreateNestedManyWithoutProductInput
     storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutProductInput
   }
@@ -18454,16 +21323,46 @@ export namespace Prisma {
     create: XOR<ProductCreateWithoutOrdersInput, ProductUncheckedCreateWithoutOrdersInput>
   }
 
+  export type StoreCreateWithoutOrdersInput = {
+    storeId?: string
+    storeName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vendor: UserCreateNestedOneWithoutStoresInput
+    city: CityCreateNestedOneWithoutStoresInput
+    storeProducts?: StoreAndProductCreateNestedManyWithoutStoreInput
+  }
+
+  export type StoreUncheckedCreateWithoutOrdersInput = {
+    storeId?: string
+    storeName: string
+    vendorId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    storeProducts?: StoreAndProductUncheckedCreateNestedManyWithoutStoreInput
+  }
+
+  export type StoreCreateOrConnectWithoutOrdersInput = {
+    where: StoreWhereUniqueInput
+    create: XOR<StoreCreateWithoutOrdersInput, StoreUncheckedCreateWithoutOrdersInput>
+  }
+
   export type UserCreateWithoutOrdersInput = {
     userid?: string
     email: string
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
     stores?: StoreCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -18472,15 +21371,82 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
     stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
+  }
+
+  export type UserCreateWithoutVendorOrdersInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
+    stores?: StoreCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserUncheckedCreateWithoutVendorOrdersInput = {
+    userid?: string
+    email: string
+    name?: string | null
+    role: $Enums.UserType
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
+    stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
+    Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
+    WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
+  }
+
+  export type UserCreateOrConnectWithoutVendorOrdersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVendorOrdersInput, UserUncheckedCreateWithoutVendorOrdersInput>
+  }
+
+  export type WareHouseCreateWithoutOrdersInput = {
+    warehouseId?: string
+    warehouseName: string
+    warehouseCapacity: number
+    city: CityCreateNestedOneWithoutWarehousesInput
+    warehouseDetails?: WarehouseDetailsCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WareHouseUncheckedCreateWithoutOrdersInput = {
+    warehouseId?: string
+    warehouseName: string
+    warehouseCapacity: number
+    cityId: string
+    warehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutWarehouseInput
+    warehouseInventory?: WarehouseInventoryUncheckedCreateNestedManyWithoutWarehouseInput
+  }
+
+  export type WareHouseCreateOrConnectWithoutOrdersInput = {
+    where: WareHouseWhereUniqueInput
+    create: XOR<WareHouseCreateWithoutOrdersInput, WareHouseUncheckedCreateWithoutOrdersInput>
   }
 
   export type OrderDetailsCreateWithoutOrderInput = {
@@ -18540,7 +21506,8 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouse?: WareHouseUpdateOneRequiredWithoutProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutProductsNestedInput
+    inventory?: WarehouseInventoryUpdateManyWithoutProductNestedInput
     sales?: SalesUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
   }
@@ -18549,9 +21516,41 @@ export namespace Prisma {
     productId?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     productPrice?: FloatFieldUpdateOperationsInput | number
-    warehouseId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    inventory?: WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput
     sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type StoreUpsertWithoutOrdersInput = {
+    update: XOR<StoreUpdateWithoutOrdersInput, StoreUncheckedUpdateWithoutOrdersInput>
+    create: XOR<StoreCreateWithoutOrdersInput, StoreUncheckedCreateWithoutOrdersInput>
+    where?: StoreWhereInput
+  }
+
+  export type StoreUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: StoreWhereInput
+    data: XOR<StoreUpdateWithoutOrdersInput, StoreUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type StoreUpdateWithoutOrdersInput = {
+    storeId?: StringFieldUpdateOperationsInput | string
+    storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vendor?: UserUpdateOneRequiredWithoutStoresNestedInput
+    city?: CityUpdateOneRequiredWithoutStoresNestedInput
+    storeProducts?: StoreAndProductUpdateManyWithoutStoreNestedInput
+  }
+
+  export type StoreUncheckedUpdateWithoutOrdersInput = {
+    storeId?: StringFieldUpdateOperationsInput | string
+    storeName?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storeProducts?: StoreAndProductUncheckedUpdateManyWithoutStoreNestedInput
   }
 
   export type UserUpsertWithoutOrdersInput = {
@@ -18571,10 +21570,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
     stores?: StoreUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -18583,10 +21587,89 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
     stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
+  export type UserUpsertWithoutVendorOrdersInput = {
+    update: XOR<UserUpdateWithoutVendorOrdersInput, UserUncheckedUpdateWithoutVendorOrdersInput>
+    create: XOR<UserCreateWithoutVendorOrdersInput, UserUncheckedCreateWithoutVendorOrdersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVendorOrdersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVendorOrdersInput, UserUncheckedUpdateWithoutVendorOrdersInput>
+  }
+
+  export type UserUpdateWithoutVendorOrdersInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
+    stores?: StoreUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVendorOrdersInput = {
+    userid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
+    stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
+    Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
+    WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
+  }
+
+  export type WareHouseUpsertWithoutOrdersInput = {
+    update: XOR<WareHouseUpdateWithoutOrdersInput, WareHouseUncheckedUpdateWithoutOrdersInput>
+    create: XOR<WareHouseCreateWithoutOrdersInput, WareHouseUncheckedCreateWithoutOrdersInput>
+    where?: WareHouseWhereInput
+  }
+
+  export type WareHouseUpdateToOneWithWhereWithoutOrdersInput = {
+    where?: WareHouseWhereInput
+    data: XOR<WareHouseUpdateWithoutOrdersInput, WareHouseUncheckedUpdateWithoutOrdersInput>
+  }
+
+  export type WareHouseUpdateWithoutOrdersInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    warehouseName?: StringFieldUpdateOperationsInput | string
+    warehouseCapacity?: IntFieldUpdateOperationsInput | number
+    city?: CityUpdateOneRequiredWithoutWarehousesNestedInput
+    warehouseDetails?: WarehouseDetailsUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUpdateManyWithoutWarehouseNestedInput
+  }
+
+  export type WareHouseUncheckedUpdateWithoutOrdersInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    warehouseName?: StringFieldUpdateOperationsInput | string
+    warehouseCapacity?: IntFieldUpdateOperationsInput | number
+    cityId?: StringFieldUpdateOperationsInput | string
+    warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type OrderDetailsUpsertWithWhereUniqueWithoutOrderInput = {
@@ -18626,8 +21709,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutOrdersInput
-    vendor: UserCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
     complaints?: ComplaintCreateNestedManyWithoutOrderInput
   }
 
@@ -18636,8 +21724,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     productId: string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
     complaints?: ComplaintUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -18652,10 +21745,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     stores?: StoreCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutVendorInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateWithoutOrderDetailsInput = {
@@ -18664,10 +21762,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
     Complaints?: ComplaintUncheckedCreateNestedManyWithoutUserInput
     WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserCreateOrConnectWithoutOrderDetailsInput = {
@@ -18691,8 +21794,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
-    vendor?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
     complaints?: ComplaintUpdateManyWithoutOrderNestedInput
   }
 
@@ -18701,8 +21809,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -18723,10 +21836,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stores?: StoreUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutVendorNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrderDetailsInput = {
@@ -18735,10 +21853,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
     Complaints?: ComplaintUncheckedUpdateManyWithoutUserNestedInput
     WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type UserCreateWithoutComplaintsInput = {
@@ -18747,10 +21870,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsCreateNestedManyWithoutUserInput
     stores?: StoreCreateNestedManyWithoutVendorInput
     WarehouseDetails?: WarehouseDetailsCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutVendorInput
+    orders?: OrderCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderCreateNestedManyWithoutVendorInput
+    Products?: ProductCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductCreateNestedManyWithoutVendorInput
   }
 
   export type UserUncheckedCreateWithoutComplaintsInput = {
@@ -18759,10 +21887,15 @@ export namespace Prisma {
     name?: string | null
     role: $Enums.UserType
     password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutUserInput
     stores?: StoreUncheckedCreateNestedManyWithoutVendorInput
     WarehouseDetails?: WarehouseDetailsUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    orders?: OrderUncheckedCreateNestedManyWithoutCustomerInput
+    vendorOrders?: OrderUncheckedCreateNestedManyWithoutVendorInput
+    Products?: ProductUncheckedCreateNestedManyWithoutVendorInput
+    storeAndProducts?: StoreAndProductUncheckedCreateNestedManyWithoutVendorInput
   }
 
   export type UserCreateOrConnectWithoutComplaintsInput = {
@@ -18775,8 +21908,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     product: ProductCreateNestedOneWithoutOrdersInput
-    vendor: UserCreateNestedOneWithoutOrdersInput
+    store: StoreCreateNestedOneWithoutOrdersInput
+    customer: UserCreateNestedOneWithoutOrdersInput
+    vendor: UserCreateNestedOneWithoutVendorOrdersInput
+    warehouse: WareHouseCreateNestedOneWithoutOrdersInput
     orderDetails?: OrderDetailsCreateNestedManyWithoutOrderInput
   }
 
@@ -18785,8 +21923,13 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     productId: string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
     orderDetails?: OrderDetailsUncheckedCreateNestedManyWithoutOrderInput
   }
 
@@ -18812,10 +21955,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUpdateManyWithoutUserNestedInput
     stores?: StoreUpdateManyWithoutVendorNestedInput
     WarehouseDetails?: WarehouseDetailsUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutVendorNestedInput
+    orders?: OrderUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUpdateManyWithoutVendorNestedInput
+    Products?: ProductUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUpdateManyWithoutVendorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutComplaintsInput = {
@@ -18824,10 +21972,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumUserTypeFieldUpdateOperationsInput | $Enums.UserType
     password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutUserNestedInput
     stores?: StoreUncheckedUpdateManyWithoutVendorNestedInput
     WarehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutCustomerNestedInput
+    vendorOrders?: OrderUncheckedUpdateManyWithoutVendorNestedInput
+    Products?: ProductUncheckedUpdateManyWithoutVendorNestedInput
+    storeAndProducts?: StoreAndProductUncheckedUpdateManyWithoutVendorNestedInput
   }
 
   export type OrderUpsertWithoutComplaintsInput = {
@@ -18846,8 +21999,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
-    vendor?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
     orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
   }
 
@@ -18856,8 +22014,13 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
   }
 
@@ -18868,7 +22031,9 @@ export namespace Prisma {
   export type StoreCreateManyVendorInput = {
     storeId?: string
     storeName: string
-    cityId: string
+    cityName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ComplaintCreateManyUserInput = {
@@ -18883,11 +22048,40 @@ export namespace Prisma {
     cityId: string
   }
 
+  export type OrderCreateManyCustomerInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    storeId: string
+    vendorId: string
+    warehouseId: string
+  }
+
   export type OrderCreateManyVendorInput = {
     orderId?: string
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    storeId: string
+    customerId: string
+    warehouseId: string
+  }
+
+  export type ProductCreateManyVendorInput = {
+    productId?: string
+    productName: string
+    productPrice: number
+  }
+
+  export type StoreAndProductCreateManyVendorInput = {
+    storeId: string
     productId: string
   }
 
@@ -18906,21 +22100,29 @@ export namespace Prisma {
   export type StoreUpdateWithoutVendorInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     city?: CityUpdateOneRequiredWithoutStoresNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutStoreNestedInput
+    orders?: OrderUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateWithoutVendorInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
-    cityId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutStoreNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateManyWithoutVendorInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
-    cityId?: StringFieldUpdateOperationsInput | string
+    cityName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ComplaintUpdateWithoutUserInput = {
@@ -18959,12 +22161,60 @@ export namespace Prisma {
     cityId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type OrderUpdateWithoutCustomerInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
+    orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutCustomerInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutCustomerInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type OrderUpdateWithoutVendorInput = {
     orderId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
     orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUpdateManyWithoutOrderNestedInput
   }
@@ -18974,7 +22224,12 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -18984,12 +22239,62 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ProductUpdateWithoutVendorInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productPrice?: FloatFieldUpdateOperationsInput | number
+    inventory?: WarehouseInventoryUpdateManyWithoutProductNestedInput
+    sales?: SalesUpdateManyWithoutProductNestedInput
+    orders?: OrderUpdateManyWithoutProductNestedInput
+    storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutVendorInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productPrice?: FloatFieldUpdateOperationsInput | number
+    inventory?: WarehouseInventoryUncheckedUpdateManyWithoutProductNestedInput
+    sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
+    storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateManyWithoutVendorInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productPrice?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type StoreAndProductUpdateWithoutVendorInput = {
+    store?: StoreUpdateOneRequiredWithoutStoreProductsNestedInput
+    product?: ProductUpdateOneRequiredWithoutStoreProductsNestedInput
+  }
+
+  export type StoreAndProductUncheckedUpdateWithoutVendorInput = {
+    storeId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type StoreAndProductUncheckedUpdateManyWithoutVendorInput = {
+    storeId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WarehouseInventoryCreateManyProductInput = {
+    warehouseId: string
+    quantity?: number
   }
 
   export type SalesCreateManyProductInput = {
     id?: string
-    productName: string
     quantity: number
     price: number
   }
@@ -18999,31 +22304,48 @@ export namespace Prisma {
     quantity: number
     totalPrice: number
     orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    storeId: string
+    customerId: string
     vendorId: string
+    warehouseId: string
   }
 
   export type StoreAndProductCreateManyProductInput = {
     storeId: string
-    productName?: string | null
+    vendorId: string
+  }
+
+  export type WarehouseInventoryUpdateWithoutProductInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    warehouse?: WareHouseUpdateOneRequiredWithoutWarehouseInventoryNestedInput
+  }
+
+  export type WarehouseInventoryUncheckedUpdateWithoutProductInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WarehouseInventoryUncheckedUpdateManyWithoutProductInput = {
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
   }
 
   export type SalesUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type SalesUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
 
   export type SalesUncheckedUpdateManyWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
   }
@@ -19033,7 +22355,12 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    vendor?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
     orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUpdateManyWithoutOrderNestedInput
   }
@@ -19043,7 +22370,12 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
     orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
     complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
   }
@@ -19053,22 +22385,27 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     totalPrice?: FloatFieldUpdateOperationsInput | number
     orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreAndProductUpdateWithoutProductInput = {
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
     store?: StoreUpdateOneRequiredWithoutStoreProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutStoreAndProductsNestedInput
   }
 
   export type StoreAndProductUncheckedUpdateWithoutProductInput = {
     storeId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreAndProductUncheckedUpdateManyWithoutProductInput = {
     storeId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type WareHouseCreateManyCityInput = {
@@ -19086,22 +22423,26 @@ export namespace Prisma {
     storeId?: string
     storeName: string
     vendorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type WareHouseUpdateWithoutCityInput = {
     warehouseId?: StringFieldUpdateOperationsInput | string
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
-    products?: ProductUpdateManyWithoutWarehouseNestedInput
     warehouseDetails?: WarehouseDetailsUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WareHouseUncheckedUpdateWithoutCityInput = {
     warehouseId?: StringFieldUpdateOperationsInput | string
     warehouseName?: StringFieldUpdateOperationsInput | string
     warehouseCapacity?: IntFieldUpdateOperationsInput | number
-    products?: ProductUncheckedUpdateManyWithoutWarehouseNestedInput
     warehouseDetails?: WarehouseDetailsUncheckedUpdateManyWithoutWarehouseNestedInput
+    warehouseInventory?: WarehouseInventoryUncheckedUpdateManyWithoutWarehouseNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutWarehouseNestedInput
   }
 
   export type WareHouseUncheckedUpdateManyWithoutCityInput = {
@@ -19128,27 +22469,29 @@ export namespace Prisma {
   export type StoreUpdateWithoutCityInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vendor?: UserUpdateOneRequiredWithoutStoresNestedInput
     storeProducts?: StoreAndProductUpdateManyWithoutStoreNestedInput
+    orders?: OrderUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateWithoutCityInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     storeProducts?: StoreAndProductUncheckedUpdateManyWithoutStoreNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutStoreNestedInput
   }
 
   export type StoreUncheckedUpdateManyWithoutCityInput = {
     storeId?: StringFieldUpdateOperationsInput | string
     storeName?: StringFieldUpdateOperationsInput | string
     vendorId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type ProductCreateManyWarehouseInput = {
-    productId?: string
-    productName: string
-    productPrice: number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WarehouseDetailsCreateManyWarehouseInput = {
@@ -19156,28 +22499,22 @@ export namespace Prisma {
     userId: string
   }
 
-  export type ProductUpdateWithoutWarehouseInput = {
-    productId?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    productPrice?: FloatFieldUpdateOperationsInput | number
-    sales?: SalesUpdateManyWithoutProductNestedInput
-    orders?: OrderUpdateManyWithoutProductNestedInput
-    storeProducts?: StoreAndProductUpdateManyWithoutProductNestedInput
+  export type WarehouseInventoryCreateManyWarehouseInput = {
+    productId: string
+    quantity?: number
   }
 
-  export type ProductUncheckedUpdateWithoutWarehouseInput = {
-    productId?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    productPrice?: FloatFieldUpdateOperationsInput | number
-    sales?: SalesUncheckedUpdateManyWithoutProductNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutProductNestedInput
-    storeProducts?: StoreAndProductUncheckedUpdateManyWithoutProductNestedInput
-  }
-
-  export type ProductUncheckedUpdateManyWithoutWarehouseInput = {
-    productId?: StringFieldUpdateOperationsInput | string
-    productName?: StringFieldUpdateOperationsInput | string
-    productPrice?: FloatFieldUpdateOperationsInput | number
+  export type OrderCreateManyWarehouseInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    storeId: string
+    customerId: string
+    vendorId: string
   }
 
   export type WarehouseDetailsUpdateWithoutWarehouseInput = {
@@ -19195,24 +22532,138 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
+  export type WarehouseInventoryUpdateWithoutWarehouseInput = {
+    quantity?: IntFieldUpdateOperationsInput | number
+    product?: ProductUpdateOneRequiredWithoutInventoryNestedInput
+  }
+
+  export type WarehouseInventoryUncheckedUpdateWithoutWarehouseInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type WarehouseInventoryUncheckedUpdateManyWithoutWarehouseInput = {
+    productId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type OrderUpdateWithoutWarehouseInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
+    store?: StoreUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutWarehouseInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutWarehouseInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type StoreAndProductCreateManyStoreInput = {
     productId: string
-    productName?: string | null
+    vendorId: string
+  }
+
+  export type OrderCreateManyStoreInput = {
+    orderId?: string
+    quantity: number
+    totalPrice: number
+    orderDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    productId: string
+    customerId: string
+    vendorId: string
+    warehouseId: string
   }
 
   export type StoreAndProductUpdateWithoutStoreInput = {
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
     product?: ProductUpdateOneRequiredWithoutStoreProductsNestedInput
+    vendor?: UserUpdateOneRequiredWithoutStoreAndProductsNestedInput
   }
 
   export type StoreAndProductUncheckedUpdateWithoutStoreInput = {
     productId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StoreAndProductUncheckedUpdateManyWithoutStoreInput = {
     productId?: StringFieldUpdateOperationsInput | string
-    productName?: NullableStringFieldUpdateOperationsInput | string | null
+    vendorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type OrderUpdateWithoutStoreInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutOrdersNestedInput
+    customer?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    vendor?: UserUpdateOneRequiredWithoutVendorOrdersNestedInput
+    warehouse?: WareHouseUpdateOneRequiredWithoutOrdersNestedInput
+    orderDetails?: OrderDetailsUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateWithoutStoreInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
+    orderDetails?: OrderDetailsUncheckedUpdateManyWithoutOrderNestedInput
+    complaints?: ComplaintUncheckedUpdateManyWithoutOrderNestedInput
+  }
+
+  export type OrderUncheckedUpdateManyWithoutStoreInput = {
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    totalPrice?: FloatFieldUpdateOperationsInput | number
+    orderDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    productId?: StringFieldUpdateOperationsInput | string
+    customerId?: StringFieldUpdateOperationsInput | string
+    vendorId?: StringFieldUpdateOperationsInput | string
+    warehouseId?: StringFieldUpdateOperationsInput | string
   }
 
   export type OrderDetailsCreateManyOrderInput = {

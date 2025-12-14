@@ -9,7 +9,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
 
 @Controller('products')
 @UseFilters(new HttpExceptionFilter())

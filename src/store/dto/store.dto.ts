@@ -1,37 +1,19 @@
 import { Prisma } from '@prisma/client';
-import { IsString } from 'class-validator';
-type StoreCreateType = Pick<
+import { IsNotEmpty, IsString } from 'class-validator';
+
+type CreateStore = Pick<
   Prisma.StoreCreateInput,
-  'storeId' | 'storeName' | 'city'
+  'storeName' | 'city' | 'vendor'
 >;
 
-type StoreUpdateType = Pick<
-  Prisma.StoreUpdateInput,
-  'city' | 'storeName' | 'storeId'
->;
-
-export class CreateStoreDto implements StoreCreateType {
+export class CreateStoreDto implements CreateStore {
   @IsString()
+  @IsNotEmpty()
   storeName: string;
 
+  @IsString()
   city: Prisma.CityCreateNestedOneWithoutStoresInput;
-  @IsString()
-  storeId: string;
 
-  @IsString()
-  store_name: string;
-
-  @IsString()
-  cityId: string;
-}
-
-export class UpdateStoreDto implements StoreUpdateType {
-  @IsString()
-  storeId: string;
-
-  @IsString()
-  store_name: string;
-
-  @IsString()
-  cityName: string;
+  @IsNotEmpty()
+  vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
 }
