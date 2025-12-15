@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "./generated/prisma"
+  output = "../generated/prisma"
 }
 
 datasource db {
@@ -22,11 +22,11 @@ model User {
 
   orderDetails     OrderDetails[]
   stores           Store[]
-  Complaints       Complaint[]
-  WarehouseDetails WarehouseDetails[]
+  complaints       Complaint[]
+  warehouseDetails WarehouseDetails[]
   orders           Order[] @relation("OrderCustomer")
   vendorOrders     Order[] @relation("OrderVendor") 
-  Products         Product[]
+  products         Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -57,7 +57,7 @@ model City {
 
   warehouses       WareHouse[]
   warehouseDetails WarehouseDetails[]
-  Stores           Store[]
+  stores           Store[]
 
   createdAt DateTime @default(now())
 }
