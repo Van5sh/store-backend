@@ -39,16 +39,20 @@ model Product {
   productName  String
   productPrice Float
 
-  vendorId    String
-  vendor      User @relation(fields: [vendorId], references: [userid])
+  vendorId String
+  vendor   User @relation(fields: [vendorId], references: [userid], onDelete: Cascade)
 
   inventory WarehouseInventory[]
-  sales  Sales[]
-  orders Order[]
+  sales     Sales[]
+  orders    Order[]
   storeProducts StoreAndProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([vendorId, productName])
 }
+
 
 model City {
   cityId   String @id @default(uuid())

@@ -1,5 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateProductDto } from './dto/product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -8,11 +13,11 @@ export class ProductsService {
     try {
       const products = await this.prisma.product.findMany();
       if (!products || products.length === 0) {
-        throw new Error('No products found');
+        throw new NotFoundException('No products found');
       }
       return products;
     } catch (error) {
-      throw new Error(`Error fetching products: ${error}`);
+      throw new BadRequestException(`Error fetching products: ${error}`);
     }
   }
 
@@ -24,11 +29,11 @@ export class ProductsService {
         },
       });
       if (!product) {
-        throw new Error('Product not found');
+        throw new NotFoundException('Product not found');
       }
       return product;
     } catch (error) {
-      throw new Error(`Error fetching product: ${error}`);
+      throw new BadRequestException(`Error fetching product: ${error}`);
     }
   }
 
@@ -38,11 +43,11 @@ export class ProductsService {
         where: { productName: name },
       });
       if (!product) {
-        throw new Error('Product not found');
+        throw new NotFoundException('Product not found');
       }
       return product;
     } catch (error) {
-      throw new Error(`Error fetching product: ${error}`);
+      throw new BadRequestException(`Error fetching product: ${error}`);
     }
   }
 
@@ -52,20 +57,23 @@ export class ProductsService {
         where: { storeId: id },
       });
     } catch (err) {
-      throw new Error(`Error:${err}`);
+      throw new BadRequestException(`Error: ${err}`);
     }
   }
-  async addProductToStore(storeId: string, productId: string) {
+  async createProduct(createProduct: CreateProductDto) {
     try {
-      const res = await this.prisma.storeAndProduct.create({
+      const res = await this.prisma.product.create({
         data: {
-          storeId: storeId,
-          productId: productId,
+          productName: createProduct.productName,
+          productPrice: createProduct.productPrice,
+          warehouse: {
+            connect: { warehouseId: createProduct.warehouseId },
+          },
         },
       });
       return res;
     } catch (err) {
-      throw new Error(`Error:${err}`);
+      throw new BadRequestException(`Error creating product: ${err}`);
     }
   }
 }

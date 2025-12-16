@@ -23,14 +23,22 @@ export class StoreService {
     });
   }
   async createStore(dto: CreateStoreDto) {
+    const existingStore = await this.getStoreByName(dto.storeName);
+    if (existingStore) {
+      throw new Error('Store with this name already exists');
+    }
+    const user = await this.prisma.user.findFirst({
+      where: { userid: dto.vendor as string },
+    });
+    if (user?.role !== 'vendor') {
+      throw new Error('Not a vendor');
+    }
     return this.prisma.store.create({
       data: {
         storeName: dto.storeName,
-
         vendor: {
           connect: { userid: dto.vendor as string },
         },
-
         city: {
           connect: { cityName: dto.cityName },
         },

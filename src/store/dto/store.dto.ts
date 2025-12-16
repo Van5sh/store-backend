@@ -16,5 +16,7 @@ export class CreateStoreDto implements CreateStore {
 
   @IsNotEmpty()
   vendor: Prisma.UserCreateNestedOneWithoutStoresInput;
+
+  @IsString()
   cityName: string | undefined;
 }

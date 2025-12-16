@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { CreateCityDto, UpdateCityDto } from './dto/create-city.dto';
 import { CityService } from './city.service';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
-import { RolesGuard } from 'src/common/gaurds/role.guard';
-import { Roles } from 'src/common/decorators/role.decorators';
-import { Public } from 'src/common/decorators/public.decorator';
+import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
+import { RolesGuard } from '../common/gaurds/role.guard';
+import { Roles } from '../common/decorators/role.decorators';
+import { Public } from '../common/decorators/public.decorator';
 import { UserType } from '@prisma/client';
 
 @Controller('city')

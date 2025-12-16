@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/users.dto';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
+import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
 
 @Controller('users')
 @UseFilters(new HttpExceptionFilter())

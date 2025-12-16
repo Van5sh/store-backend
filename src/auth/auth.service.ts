@@ -1,5 +1,5 @@
 import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserType } from '@prisma/client';
 
@@ -19,17 +19,12 @@ const asUserType = (role: string): UserType => {
   }
 
   const str = String(role).toLowerCase();
-
-  // Gather enum values (assumes UserType is a string enum)
   const allowed = Object.values(UserType).map((v) => String(v).toLowerCase());
-
   const idx = allowed.indexOf(str);
   if (idx === -1) {
     throw new HttpException('Invalid role', HttpStatus.BAD_REQUEST);
   }
 
-  // Return the matching original enum value (case preserved)
-  // find index in allowed and return corresponding Object.values(UserType)[idx]
   const originalValues = Object.values(UserType) as string[];
   return originalValues[idx] as UserType;
 };

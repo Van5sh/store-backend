@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Param,
-  Post,
   Body,
   UseFilters,
   HttpException,
@@ -49,21 +48,6 @@ export class ProductsController {
     } catch (error) {
       throw new HttpException(
         `Error fetching product by name: ${error}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
-  }
-
-  @Post('store')
-  async createProductInStore(
-    @Body('storeId') storeId: string,
-    @Body('productId') productId: string,
-  ) {
-    try {
-      return await this.productsService.addProductToStore(storeId, productId);
-    } catch (error) {
-      throw new HttpException(
-        `Error adding product to store: ${error}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

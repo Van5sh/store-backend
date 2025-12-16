@@ -25,6 +25,7 @@ import { AuthController } from './auth/auth.controller';
     ProductsModule,
     StoreModule,
     AuthModule,
+    WarehouseModule,
   ],
   controllers: [
     AppController,
