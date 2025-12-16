@@ -66,9 +66,13 @@ export class ProductsService {
         data: {
           productName: createProduct.productName,
           productPrice: createProduct.productPrice,
+          vendor: {
+            connect: { userid: createProduct.vendorId },
+          },
           warehouse: {
             connect: { warehouseId: createProduct.warehouseId },
           },
+          quantity: createProduct.quantity,
         },
       });
       return res;
