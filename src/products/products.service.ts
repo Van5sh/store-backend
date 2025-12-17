@@ -5,10 +5,12 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/product.dto';
+// import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
+  // prisma = new PrismaClient();
   async allProducts() {
     try {
       const products = await this.prisma.product.findMany();
@@ -61,23 +63,34 @@ export class ProductsService {
     }
   }
   async createProduct(createProduct: CreateProductDto) {
-    try {
-      const res = await this.prisma.product.create({
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.create({
         data: {
           productName: createProduct.productName,
           productPrice: createProduct.productPrice,
-          vendor: {
-            connect: { userid: createProduct.vendorId },
-          },
-          warehouse: {
-            connect: { warehouseId: createProduct.warehouseId },
-          },
-          quantity: createProduct.quantity,
+          vendorID: createProduct.vendorId,
         },
       });
-      return res;
-    } catch (err) {
-      throw new BadRequestException(`Error creating product: ${err}`);
-    }
+
+      await tx.warehouseInventory.create({
+        data: {
+          productId: product.productId,
+          warehouseId: createProduct.warehouseId,
+          quantity: 0,
+        },
+      });
+
+      // fetch product WITH inventory
+      return tx.product.findUnique({
+        where: { productId: product.productId },
+        include: {
+          inventory: {
+            include: {
+              warehouse: true,
+            },
+          },
+        },
+      });
+    });
   }
 }

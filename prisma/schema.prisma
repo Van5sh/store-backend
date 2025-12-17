@@ -39,8 +39,8 @@ model Product {
   productName  String
   productPrice Float
 
-  vendorId String
-  vendor   User @relation(fields: [vendorId], references: [userid], onDelete: Cascade)
+  vendorID String
+  vendor   User @relation(fields: [vendorID], references: [userid], onDelete: Cascade)
 
   inventory WarehouseInventory[]
   sales     Sales[]
@@ -50,7 +50,7 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([vendorId, productName])
+  @@unique([vendorID, productName])
 }
 
 

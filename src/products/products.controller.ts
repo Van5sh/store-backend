@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Post,
   Param,
   Body,
   UseFilters,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
+import { CreateProductDto } from './dto/product.dto';
 
 @Controller('products')
 @UseFilters(new HttpExceptionFilter())
@@ -48,6 +50,19 @@ export class ProductsController {
     } catch (error) {
       throw new HttpException(
         `Error fetching product by name: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  @Post()
+  async createProduct(@Body() createProductDto: CreateProductDto) {
+    try {
+      return await this.productsService.createProduct(createProductDto);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new HttpException(
+        `Error creating product: ${errorMessage}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

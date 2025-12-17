@@ -12,10 +12,10 @@ import {
 } from '@nestjs/common';
 import { WarehouseService } from './warehouse.service';
 import { CreateWarehouseDto } from './dto/create-warehouse.dto';
-import { HttpExceptionFilter } from 'src/global-filters/http-exception.filter';
-import { Roles } from 'src/common/decorators/role.decorators';
+import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
+import { Roles } from '../common/decorators/role.decorators';
 
-import { AuthGuard } from 'src/common/gaurds/auth.guard';
+import { AuthGuard } from '../common/gaurds/auth.guard';
 
 @Controller('warehouse')
 @UseFilters(new HttpExceptionFilter())
