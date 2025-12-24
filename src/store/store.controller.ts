@@ -49,16 +49,13 @@ export class StoreController {
 
   @UseGuards(RolesGuard)
   @Roles('admin', 'vendor')
-  @Post()
+  @Post('create')
   async createStore(@Body() createStoreDto: CreateStoreDto) {
     try {
       const store = await this.storeService.createStore(createStoreDto);
       return store;
     } catch (error) {
-      throw new HttpException(
-        `Error creating store: ${error}`,
-        HttpStatus.HTTP_VERSION_NOT_SUPPORTED,
-      );
+      console.error('Error creating store:', error);
     }
   }
 }

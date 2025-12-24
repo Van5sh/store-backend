@@ -1,67 +1,48 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/product.dto';
-// import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
-  // prisma = new PrismaClient();
+
   async allProducts() {
-    try {
-      const products = await this.prisma.product.findMany();
-      if (!products || products.length === 0) {
-        throw new NotFoundException('No products found');
-      }
-      return products;
-    } catch (error) {
-      throw new BadRequestException(`Error fetching products: ${error}`);
+    const products = await this.prisma.product.findMany();
+    if (!products.length) {
+      throw new NotFoundException('No products found');
     }
+    return products;
   }
 
   async findOneProduct(id: string) {
-    try {
-      const product = await this.prisma.product.findUnique({
-        where: {
-          productId: id,
-        },
-      });
-      if (!product) {
-        throw new NotFoundException('Product not found');
-      }
-      return product;
-    } catch (error) {
-      throw new BadRequestException(`Error fetching product: ${error}`);
+    const product = await this.prisma.product.findUnique({
+      where: { productId: id },
+    });
+    if (!product) {
+      throw new NotFoundException('Product not found');
     }
+    return product;
   }
 
   async findProductByName(name: string) {
-    try {
-      const product = await this.prisma.product.findFirst({
-        where: { productName: name },
-      });
-      if (!product) {
-        throw new NotFoundException('Product not found');
-      }
-      return product;
-    } catch (error) {
-      throw new BadRequestException(`Error fetching product: ${error}`);
+    const product = await this.prisma.product.findFirst({
+      where: { productName: name },
+    });
+    if (!product) {
+      throw new NotFoundException('Product not found');
     }
+    return product;
   }
 
   async getProductsByStoreId(id: string) {
-    try {
-      return this.prisma.storeAndProduct.findMany({
-        where: { storeId: id },
-      });
-    } catch (err) {
-      throw new BadRequestException(`Error: ${err}`);
-    }
+    return this.prisma.storeAndProduct.findMany({
+      where: { storeId: id },
+      include: {
+        product: true, // ✅ useful improvement
+      },
+    });
   }
+
   async createProduct(createProduct: CreateProductDto) {
     return this.prisma.$transaction(async (tx) => {
       const product = await tx.product.create({
@@ -80,7 +61,6 @@ export class ProductsService {
         },
       });
 
-      // fetch product WITH inventory
       return tx.product.findUnique({
         where: { productId: product.productId },
         include: {

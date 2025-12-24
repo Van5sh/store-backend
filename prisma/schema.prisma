@@ -1,7 +1,8 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../generated/prisma"
+  output   = "../generated/prisma"
 }
+
 
 datasource db {
   provider = "postgresql"
@@ -126,10 +127,11 @@ model Store {
   city   City @relation(fields: [cityName], references: [cityName])
 
   storeProducts StoreAndProduct[]
-
-  @@unique([vendorId, cityName])
   orders Order[]
+
+  @@unique([vendorId, cityName, storeName])
 }
+
 
 model StoreAndProduct {
   storeId   String

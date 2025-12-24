@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateStoreDto } from './dto/store.dto';
 
@@ -22,26 +26,35 @@ export class StoreService {
       },
     });
   }
+
   async createStore(dto: CreateStoreDto) {
-    const existingStore = await this.getStoreByName(dto.storeName);
-    if (existingStore) {
-      throw new Error('Store with this name already exists');
-    }
-    const user = await this.prisma.user.findFirst({
-      where: { userid: dto.vendor as string },
+    const existingStore = await this.prisma.store.findFirst({
+      where: {
+        storeName: dto.storeName,
+        vendorId: dto.vendorId,
+        cityName: dto.cityName,
+      },
     });
-    if (user?.role !== 'vendor') {
-      throw new Error('Not a vendor');
+
+    if (existingStore) {
+      throw new ConflictException(
+        'Store with this name already exists for this vendor in this city',
+      );
     }
+
+    const user = await this.prisma.user.findUnique({
+      where: { userid: dto.vendorId },
+    });
+
+    if (!user || user.role === 'customer') {
+      throw new ForbiddenException('Not a vendor');
+    }
+
     return this.prisma.store.create({
       data: {
         storeName: dto.storeName,
-        vendor: {
-          connect: { userid: dto.vendor as string },
-        },
-        city: {
-          connect: { cityName: dto.cityName },
-        },
+        vendor: { connect: { userid: dto.vendorId } },
+        city: { connect: { cityName: dto.cityName } },
       },
     });
   }

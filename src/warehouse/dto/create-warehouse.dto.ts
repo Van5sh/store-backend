@@ -16,7 +16,7 @@ export class CreateWarehouseDto {
 
   @IsString()
   @IsNotEmpty()
-  warehouseId!: string; // use camelCase in DTO
+  warehouseId!: string;
 
   @IsNumber()
   @IsNotEmpty()
@@ -26,7 +26,14 @@ export class CreateWarehouseDto {
   @IsNotEmpty()
   warehouseName!: string;
 
-  // optional list of product ids to connect to this warehouse
+  @IsString()
+  @IsNotEmpty()
+  cityID: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userID: string;
+
   @IsOptional()
   @IsArray()
   @ArrayNotEmpty()

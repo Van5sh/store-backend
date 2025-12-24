@@ -1,7 +1,7 @@
 // src/prisma/database.service.ts
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import type { Prisma } from '@prisma/client';
+import { Prisma } from '../../generated/prisma';
 
 @Injectable()
 export class DatabaseService {
