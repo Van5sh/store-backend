@@ -38,39 +38,55 @@ export class ProductsService {
     return this.prisma.storeAndProduct.findMany({
       where: { storeId: id },
       include: {
-        product: true, // ✅ useful improvement
+        product: true,
       },
     });
   }
 
+  // async createProduct(createProduct: CreateProductDto) {
+  //   return this.prisma.$transaction(async (tx) => {
+  //     const product = await tx.product.create({
+  //       data: {
+  //         productName: createProduct.productName,
+  //         productPrice: createProduct.productPrice,
+  //         vendorID: createProduct.vendorId,
+  //       },
+  //     });
+
+  //     await tx.warehouseInventory.create({
+  //       data: {
+  //         productId: product.productId,
+  //         warehouseId: createProduct.warehouseId,
+  //         quantity: 0,
+  //       },
+  //     });
+
+  //     return tx.product.findUnique({
+  //       where: { productId: product.productId },
+  //       include: {
+  //         inventory: {
+  //           include: {
+  //             warehouse: true,
+  //           },
+  //         },
+  //       },
+  //     });
+  //   });
   async createProduct(createProduct: CreateProductDto) {
-    return this.prisma.$transaction(async (tx) => {
-      const product = await tx.product.create({
-        data: {
-          productName: createProduct.productName,
-          productPrice: createProduct.productPrice,
-          vendorID: createProduct.vendorId,
-        },
-      });
-
-      await tx.warehouseInventory.create({
-        data: {
-          productId: product.productId,
-          warehouseId: createProduct.warehouseId,
-          quantity: 0,
-        },
-      });
-
-      return tx.product.findUnique({
-        where: { productId: product.productId },
-        include: {
-          inventory: {
-            include: {
-              warehouse: true,
-            },
+    const product = await this.prisma.product.create({
+      data: {
+        productName: createProduct.productName,
+        productPrice: createProduct.productPrice,
+        vendorID: createProduct.vendorId,
+      },
+      include: {
+        inventory: {
+          include: {
+            warehouse: true,
           },
         },
-      });
+      },
     });
+    return product;
   }
 }

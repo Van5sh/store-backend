@@ -56,7 +56,7 @@ export class WarehouseController {
   }
 
   @Post()
-  @Roles('vendor')
+  @Roles('vendor', 'admin')
   async createWarehouse(@Body() data: CreateWarehouseDto) {
     try {
       const warehouse = await this.warehouseService.createWarehouse(data);

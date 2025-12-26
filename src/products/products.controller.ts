@@ -7,13 +7,17 @@ import {
   UseFilters,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
 import { CreateProductDto } from './dto/product.dto';
+import { AuthGuard } from '../common/gaurds/auth.guard';
+import { Roles } from '../common/decorators/role.decorators';
 
 @Controller('products')
 @UseFilters(new HttpExceptionFilter())
+@UseGuards(AuthGuard)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -55,6 +59,7 @@ export class ProductsController {
     }
   }
   @Post()
+  @Roles('vendor', 'admin')
   async createProduct(@Body() createProductDto: CreateProductDto) {
     try {
       return await this.productsService.createProduct(createProductDto);

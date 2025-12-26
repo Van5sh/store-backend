@@ -33,14 +33,22 @@ export class WarehouseService {
   }
 
   async createWarehouse(data: CreateWarehouseDto) {
+    const warehouseExists = await this.prisma.wareHouse.findFirst({
+      where: {
+        warehouseName: data.warehouseName,
+      },
+    });
+    if (warehouseExists) {
+      throw new Error('Warehouse with this name already exists');
+    }
     return this.prisma.wareHouse.create({
       data: {
         warehouseName: data.warehouseName,
         warehouseCapacity: data.warehouseCapacity,
-        city: { connect: { cityId: data.cityId } },
+        city: { connect: { cityId: data.cityID } },
         warehouseDetails: {
           create: {
-            cityId: data.cityId,
+            cityId: data.cityID,
             userId: data.userID,
           },
         },
@@ -54,7 +62,7 @@ export class WarehouseService {
 
   async updateWarehouse(data: UpdateWarehouseDto) {
     return this.prisma.wareHouse.update({
-      where: { warehouseId: data.warehouseId },
+      where: { warehouseId: data.warehouseID },
       data: {
         warehouseName: data.warehouseName,
         warehouseCapacity: data.warehouseCapacity,

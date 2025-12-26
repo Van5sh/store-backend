@@ -10,14 +10,6 @@ import {
 import { PartialType } from '@nestjs/mapped-types';
 
 export class CreateWarehouseDto {
-  @IsString()
-  @IsNotEmpty()
-  cityId!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  warehouseId!: string;
-
   @IsNumber()
   @IsNotEmpty()
   warehouseCapacity!: number;
@@ -41,5 +33,5 @@ export class CreateWarehouseDto {
 }
 
 export class UpdateWarehouseDto extends PartialType(CreateWarehouseDto) {
-  city: any;
+  warehouseID!: string;
 }
