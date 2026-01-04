@@ -3,7 +3,6 @@ generator client {
   output   = "../generated/prisma"
 }
 
-
 datasource db {
   provider = "postgresql"
 }
@@ -15,8 +14,8 @@ enum UserType {
 }
 
 model User {
-  userid           String             @id @default(uuid())
-  email            String             @unique
+  userid           String   @id @default(uuid())
+  email            String   @unique
   name             String?
   role             UserType
   password         String
@@ -26,13 +25,11 @@ model User {
   complaints       Complaint[]
   warehouseDetails WarehouseDetails[]
   orders           Order[] @relation("OrderCustomer")
-  vendorOrders     Order[] @relation("OrderVendor") 
-  products         Product[]
+  vendorOrders     Order[] @relation("OrderVendor")
+  storeAndProducts StoreAndProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  storeAndProducts StoreAndProduct[]
 }
 
 model Product {
@@ -40,20 +37,14 @@ model Product {
   productName  String
   productPrice Float
 
-  vendorID String
-  vendor   User @relation(fields: [vendorID], references: [userid], onDelete: Cascade)
-
-  inventory WarehouseInventory[]
-  sales     Sales[]
-  orders    Order[]
+  inventory     WarehouseInventory[]
+  sales         Sales[]
+  orders        Order[]
   storeProducts StoreAndProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  @@unique([vendorID, productName])
 }
-
 
 model City {
   cityId   String @id @default(uuid())
@@ -73,12 +64,11 @@ model WareHouse {
   warehouseCapacity Int
 
   cityId String
-  city   City   @relation(fields: [cityId], references: [cityId])
+  city   City @relation(fields: [cityId], references: [cityId])
 
-  warehouseDetails WarehouseDetails[]
+  warehouseDetails   WarehouseDetails[]
   warehouseInventory WarehouseInventory[]
-
-  orders Order[]
+  orders              Order[]
 }
 
 model WarehouseDetails {
@@ -90,27 +80,19 @@ model WarehouseDetails {
   city      City      @relation(fields: [cityId], references: [cityId])
   user      User      @relation(fields: [userId], references: [userid])
 
-  @@id([cityId, warehouseId,userId])
+  @@id([cityId, warehouseId, userId])
 }
 
 model WarehouseInventory {
   warehouseId String
   productId   String
 
-  quantity    Int    @default(0)
-  warehouse   WareHouse @relation(fields: [warehouseId], references: [warehouseId], onDelete: Cascade)
-  product     Product   @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  quantity Int @default(0)
+
+  warehouse WareHouse @relation(fields: [warehouseId], references: [warehouseId], onDelete: Cascade)
+  product   Product   @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
   @@id([warehouseId, productId])
-}
-
-model Sales {
-  id          String @id @default(uuid())
-  productId   String
-  quantity    Int
-  price       Float
-
-  product   Product @relation(fields: [productId], references: [productId])
 }
 
 model Store {
@@ -120,18 +102,17 @@ model Store {
   vendorId String
   cityName String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
   vendor User @relation(fields: [vendorId], references: [userid])
   city   City @relation(fields: [cityName], references: [cityName])
 
   storeProducts StoreAndProduct[]
-  orders Order[]
+  orders        Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([vendorId, cityName, storeName])
 }
-
 
 model StoreAndProduct {
   storeId   String
@@ -141,9 +122,9 @@ model StoreAndProduct {
   store   Store   @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
   vendor  User    @relation(fields: [vendorId], references: [userid], onDelete: Cascade)
-  @@id([storeId, productId,vendorId])
-}
 
+  @@id([storeId, productId, vendorId])
+}
 
 model Order {
   orderId    String   @id @default(uuid())
@@ -151,38 +132,46 @@ model Order {
   totalPrice Float
   orderDate  DateTime @default(now())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
   productId String
   product   Product @relation(fields: [productId], references: [productId])
 
-  storeId   String
-  store     Store   @relation(fields: [storeId], references: [storeId])
+  storeId String
+  store   Store @relation(fields: [storeId], references: [storeId])
 
   customerId String
-  customer   User   @relation(name: "OrderCustomer",fields: [customerId], references: [userid])
+  customer   User @relation("OrderCustomer", fields: [customerId], references: [userid])
 
   vendorId String
-  vendor   User   @relation(name: "OrderVendor",fields: [vendorId], references: [userid])
+  vendor   User @relation("OrderVendor", fields: [vendorId], references: [userid])
 
   warehouseId String
   warehouse   WareHouse @relation(fields: [warehouseId], references: [warehouseId])
 
   orderDetails OrderDetails[]
   complaints   Complaint[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model OrderDetails {
   orderId String
   userId  String
 
-  order Order @relation(fields: [orderId], references: [orderId],onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [userid],onDelete: Cascade)
+  order Order @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [userid], onDelete: Cascade)
 
   @@id([orderId, userId])
 }
 
+model Sales {
+  id        String @id @default(uuid())
+  productId String
+  quantity  Int
+  price     Float
+
+  product Product @relation(fields: [productId], references: [productId])
+}
 
 model Complaint {
   complaintId String   @id @default(uuid())
@@ -190,7 +179,8 @@ model Complaint {
   createdAt   DateTime @default(now())
 
   userId  String
-  user    User   @relation(fields: [userId], references: [userid],onDelete: Cascade)
   orderId String
-  order   Order  @relation(fields: [orderId], references: [orderId],onDelete: Cascade)
+
+  user  User  @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  order Order @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
 }

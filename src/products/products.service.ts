@@ -89,4 +89,45 @@ export class ProductsService {
     });
     return product;
   }
+  async createOrder(productId: string, quantity: number, userId: string) {
+    return this.prisma.$transaction(async (tx) => {
+      const product = await tx.product.findUnique({
+        where: { productId },
+      });
+      if (!product) {
+        throw new NotFoundException('Product not found');
+      }
+      const data = await tx.warehouseInventory.findFirst({
+        where: { productId },
+      });
+      if (!data || data.quantity < quantity) {
+        throw new NotFoundException('Insufficient inventory');
+      }
+      const storeData = await tx.storeAndProduct.findFirst({
+        where: { productId },
+      });
+      if (!storeData) {
+        throw new NotFoundException('Store not found for this product');
+      }
+      await tx.warehouseInventory.updateMany({
+        where: { productId },
+        data: {
+          quantity: {
+            decrement: quantity,
+          },
+        },
+      });
+      return tx.order.create({
+        data: {
+          productId,
+          quantity,
+          warehouseId: data.warehouseId,
+          storeId: storeData.storeId,
+          customerId: userId,
+          vendorId: storeData.vendorId,
+          totalPrice: product.productPrice * quantity,
+        },
+      });
+    });
+  }
 }
