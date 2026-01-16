@@ -16,6 +16,7 @@ import { AuthController } from './auth/auth.controller';
 // import { APP_GUARD } from '@nestjs/core';
 // import { AuthGuard } from './common/gaurds/auth.guard';
 import { WarehouseModule } from './warehouse/warehouse.module';
+import { ComplaintsModule } from './complaints/complaints.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { WarehouseModule } from './warehouse/warehouse.module';
     StoreModule,
     AuthModule,
     WarehouseModule,
+    ComplaintsModule,
   ],
   controllers: [
     AppController,

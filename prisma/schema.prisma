@@ -13,6 +13,22 @@ enum UserType {
   admin
 }
 
+enum OrderStatus {
+  pending
+  shipped
+  delivered
+  cancelled
+}
+
+enum ProductCategory {
+  electronics
+  clothing
+  home_appliances
+  books
+  toys
+  sports  
+}
+
 model User {
   userid           String   @id @default(uuid())
   email            String   @unique
@@ -36,6 +52,7 @@ model Product {
   productId    String @id @default(uuid())
   productName  String
   productPrice Float
+  category     ProductCategory @default(electronics)
 
   inventory     WarehouseInventory[]
   sales         Sales[]
@@ -131,6 +148,7 @@ model Order {
   quantity   Int
   totalPrice Float
   orderDate  DateTime @default(now())
+  status     OrderStatus @default(pending)
 
   productId String
   product   Product @relation(fields: [productId], references: [productId])

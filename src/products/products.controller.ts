@@ -21,7 +21,6 @@ import { Roles } from '../common/decorators/role.decorators';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  // GET /products
   @Get()
   async allProducts() {
     try {
@@ -34,7 +33,6 @@ export class ProductsController {
     }
   }
 
-  // GET /products/:id
   @Get(':id')
   async findProductById(@Param('id') id: string) {
     try {
