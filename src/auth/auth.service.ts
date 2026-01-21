@@ -1,7 +1,7 @@
 import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserType } from '@prisma/client';
+import { UserType } from '../../generated/prisma';
 
 export interface JwtPayload {
   username: string;

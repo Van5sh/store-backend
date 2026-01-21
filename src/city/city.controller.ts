@@ -16,7 +16,7 @@ import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
 import { RolesGuard } from '../common/gaurds/role.guard';
 import { Roles } from '../common/decorators/role.decorators';
 import { Public } from '../common/decorators/public.decorator';
-import { UserType } from '@prisma/client';
+import { UserType } from '../../generated/prisma';
 
 @Controller('city')
 @UseGuards(RolesGuard)

@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { $Enums, Prisma } from '@prisma/client';
+import { $Enums, Prisma } from '../../../generated/prisma';
 
 type UserCreateInput = Pick<
   Prisma.UserCreateInput,

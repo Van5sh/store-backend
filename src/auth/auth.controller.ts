@@ -1,6 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { $Enums } from '@prisma/client';
+import { $Enums } from '../../generated/prisma';
 import { Public } from '../common/decorators/public.decorator';
 
 @Public()

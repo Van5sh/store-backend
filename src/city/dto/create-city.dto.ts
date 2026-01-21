@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty } from 'class-validator';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../../../generated/prisma';
 
 type CityCreateType = Pick<Prisma.CityCreateInput, 'cityName' | 'state'>;
 type CityUpdateType = Pick<Prisma.CityUpdateInput, 'cityName' | 'state'>;

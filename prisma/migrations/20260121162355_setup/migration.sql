@@ -1,6 +1,12 @@
 -- CreateEnum
 CREATE TYPE "UserType" AS ENUM ('vendor', 'customer', 'admin');
 
+-- CreateEnum
+CREATE TYPE "OrderStatus" AS ENUM ('pending', 'shipped', 'delivered', 'cancelled');
+
+-- CreateEnum
+CREATE TYPE "ProductCategory" AS ENUM ('electronics', 'clothing', 'home_appliances', 'books', 'toys', 'sports');
+
 -- CreateTable
 CREATE TABLE "User" (
     "userid" TEXT NOT NULL,
@@ -19,7 +25,7 @@ CREATE TABLE "Product" (
     "productId" TEXT NOT NULL,
     "productName" TEXT NOT NULL,
     "productPrice" DOUBLE PRECISION NOT NULL,
-    "vendorID" TEXT NOT NULL,
+    "category" "ProductCategory" NOT NULL DEFAULT 'electronics',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -65,16 +71,6 @@ CREATE TABLE "WarehouseInventory" (
 );
 
 -- CreateTable
-CREATE TABLE "Sales" (
-    "id" TEXT NOT NULL,
-    "productId" TEXT NOT NULL,
-    "quantity" INTEGER NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
-
-    CONSTRAINT "Sales_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Store" (
     "storeId" TEXT NOT NULL,
     "storeName" TEXT NOT NULL,
@@ -101,13 +97,14 @@ CREATE TABLE "Order" (
     "quantity" INTEGER NOT NULL,
     "totalPrice" DOUBLE PRECISION NOT NULL,
     "orderDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "status" "OrderStatus" NOT NULL DEFAULT 'pending',
     "productId" TEXT NOT NULL,
     "storeId" TEXT NOT NULL,
     "customerId" TEXT NOT NULL,
     "vendorId" TEXT NOT NULL,
     "warehouseId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Order_pkey" PRIMARY KEY ("orderId")
 );
@@ -118,6 +115,16 @@ CREATE TABLE "OrderDetails" (
     "userId" TEXT NOT NULL,
 
     CONSTRAINT "OrderDetails_pkey" PRIMARY KEY ("orderId","userId")
+);
+
+-- CreateTable
+CREATE TABLE "Sales" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+
+    CONSTRAINT "Sales_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -135,16 +142,10 @@ CREATE TABLE "Complaint" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Product_vendorID_productName_key" ON "Product"("vendorID", "productName");
-
--- CreateIndex
 CREATE UNIQUE INDEX "City_cityName_key" ON "City"("cityName");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Store_vendorId_cityName_key" ON "Store"("vendorId", "cityName");
-
--- AddForeignKey
-ALTER TABLE "Product" ADD CONSTRAINT "Product_vendorID_fkey" FOREIGN KEY ("vendorID") REFERENCES "User"("userid") ON DELETE CASCADE ON UPDATE CASCADE;
+CREATE UNIQUE INDEX "Store_vendorId_cityName_storeName_key" ON "Store"("vendorId", "cityName", "storeName");
 
 -- AddForeignKey
 ALTER TABLE "WareHouse" ADD CONSTRAINT "WareHouse_cityId_fkey" FOREIGN KEY ("cityId") REFERENCES "City"("cityId") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -163,9 +164,6 @@ ALTER TABLE "WarehouseInventory" ADD CONSTRAINT "WarehouseInventory_warehouseId_
 
 -- AddForeignKey
 ALTER TABLE "WarehouseInventory" ADD CONSTRAINT "WarehouseInventory_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("productId") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Sales" ADD CONSTRAINT "Sales_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("productId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Store" ADD CONSTRAINT "Store_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "User"("userid") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -202,6 +200,9 @@ ALTER TABLE "OrderDetails" ADD CONSTRAINT "OrderDetails_orderId_fkey" FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE "OrderDetails" ADD CONSTRAINT "OrderDetails_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userid") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sales" ADD CONSTRAINT "Sales_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("productId") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Complaint" ADD CONSTRAINT "Complaint_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("userid") ON DELETE CASCADE ON UPDATE CASCADE;
