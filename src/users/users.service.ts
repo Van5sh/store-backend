@@ -6,9 +6,23 @@ import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
+  async findAll(page = 1, limit = 10) {
     try {
-      return this.prisma.user.findMany();
+      const skip=(page-1)*limit;
+      const [users, total]= await Promise.all([
+        this.prisma.user.findMany({
+          skip,
+          take: limit,
+          orderBy: { createdAt: 'asc' },
+        }),
+        this.prisma.user.count()
+      ]);
+      return ({
+        data:users,
+        total,
+        page,
+        last_page: Math.ceil(total/limit)
+      });
     } catch (error) {
       throw new Error(`Error fetching users: ${error}`);
     }

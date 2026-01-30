@@ -7,6 +7,7 @@ import {
   HttpException,
   HttpStatus,
   UseFilters,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/users.dto';
@@ -18,10 +19,10 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get()
-  async findAll() {
+  async findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
     try {
-      const users = await this.userService.findAll();
-      if (!users || users.length === 0) {
+      const users = await this.userService.findAll(Number(page), Number(limit));
+      if (!users || users.data.length === 0) {
         throw new HttpException('No users found', HttpStatus.NOT_FOUND);
       }
       return users;
@@ -38,7 +39,7 @@ export class UsersController {
     try {
       const user = await this.userService.findOne(id);
       if (!user) {
-        throw new Error('User not found');
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
       return user;
     } catch (error) {
