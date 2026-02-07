@@ -11,9 +11,11 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
-import { CreateProductDto } from './dto/product.dto';
+import { ProductDtoCreate } from './dto/create-product.dto';
 import { AuthGuard } from '../common/gaurds/auth.guard';
 import { Roles } from '../common/decorators/role.decorators';
+import { OrderStatus } from '../../generated/prisma';
+import { CreateProductDto } from './dto/product.dto';
 
 @Controller('products')
 @UseFilters(new HttpExceptionFilter())
@@ -58,7 +60,7 @@ export class ProductsController {
   }
   @Post()
   @Roles('vendor', 'admin')
-  async createProduct(@Body() createProductDto: CreateProductDto) {
+  async createProduct(@Body() createProductDto: ProductDtoCreate) {
     try {
       return await this.productsService.createProduct(createProductDto);
     } catch (error) {
@@ -66,6 +68,44 @@ export class ProductsController {
         error instanceof Error ? error.message : String(error);
       throw new HttpException(
         `Error creating product: ${errorMessage}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('store/:id')
+  async getOrdersByUserId(@Param('id') id: string) {
+    try {
+      return await this.productsService.getProductsByStoreId(id);
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching products by store ID: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Get('store/:id')
+  async getHistortyOrdersByUserId(@Param('id') id: string, @Param('status') status: string) {
+    try {
+      return await this.productsService.getHistoryOrdersByUserId(id, status as OrderStatus);
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching history orders by user ID: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  @Post('order')
+  async createOrder(@Body() createOrderDto: CreateProductDto) {
+    try {
+      return await this.productsService.createOrder(createOrderDto.productId, createOrderDto.quantiy, createOrderDto.userId);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new HttpException(
+        `Error creating order: ${errorMessage}`,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

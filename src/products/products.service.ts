@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/product.dto';
+import { ProductDtoCreate } from './dto/create-product.dto';
 import { OrderStatus } from '../../generated/prisma';
 
 @Injectable()
@@ -44,7 +45,7 @@ export class ProductsService {
     });
   }
 
-  async createProduct(createProductDto: CreateProductDto) {
+  async createProduct(createProductDto: ProductDtoCreate) {
     return this.prisma.$transaction(async (tx) => {
       const product = await tx.product.create({
         data: {
@@ -87,7 +88,7 @@ export class ProductsService {
       return 'UserID is required';
     }
     const orders = await this.prisma.order.findMany({
-      where: { customerId: userId, status},
+      where: { customerId: userId, status: status },
       orderBy: { createdAt: 'desc' },
     });
     return orders;

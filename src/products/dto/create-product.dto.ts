@@ -1,3 +1,4 @@
+// import { ProductCategory } from './../../../generated/prisma/index.d';
 import { Prisma } from '../../../generated/prisma';
 import { IsEnum, IsNumber, IsString } from 'class-validator';
 
@@ -5,6 +6,7 @@ type UpdateProductType = Pick<
   Prisma.ProductUpdateInput,
   'productName' | 'productPrice'
 >;
+
 
 enum ProductCategory {
   electronics = 'electronics',
@@ -15,30 +17,22 @@ enum ProductCategory {
   sports = 'sports',
 }
 
-export class CreateProductDto {
-  @IsString()
-  productId: string;
-  
-  // @IsString()
-  // productName: string;
-
-  @IsNumber()
-  quantiy: number;
-
-  @IsString()
-  userId: string;
-
-  @IsEnum(ProductCategory)
-  productCategory: ProductCategory;
-}
-
-export class UpdateProductDto implements UpdateProductType {
+export class ProductDtoCreate {
   @IsString()
   productName: string;
 
   @IsNumber()
   productPrice: number;
+  
+  @IsString()
+  vendorId: string;
 
   @IsString()
-  category: ProductCategory;
+  warehouseId: string;
+
+  @IsNumber()
+  quantity: number;
+
+  @IsEnum(ProductCategory)
+  productCategory: ProductCategory;
 }
