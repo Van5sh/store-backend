@@ -26,37 +26,38 @@ enum ProductCategory {
   home_appliances
   books
   toys
-  sports  
+  sports
 }
 
 model User {
-  userid           String   @id @default(uuid())
-  email            String   @unique
-  name             String?
-  role             UserType
-  password         String
+  userid   String   @id @default(uuid())
+  email    String   @unique
+  name     String?
+  role     UserType
+  password String
 
   orderDetails     OrderDetails[]
   stores           Store[]
   complaints       Complaint[]
   warehouseDetails WarehouseDetails[]
-  orders           Order[] @relation("OrderCustomer")
-  vendorOrders     Order[] @relation("OrderVendor")
+  orders           Order[]            @relation("OrderCustomer")
+  vendorOrders     Order[]            @relation("OrderVendor")
   storeAndProducts StoreAndProduct[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  complaintDetails ComplaintDetails[]
 }
 
 model Product {
-  productId    String @id @default(uuid())
+  productId    String          @id @default(uuid())
   productName  String
   productPrice Float
   category     ProductCategory @default(electronics)
 
   inventory     WarehouseInventory[]
   sales         Sales[]
-  orders        Order[]
+  orders        Order[]              @relation("ProductOrders")
   storeProducts StoreAndProduct[]
 
   createdAt DateTime @default(now())
@@ -81,11 +82,11 @@ model WareHouse {
   warehouseCapacity Int
 
   cityId String
-  city   City @relation(fields: [cityId], references: [cityId])
+  city   City   @relation(fields: [cityId], references: [cityId])
 
   warehouseDetails   WarehouseDetails[]
   warehouseInventory WarehouseInventory[]
-  orders              Order[]
+  orders             Order[]
 }
 
 model WarehouseDetails {
@@ -123,7 +124,7 @@ model Store {
   city   City @relation(fields: [cityName], references: [cityName])
 
   storeProducts StoreAndProduct[]
-  orders        Order[]
+  orders        Order[]           @relation("StoreOrders")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -144,23 +145,23 @@ model StoreAndProduct {
 }
 
 model Order {
-  orderId    String   @id @default(uuid())
+  orderId    String      @id @default(uuid())
   quantity   Int
   totalPrice Float
-  orderDate  DateTime @default(now())
+  orderDate  DateTime    @default(now())
   status     OrderStatus @default(pending)
 
   productId String
-  product   Product @relation(fields: [productId], references: [productId])
+  product   Product @relation("ProductOrders", fields: [productId], references: [productId])
 
   storeId String
-  store   Store @relation(fields: [storeId], references: [storeId])
+  store   Store  @relation("StoreOrders", fields: [storeId], references: [storeId])
 
   customerId String
-  customer   User @relation("OrderCustomer", fields: [customerId], references: [userid])
+  customer   User   @relation("OrderCustomer", fields: [customerId], references: [userid])
 
   vendorId String
-  vendor   User @relation("OrderVendor", fields: [vendorId], references: [userid])
+  vendor   User   @relation("OrderVendor", fields: [vendorId], references: [userid])
 
   warehouseId String
   warehouse   WareHouse @relation(fields: [warehouseId], references: [warehouseId])
@@ -168,8 +169,9 @@ model Order {
   orderDetails OrderDetails[]
   complaints   Complaint[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  complaintDetails ComplaintDetails[]
 }
 
 model OrderDetails {
@@ -193,12 +195,27 @@ model Sales {
 
 model Complaint {
   complaintId String   @id @default(uuid())
+  title       String
   content     String
+  priority    Int
   createdAt   DateTime @default(now())
 
-  userId  String
-  orderId String
+  userId String
+  user   User   @relation(fields: [userId], references: [userid])
 
-  user  User  @relation(fields: [userId], references: [userid], onDelete: Cascade)
-  order Order @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [orderId])
+
+  complaintDetails ComplaintDetails[]
+}
+
+model ComplaintDetails {
+  id          String @id @default(uuid())
+  complaintId String
+  userId      String
+  orderId     String
+
+  user      User      @relation(fields: [userId], references: [userid], onDelete: Cascade)
+  order     Order     @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  complaint Complaint @relation(fields: [complaintId], references: [complaintId], onDelete: Cascade)
 }

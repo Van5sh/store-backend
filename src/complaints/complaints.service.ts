@@ -5,7 +5,7 @@ import { UpdateComplaintDto } from './dto/update-complaint.dto';
 @Injectable()
 export class ComplaintsService {
   create(createComplaintDto: CreateComplaintDto) {
-    return 'This action adds a new complaint';
+    
   }
 
   findAll() {
