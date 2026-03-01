@@ -202,6 +202,7 @@ model Complaint {
   content     String
   priority    Int
   createdAt   DateTime @default(now())
+  deliveryDate DateTime
 
   userId String
   user   User @relation(fields: [userId], references: [userid])

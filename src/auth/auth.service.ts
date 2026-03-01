@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserType } from '../../generated/prisma';
 
 export interface JwtPayload {
+  userId:string
   username: string;
   role: UserType;
   admin?: boolean;
@@ -47,8 +48,6 @@ export class AuthService {
           message: 'User not found',
         };
       }
-
-      // NOTE: this is plain-text comparison. In a real app, use bcrypt.
       if (user.password !== password) {
         throw new HttpException(
           {
@@ -61,6 +60,7 @@ export class AuthService {
       }
 
       const payload: JwtPayload = {
+        userId: user.userid,
         username: user.name ?? '',
         role: user.role,
       };
@@ -74,6 +74,9 @@ export class AuthService {
       }
 
       return {
+        id: user.userid,
+        name: user.name,
+        email: user.email,
         role: user.role,
         access_token: this.jwtService.sign(payload),
       };

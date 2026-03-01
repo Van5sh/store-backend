@@ -17,6 +17,7 @@ import { AuthController } from './auth/auth.controller';
 // import { AuthGuard } from './common/gaurds/auth.guard';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { ComplaintsModule } from './complaints/complaints.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ComplaintsModule } from './complaints/complaints.module';
     AuthModule,
     WarehouseModule,
     ComplaintsModule,
+    OrderModule,
   ],
   controllers: [
     AppController,

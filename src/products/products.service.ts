@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateProductDto } from './dto/product.dto';
 import { ProductDtoCreate } from './dto/create-product.dto';
-import { OrderStatus } from '../../generated/prisma';
+import { ProductCategory } from '../../generated/prisma';
 
 @Injectable()
 export class ProductsService {
@@ -36,6 +35,16 @@ export class ProductsService {
     return product;
   }
 
+  async getProductsByType(type: ProductCategory) {
+    const products = await this.prisma.product.findMany({
+      where: { category: type },
+    });
+    if (!products.length) {
+      throw new NotFoundException('No products found for this type');
+    }
+    return products;
+  }
+
   async getProductsByStoreId(id: string) {
     return this.prisma.storeAndProduct.findMany({
       where: { storeId: id },
@@ -58,7 +67,7 @@ export class ProductsService {
         data: {
           vendorId: createProductDto.vendorId,
           productId: product.productId,
-          storeId: 'default-store-id',
+          storeId: createProductDto.storeId,
         },
       });
       await tx.warehouseInventory.create({
@@ -72,67 +81,4 @@ export class ProductsService {
     });
   }
 
-  async getOrdersByUserId(userId: string) {
-    if (!userId) {
-      return 'UserID is required';
-    }
-    const orders = await this.prisma.order.findMany({
-      where: { customerId: userId },
-      orderBy: { createdAt: 'desc' },
-    });
-    return orders;
-  }
-
-  async getHistoryOrdersByUserId(userId: string, status: OrderStatus) {
-    if (!userId) {
-      return 'UserID is required';
-    }
-    const orders = await this.prisma.order.findMany({
-      where: { customerId: userId, status: status },
-      orderBy: { createdAt: 'desc' },
-    });
-    return orders;
-  }
-
-  async createOrder(productId: string, quantity: number, userId: string) {
-    return this.prisma.$transaction(async (tx) => {
-      const product = await tx.product.findUnique({
-        where: { productId },
-      });
-      if (!product) {
-        throw new NotFoundException('Product not found');
-      }
-      const data = await tx.warehouseInventory.findFirst({
-        where: { productId },
-      });
-      if (!data || data.quantity < quantity) {
-        throw new NotFoundException('Insufficient inventory');
-      }
-      const storeData = await tx.storeAndProduct.findFirst({
-        where: { productId },
-      });
-      if (!storeData) {
-        throw new NotFoundException('Store not found for this product');
-      }
-      await tx.warehouseInventory.updateMany({
-        where: { productId },
-        data: {
-          quantity: {
-            decrement: quantity,
-          },
-        },
-      });
-      return tx.order.create({
-        data: {
-          productId,
-          quantity,
-          warehouseId: data.warehouseId,
-          storeId: storeData.storeId,
-          customerId: userId,
-          vendorId: storeData.vendorId,
-          totalPrice: product.productPrice * quantity,
-        },
-      });
-    });
-  }
 }
