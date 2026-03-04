@@ -2,29 +2,35 @@ import { Injectable } from '@nestjs/common';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { ComplaintType } from '../../generated/prisma';
 
 @Injectable()
 export class ComplaintsService {
   constructor(private readonly prisma: PrismaService) {}
   async create(createComplaint: CreateComplaintDto) {
-    const { title, content, deliveryDate, orderId, userId } = createComplaint;
-    const complaint= await this.prisma.complaint.create({
+    const { title, content, deliveryDate, orderId, userId, email } = createComplaint;
+    const type = createComplaint.type ?? ComplaintType.general;
+    const complaint = await this.prisma.complaint.create({
       data: {
         title,
-        priority:1,
+        priority: 1,
         content,
-        deliveryDate: deliveryDate,
+        deliveryDate,
         orderId,
-        userId
+        userId,
+        type,
       }
-    })
-    const complaintDetail=await this.prisma.complaintDetails.create({
-      data: {
-        complaintId: complaint.complaintId,
-        userId: userId,
-        orderId: orderId,
-      }
-    })
+    });
+    if (type === ComplaintType.relatedToOrder && orderId) {
+      await this.prisma.complaintDetails.create({
+        data: {
+          complaintId: complaint.complaintId,
+          userId,
+          orderId,
+          email: email ?? '',
+        },
+      });
+    }
     return complaint;
   }
   async AllComplaints() {
@@ -49,4 +55,3 @@ export class ComplaintsService {
     });
   }
 }
-

@@ -11,24 +11,4 @@ export class ComplaintsController {
   create(@Body() createComplaintDto: CreateComplaintDto) {
     return this.complaintsService.create(createComplaintDto);
   }
-
-  @Get()
-  findAll() {
-    return this.complaintsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.complaintsService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateComplaintDto: UpdateComplaintDto) {
-    return this.complaintsService.update(+id, updateComplaintDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.complaintsService.remove(+id);
-  }
 }

@@ -13,6 +13,11 @@ enum UserType {
   admin
 }
 
+enum ComplaintType {
+  relatedToOrder
+  general
+}
+
 enum OrderStatus {
   pending
   shipped
@@ -197,18 +202,19 @@ model Sales {
 }
 
 model Complaint {
-  complaintId String   @id @default(uuid())
-  title       String
-  content     String
-  priority    Int      @default(1)
-  createdAt   DateTime @default(now())
-  deliveryDate DateTime
+  complaintId  String         @id @default(uuid())
+  title        String
+  content      String
+  type         ComplaintType  @default(general)
+  priority     Int            @default(1)
+  createdAt    DateTime       @default(now())
+  deliveryDate DateTime?
 
   userId String
   user   User @relation(fields: [userId], references: [userid])
 
-  orderId String
-  order   Order @relation(fields: [orderId], references: [orderId])
+  orderId String?
+  order   Order? @relation(fields: [orderId], references: [orderId])
 
   complaintDetails ComplaintDetails[]
 }
@@ -218,6 +224,7 @@ model ComplaintDetails {
   complaintId String
   userId      String
   orderId     String
+  email       String
 
   user      User      @relation(fields: [userId], references: [userid], onDelete: Cascade)
   order     Order     @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
