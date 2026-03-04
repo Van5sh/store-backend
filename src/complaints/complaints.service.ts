@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { CreateComplaintDto } from './dto/create-complaint.dto';
 import { UpdateComplaintDto } from './dto/update-complaint.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class ComplaintsService {
-  create(createComplaintDto: CreateComplaintDto) {
-    
+  constructor(private readonly prisma: PrismaService) {}
+  async create(createComplaint: CreateComplaintDto) {
+    const { title, content, deliveryDate, orderId, userId } = createComplaint;
+    const complaint= await this.prisma.complaint.create({
+      data: {
+        title,
+        priority:1,
+        content,
+        deliveryDate: deliveryDate,
+        orderId,
+        userId
+      }
+    })
+    const complaintDetail=await this.prisma.complaintDetails.create({
+      data: {
+        complaintId: complaint.complaintId,
+        userId: userId,
+        orderId: orderId,
+      }
+    })
+    return complaint;
   }
-
-  findAll() {
-    return `This action returns all complaints`;
+  async AllComplaints() {
+    return this.prisma.complaint.findMany();
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} complaint`;
+  async findComplaintByUserId(userId: string) {
+    if (!userId) {
+      return 'UserID is required';
+    }
+    return this.prisma.complaint.findMany({
+      where: { userId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
-
-  update(id: number, updateComplaintDto: UpdateComplaintDto) {
-    return `This action updates a #${id} complaint`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} complaint`;
+  async findComplaintByOrderId(orderId: string) {
+    if (!orderId) {
+      return 'OrderID is required';
+    }
+    return this.prisma.complaint.findMany({
+      where: { orderId },
+      orderBy: { createdAt: 'desc' },
+    });
   }
 }
+

@@ -80,5 +80,22 @@ export class ProductsService {
       return product;
     });
   }
-
+  async getProductDetailsByProductId(productId: string) {
+    const productDetails= await this.prisma.product.findUnique({
+      where: { productId },
+      include: {
+        storeProducts: {
+          include: {
+            store: true,
+            vendor: true,
+          },
+        },
+        inventory: true,
+      },
+    });
+    if (!productDetails) {
+      throw new NotFoundException('Product not found');
+    }
+    return productDetails;
+  }
 }

@@ -79,4 +79,16 @@ export class OrderController {
       );
     }
   }
+  @Get('user/:id/active')
+  async getActiveOrdersByUserId(@Param('id') id: string) {
+    try {
+      return await this.orderService.getActiveOrdersByUserId(id);
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching active orders by user ID: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+  
 }

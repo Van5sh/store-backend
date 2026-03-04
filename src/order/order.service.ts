@@ -47,7 +47,15 @@ export class OrderService {
     });
     return orders;
   }
-
+  async getActiveOrdersByUserId(userId: string) {
+    if (!userId) {
+      return 'UserID is required';
+    }
+    return this.prisma.order.findMany({
+      where: { customerId:userId, status: { in: [OrderStatus.pending, OrderStatus.shipped] } },
+      orderBy: { createdAt: 'desc' },
+    })
+  }
   async getHistoryOrdersByUserId(userId: string, status: OrderStatus) {
     if (!userId) {
       return 'UserID is required';
@@ -58,7 +66,6 @@ export class OrderService {
     });
     return orders;
   }
-
   async createOrder(productId: string, quantity: number, userId: string) {
     return this.prisma.$transaction(async (tx) => {
       const product = await tx.product.findUnique({

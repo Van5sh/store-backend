@@ -86,6 +86,18 @@ export class ProductsController {
     }
   }
 
+  @Get('details/:productId')
+  async getProductDetailsByProductId(@Param('productId') productId: string) {
+    try {
+      return await this.productsService.getProductDetailsByProductId(productId);
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching product details: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get('store/:id')
   async getOrdersByUserId(@Param('id') id: string) {
     try {
