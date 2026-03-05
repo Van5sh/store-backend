@@ -63,8 +63,75 @@ export class OrderService {
     const orders = await this.prisma.order.findMany({
       where: { customerId: userId, status: status },
       orderBy: { createdAt: 'desc' },
+      select: {
+        orderId: true,
+        orderDate: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        quantity: true,
+        totalPrice: true,
+        vendorId: true,
+        product: {
+          select: { productName: true },
+        },
+      },
     });
-    return orders;
+    return orders.map((order) => ({
+      orderId: order.orderId,
+      orderDate: order.orderDate,
+      orderStatus: order.status,
+      createdAt: order.createdAt,
+      updatedAt: order.updatedAt,
+      quantity: order.quantity,
+      totalPrice: order.totalPrice,
+      vendorId: order.vendorId,
+      orderItemName: order.product.productName,
+      productName: order.product.productName,
+    }));
+  }
+
+  async getHistoryOrdersByUserIdWithStatuses(
+    userId: string,
+    statuses: OrderStatus[],
+  ) {
+    if (!userId) {
+      return 'UserID is required';
+    }
+    const where = statuses.length
+      ? { customerId: userId, status: { in: statuses } }
+      : { customerId: userId };
+
+    return this.prisma.order.findMany({
+      where,
+      orderBy: { createdAt: 'desc' },
+      select: {
+        orderId: true,
+        orderDate: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        quantity: true,
+        totalPrice: true,
+        vendorId: true,
+        product: {
+          select: { productName: true },
+        },
+      },
+    }).then((orders) =>
+      orders.map((order) => ({
+        orderId: order.orderId,
+        orderDate: order.orderDate,
+        orderStatus: order.status,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+        quantity: order.quantity,
+        totalPrice: order.totalPrice,
+        vendorId: order.vendorId,
+        orderItemName: order.product.productName,
+        productName: order.product.productName,
+      })),
+    );
   }
   async createOrder(productId: string, quantity: number, userId: string) {
     return this.prisma.$transaction(async (tx) => {

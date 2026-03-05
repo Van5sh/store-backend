@@ -86,6 +86,43 @@ export class OrderController {
     }
   }
 
+  @Get('user/:id/history')
+  async getHistoryOrdersByUserIdWithStatuses(
+    @Param('id') id: string,
+    @Query('status') status: string,
+    @Req() req: Request,
+  ) {
+    try {
+      const userId = (req as Request & { user?: JwtPayload }).user?.userId;
+      if (!userId) {
+        throw new UnauthorizedException('User is not authenticated');
+      }
+      if (userId !== id) {
+        throw new ForbiddenException('You can only access your own order history');
+      }
+      const rawStatuses = (status ?? "")
+        .split(',')
+        .map((value) => value.trim().toLowerCase())
+        .filter(Boolean);
+
+      const allowed = new Set(Object.values(OrderStatus).map((value) => String(value).toLowerCase()));
+      const normalized = rawStatuses.filter((value) => allowed.has(value)) as OrderStatus[];
+
+      return await this.orderService.getHistoryOrdersByUserIdWithStatuses(
+        userId,
+        normalized,
+      );
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        `Error fetching history orders by user ID: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Post()
   async createOrder(@Body() createOrderDto: CreateOrderDto) {
     try {
