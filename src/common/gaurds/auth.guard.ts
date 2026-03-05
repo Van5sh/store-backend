@@ -12,6 +12,7 @@ import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 import { UserType } from '../../../generated/prisma';
 
 export interface JwtPayload {
+  userId?: string;
   username?: string;
   role?: UserType;
   admin?: boolean;

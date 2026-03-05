@@ -1,5 +1,5 @@
 import { IsDateString, IsEnum, IsOptional, IsString, ValidateIf } from "class-validator";
-import { ComplaintType } from "../../../generated/prisma";
+import { ComplaintTypeEnum } from "../complaint-type";
 
 export class CreateComplaintDto {
     @IsString()
@@ -9,20 +9,22 @@ export class CreateComplaintDto {
     content: string;
 
     @IsOptional()
-    @IsEnum(ComplaintType)
-    type?: ComplaintType;
+    @IsEnum(ComplaintTypeEnum)
+    type?: ComplaintTypeEnum;
 
-    @ValidateIf((o) => (o.type ?? ComplaintType.general) === ComplaintType.relatedToOrder)
+    @ValidateIf((o) => (o.type ?? ComplaintTypeEnum.general) === ComplaintTypeEnum.relatedToOrder)
     @IsDateString()
     deliveryDate?: string;
 
-    @ValidateIf((o) => (o.type ?? ComplaintType.general) === ComplaintType.relatedToOrder)
+    @ValidateIf((o) => (o.type ?? ComplaintTypeEnum.general) === ComplaintTypeEnum.relatedToOrder)
     @IsString()
     orderId?: string;
 
     @IsString()
     userId: string;
 
+    @ValidateIf((o) => (o.type ?? ComplaintTypeEnum.general) === ComplaintTypeEnum.relatedToOrder)
     @IsString()
+    @IsOptional()
     email?: string;
 }
