@@ -47,6 +47,7 @@ model User {
   orderDetails     OrderDetails[]
   complaints       Complaint[]
   complaintDetails ComplaintDetails[]
+  announcementDetails AnnouncementDetails[]
 
   stores           Store[]
   storeAndProducts StoreAndProduct[]
@@ -61,6 +62,7 @@ model Product {
   productId    String @id @default(uuid())
   productName  String
   productPrice Float
+  productPhoto String
   category     ProductCategory @default(electronics)
 
   inventory     WarehouseInventory[]
@@ -95,6 +97,24 @@ model WareHouse {
   warehouseDetails   WarehouseDetails[]
   warehouseInventory WarehouseInventory[]
   orders             Order[]
+}
+
+model Announcements {
+  announcementId    String @id @default(uuid())
+  announcementTitle String
+  announcementContent String
+  announcementDate    DateTime @default(now())
+
+  details     AnnouncementDetails[]
+}
+
+model AnnouncementDetails {
+  id             String @id @default(uuid())
+  announcementId String
+  userId         String
+
+  announcement Announcements @relation(fields: [announcementId], references: [announcementId], onDelete: Cascade)
+  user         User          @relation(fields: [userId], references: [userid], onDelete: Cascade)
 }
 
 model WarehouseDetails {

@@ -18,6 +18,7 @@ import { AuthController } from './auth/auth.controller';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { ComplaintsModule } from './complaints/complaints.module';
 import { OrderModule } from './order/order.module';
+import { AwsModule } from './aws/aws.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { OrderModule } from './order/order.module';
     WarehouseModule,
     ComplaintsModule,
     OrderModule,
+    AwsModule,
   ],
   controllers: [
     AppController,
