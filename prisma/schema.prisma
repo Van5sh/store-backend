@@ -63,6 +63,7 @@ model Product {
   productName  String
   productPrice Float
   productPhoto String
+  photoKey     String 
   category     ProductCategory @default(electronics)
 
   inventory     WarehouseInventory[]

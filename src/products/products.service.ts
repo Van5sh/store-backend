@@ -2,10 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductDtoCreate } from './dto/create-product.dto';
 import { ProductCategory } from '../../generated/prisma';
+import { AwsService } from '../aws/aws.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly awsService: AwsService
+  ) {}
 
   async allProducts() {
     const products = await this.prisma.product.findMany();
@@ -54,13 +58,15 @@ export class ProductsService {
     });
   }
 
-  async createProduct(createProductDto: ProductDtoCreate) {
+  async createProduct(createProductDto: ProductDtoCreate,file:Express.Multer.File) {
+    const upload=await this.awsService.uploadFileToS3(file);
     return this.prisma.$transaction(async (tx) => {
       const product = await tx.product.create({
         data: {
           productName: createProductDto.productName,
           productPrice: createProductDto.productPrice,
           category: createProductDto.productCategory,
+          
         },
       });
       await tx.storeAndProduct.create({

@@ -8,6 +8,8 @@ import {
   HttpException,
   HttpStatus,
   UseGuards,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
@@ -15,6 +17,8 @@ import { ProductDtoCreate } from './dto/create-product.dto';
 import { AuthGuard } from '../common/gaurds/auth.guard';
 import { Roles } from '../common/decorators/role.decorators';
 import { ProductCategory } from '../../generated/prisma';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 
 @Controller('products')
 @UseFilters(new HttpExceptionFilter())
@@ -73,9 +77,13 @@ export class ProductsController {
   }
   @Post()
   @Roles('vendor', 'admin')
-  async createProduct(@Body() createProductDto: ProductDtoCreate) {
+  @UseInterceptors(FileInterceptor('image', { storage: memoryStorage() }))
+  async createProduct(
+    @Body() createProductDto: ProductDtoCreate,
+    @UploadedFile() file :Express.Multer.File
+  ) {
     try {
-      return await this.productsService.createProduct(createProductDto);
+      return await this.productsService.createProduct(createProductDto,file);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
