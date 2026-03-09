@@ -66,7 +66,8 @@ export class ProductsService {
           productName: createProductDto.productName,
           productPrice: createProductDto.productPrice,
           category: createProductDto.productCategory,
-          
+          photoKey:upload.key,
+          productPhoto:upload.url,
         },
       });
       await tx.storeAndProduct.create({
