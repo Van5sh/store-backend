@@ -38,17 +38,31 @@ export class WarehouseService {
         warehouseName: data.warehouseName,
       },
     });
+
     if (warehouseExists) {
       throw new Error('Warehouse with this name already exists');
     }
+
+    const city = await this.prisma.city.findFirst({
+      where: { cityName: data.cityName },
+    });
+
+    if (!city) {
+      throw new Error("City not found");
+    }
+
     return this.prisma.wareHouse.create({
       data: {
         warehouseName: data.warehouseName,
         warehouseCapacity: data.warehouseCapacity,
-        city: { connect: { cityId: data.cityID } },
+
+        city: {
+          connect: { cityId: city.cityId },
+        },
+
         warehouseDetails: {
           create: {
-            cityId: data.cityID,
+            cityId: city.cityId,
             userId: data.userID,
           },
         },

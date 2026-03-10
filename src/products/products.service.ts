@@ -54,10 +54,10 @@ export class ProductsService {
       where: { storeId: id },
       include: {
         product: true,
-      },
+      },  
     });
   }
-
+  
   async createProduct(createProductDto: ProductDtoCreate,file:Express.Multer.File) {
     const upload=await this.awsService.uploadFileToS3(file);
     return this.prisma.$transaction(async (tx) => {

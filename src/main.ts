@@ -39,6 +39,14 @@ async function bootstrap() {
     new AuthGuard(jwtService, reflector),
     new RolesGuard(reflector),
   );
+  app.enableCors({
+    origin: [
+      "http://localhost:3000",
+      "http://127.0.1:3000",
+    ], 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+  });
 
   await app.listen(process.env.PORT ?? 5100);
 
