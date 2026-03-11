@@ -71,6 +71,36 @@ export class WarehouseController {
     }
   }
 
+  @Get(':userId')
+  @Roles('vendor')
+  async getWarehouseByUserId(@Param('userId') id:string){
+    try {
+      if (!id){
+        return {
+          status: 'error',
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: 'User ID is required',
+        };
+      }
+      const warehouses=await this.warehouseService.getWarehousesByUserID(id);
+      if (!warehouses || warehouses.length === 0) {
+        return {
+          status: 'error',
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'No warehouses found for this user',
+        };
+      }
+      return {
+        status: 'success',
+        statusCode: HttpStatus.OK,
+        message: 'Warehouses fetched successfully',
+        data: warehouses,
+      };
+    } catch (error) {
+      throw new Error(`Error fetching warehouse by user ID: ${error}`);
+    }
+  }
+
   @Delete(':id')
   @Roles('vendor')
   async deleteWarehouse(@Param('id') id: string) {

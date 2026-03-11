@@ -32,6 +32,26 @@ export class WarehouseService {
     });
   }
 
+  async getWarehousesByUserID(userId:string) {
+    const warehouses = await this.prisma.wareHouse.findMany({
+      where: {
+        warehouseDetails: {
+          some: {
+            userId: userId,
+          },
+        },
+      },
+      include: {
+        city: true,
+        warehouseInventory: {
+          include: { product: true },
+        },
+      },
+    });
+
+    return warehouses;
+  }
+
   async createWarehouse(data: CreateWarehouseDto) {
     const warehouseExists = await this.prisma.wareHouse.findFirst({
       where: {
