@@ -90,7 +90,8 @@ model City {
 model WareHouse {
   warehouseId       String @id @default(uuid())
   warehouseName     String
-  warehouseCapacity Int
+  warehouseCapacity Int @default(0)
+  remainingSpace    Int @default(0)
 
   cityId String
   city   City @relation(fields: [cityId], references: [cityId])
@@ -135,7 +136,6 @@ model WarehouseInventory {
   productId   String
 
   quantity Int @default(0)
-
   warehouse WareHouse @relation(fields: [warehouseId], references: [warehouseId], onDelete: Cascade)
   product   Product   @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
