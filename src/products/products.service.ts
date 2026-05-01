@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductDtoCreate } from './dto/create-product.dto';
 import { ProductCategory } from '../../generated/prisma';
 import { AwsService } from '../aws/aws.service';
+import { JwtPayload } from '../common/gaurds/auth.guard';
 
 @Injectable()
 export class ProductsService {
@@ -12,7 +13,15 @@ export class ProductsService {
   ) {}
 
   async allProducts() {
-    const products = await this.prisma.product.findMany();
+    const products = await this.prisma.product.findMany({
+      include: {
+        inventory: {
+          include: {
+            warehouse: true,
+          },
+        },
+      },
+    });
     if (!products.length) {
       throw new NotFoundException('No products found');
     }
@@ -42,6 +51,13 @@ export class ProductsService {
   async getProductsByType(type: ProductCategory) {
     const products = await this.prisma.product.findMany({
       where: { category: type },
+      include: {
+        inventory: {
+          include: {
+            warehouse: true,
+          },
+        },
+      },
     });
     if (!products.length) {
       throw new NotFoundException('No products found for this type');
@@ -53,7 +69,15 @@ export class ProductsService {
     return this.prisma.storeAndProduct.findMany({
       where: { storeId: id },
       include: {
-        product: true,
+        product: {
+          include: {
+            inventory: {
+              include: {
+                warehouse: true,
+              },
+            },
+          },
+        },
       },  
     });
   }
@@ -84,7 +108,16 @@ export class ProductsService {
           quantity: createProductDto.quantity,
         },
       });
-      return product;
+      return tx.product.findUnique({
+        where: { productId: product.productId },
+        include: {
+          inventory: {
+            include: {
+              warehouse: true,
+            },
+          },
+        },
+      });
     });
   }
   async getProductDetailsByProductId(productId: string) {
@@ -104,5 +137,35 @@ export class ProductsService {
       throw new NotFoundException('Product not found');
     }
     return productDetails;
+  }
+
+  async deleteProduct(productId: string, requester: JwtPayload) {
+    const role = requester.role?.toString().toLowerCase();
+    const requesterId = requester.userId;
+
+    const product = await this.prisma.product.findUnique({
+      where: { productId },
+      include: {
+        storeProducts: true,
+      },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    if (role !== 'admin') {
+      if (!requesterId) throw new ForbiddenException('Not allowed');
+      const owns = product.storeProducts?.some((sp) => sp.vendorId === requesterId);
+      if (!owns) throw new ForbiddenException('Not allowed to delete this product');
+    }
+
+    if (product.photoKey) {
+      await this.awsService.deleteFileFromS3(product.photoKey);
+    }
+
+    return this.prisma.product.delete({
+      where: { productId },
+    });
   }
 }

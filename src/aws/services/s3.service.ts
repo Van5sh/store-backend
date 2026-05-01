@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
-import { url } from 'inspector';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class S3Service {
@@ -33,9 +32,8 @@ export class S3Service {
                 Key:key,
                 Body: file.buffer,
                 ContentType: file.mimetype,
-                ACL:'public-read'
             }))
-            const fileUrl = `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${file.originalname}`;
+            const fileUrl = `https://${this.bucketName}.s3.${this.region}.amazonaws.com/${key}`;
             return {
                 key,
                 url:fileUrl
@@ -43,6 +41,19 @@ export class S3Service {
         } catch (error) {
             console.error('Error uploading file to S3:', error);
             throw new Error('Failed to upload file');
+        }
+    }
+
+    async deleteFile(key: string) {
+        if (!key) return;
+        try {
+            await this.S3Client.send(new DeleteObjectCommand({
+                Bucket: this.bucketName,
+                Key: key,
+            }));
+        } catch (error) {
+            console.error('Error deleting file from S3:', error);
+            throw new Error('Failed to delete file');
         }
     }
 }

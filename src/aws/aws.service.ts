@@ -12,4 +12,8 @@ export class AwsService {
     async uploadFileToS3(file: Express.Multer.File) {
         return this.s3Service.uploadFile(file);
     }
+
+    async deleteFileFromS3(key: string) {
+        return this.s3Service.deleteFile(key);
+    }
 } 

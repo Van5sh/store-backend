@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Post,
+  Delete,
   Param,
   Body,
   UseFilters,
@@ -10,11 +11,12 @@ import {
   UseGuards,
   UploadedFile,
   UseInterceptors,
+  Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
 import { ProductDtoCreate } from './dto/create-product.dto';
-import { AuthGuard } from '../common/gaurds/auth.guard';
+import { AuthGuard, JwtPayload } from '../common/gaurds/auth.guard';
 import { Roles } from '../common/decorators/role.decorators';
 import { ProductCategory } from '../../generated/prisma';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -118,4 +120,24 @@ export class ProductsController {
     }
   }
 
+  @Delete(':id')
+  @Roles('vendor', 'admin')
+  async deleteProduct(
+    @Param('id') id: string,
+    @Req() req: { user?: JwtPayload },
+  ) {
+    try {
+      if (!req.user) {
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      }
+      return await this.productsService.deleteProduct(id, req.user);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new HttpException(
+        `Error deleting product: ${errorMessage}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }
