@@ -28,6 +28,28 @@ export class ProductsService {
     return products;
   }
 
+  async getProductsByVendorId(vendorId: string) {
+    const products = await this.prisma.product.findMany({
+      where: {
+        storeProducts: {
+          some: {
+            vendorId,
+          },
+        },
+      },
+      include: {
+        inventory: {
+          include: {
+            warehouse: true,
+          },
+        },
+      },
+    });
+    if (!products.length) {
+      throw new NotFoundException('No products found for this vendor');
+    }
+    return products;
+  }
   async findOneProduct(id: string) {
     const product = await this.prisma.product.findUnique({
       where: { productId: id },
@@ -37,7 +59,6 @@ export class ProductsService {
     }
     return product;
   }
-
   async findProductByName(name: string) {
     const product = await this.prisma.product.findFirst({
       where: { productName: name },

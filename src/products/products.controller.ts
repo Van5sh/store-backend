@@ -40,6 +40,7 @@ export class ProductsController {
     }
   }
 
+
   @Get(':id')
   async findProductById(@Param('id') id: string) {
     try {
@@ -108,8 +109,20 @@ export class ProductsController {
     }
   }
 
+  @Get('vendor/:vendorId')
+  async getProductsByVendorId(@Param('vendorId') vendorId: string) {
+    try {
+      return await this.productsService.getProductsByVendorId(vendorId);
+    } catch (error) {
+      throw new HttpException(
+        `Error fetching products by vendor ID: ${error}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   @Get('store/:id')
-  async getOrdersByUserId(@Param('id') id: string) {
+  async getOrdersByStoreId(@Param('id') id: string) {
     try {
       return await this.productsService.getProductsByStoreId(id);
     } catch (error) {

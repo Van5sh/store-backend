@@ -6,6 +6,7 @@ import { DatabaseModule } from '../database/database.module';
 @Module({
   imports: [DatabaseModule],
   providers: [ActivityService],
-  controllers: [ActivityController]
+  controllers: [ActivityController],
+  exports: [ActivityService],
 })
 export class ActivityModule {}

@@ -15,7 +15,7 @@ import { Roles } from '../common/decorators/role.decorators';
 @Controller('activity')
 @UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard)
-export class ActivityController {
+export class ActivityController { 
   constructor(private readonly activityService: ActivityService) {}
 
   @Get('recent')
