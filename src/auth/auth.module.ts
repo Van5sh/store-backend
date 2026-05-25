@@ -5,17 +5,17 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { AwsModule } from '../aws/aws.module';
 
 @Module({
   imports: [
     UsersModule,
     ConfigModule,
+    AwsModule,
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => ({
-        // If missing, this will throw at runtime inside JwtStrategy/AuthGuard usage,
-        // not during module import, avoiding hard crash on bootstrap.
         secret: config.getOrThrow<string>('JWT_SECRET'),
         signOptions: { expiresIn: '1d' },
       }),

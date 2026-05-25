@@ -2,6 +2,7 @@ import { HttpStatus, HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserType } from '../../generated/prisma';
+import { AwsService } from '../aws/aws.service';
 
 export interface JwtPayload {
   userId:string
@@ -35,6 +36,7 @@ export class AuthService {
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
+    private readonly awsService: AwsService,
   ) {}
 
   async signIn(userName: string, password: string) {
@@ -72,6 +74,7 @@ export class AuthService {
       } else if (user.role === UserType.vendor) {
         payload.vendor = true;
       }
+      //this.awsService.sendEmailFromSES(user.email, 'New Sign In Detected', `Hello ${user.name},\n\nWe noticed a new sign-in to your account. If this was you, you can safely ignore this email. If you did not sign in, please secure your account immediately.\n\nBest regards,\nYour Store Team`);
 
       return {
         id: user.userid,

@@ -3,11 +3,12 @@ import { AwsController } from './aws.controller';
 import { AwsService } from './aws.service';
 import { S3Service } from './services/s3.service';
 import { DatabaseModule } from '../database/database.module';
+import { SesService } from './services/ses.service';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [AwsController],
-  providers: [AwsService, S3Service],
+  providers: [AwsService, S3Service, SesService],
   exports: [AwsService],
 })
 export class AwsModule {}
