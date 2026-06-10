@@ -47,41 +47,42 @@ enum ActivityType {
 }
 
 model User {
-  userid           String   @id @default(uuid())
-  email            String   @unique
-  name             String?
-  role             UserType
-  password         String
+  userid   String   @id @default(uuid())
+  email    String   @unique
+  name     String?
+  role     UserType
+  password String
 
-  orders           Order[] @relation("OrderCustomer")
-  vendorOrders     Order[] @relation("OrderVendor")
+  orders       Order[] @relation("OrderCustomer")
+  vendorOrders Order[] @relation("OrderVendor")
 
-  orderDetails     OrderDetails[]
-  complaints       Complaint[]
-  complaintDetails ComplaintDetails[]
+  orderDetails        OrderDetails[]
+  complaints          Complaint[]
+  complaintDetails    ComplaintDetails[]
   announcementDetails AnnouncementDetails[]
 
   stores           Store[]
   storeAndProducts StoreAndProduct[]
 
-  warehouseDetails WarehouseDetails[]
-  recentActivities RecentActivity[] @relation("UserRecentActivities")
+  warehouseDetails       WarehouseDetails[]
+  vendorRecentActivities RecentActivity[]   @relation("VendorRecentActivities")
+  actorRecentActivities  RecentActivity[]   @relation("ActorRecentActivities")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Product {
-  productId    String @id @default(uuid())
+  productId    String          @id @default(uuid())
   productName  String
   productPrice Float
   productPhoto String
-  photoKey     String 
+  photoKey     String
   category     ProductCategory @default(electronics)
 
   inventory     WarehouseInventory[]
   sales         Sales[]
-  orders        Order[] @relation("ProductOrders")
+  orders        Order[]              @relation("ProductOrders")
   storeProducts StoreAndProduct[]
 
   createdAt DateTime @default(now())
@@ -103,11 +104,11 @@ model City {
 model WareHouse {
   warehouseId       String @id @default(uuid())
   warehouseName     String
-  warehouseCapacity Int @default(0)
-  remainingSpace    Int @default(0)
+  warehouseCapacity Int    @default(0)
+  remainingSpace    Int    @default(0)
 
   cityId String
-  city   City @relation(fields: [cityId], references: [cityId])
+  city   City   @relation(fields: [cityId], references: [cityId])
 
   warehouseDetails   WarehouseDetails[]
   warehouseInventory WarehouseInventory[]
@@ -115,12 +116,12 @@ model WareHouse {
 }
 
 model Announcements {
-  announcementId    String @id @default(uuid())
-  announcementTitle String
+  announcementId      String   @id @default(uuid())
+  announcementTitle   String
   announcementContent String
   announcementDate    DateTime @default(now())
 
-  details     AnnouncementDetails[]
+  details AnnouncementDetails[]
 }
 
 model AnnouncementDetails {
@@ -148,7 +149,7 @@ model WarehouseInventory {
   warehouseId String
   productId   String
 
-  quantity Int @default(0)
+  quantity  Int       @default(0)
   warehouse WareHouse @relation(fields: [warehouseId], references: [warehouseId], onDelete: Cascade)
   product   Product   @relation(fields: [productId], references: [productId], onDelete: Cascade)
 
@@ -166,7 +167,7 @@ model Store {
   city   City @relation(fields: [cityName], references: [cityName])
 
   storeProducts StoreAndProduct[]
-  orders        Order[] @relation("StoreOrders")
+  orders        Order[]           @relation("StoreOrders")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -187,23 +188,23 @@ model StoreAndProduct {
 }
 
 model Order {
-  orderId    String   @id @default(uuid())
+  orderId    String      @id @default(uuid())
   quantity   Int
   totalPrice Float
-  orderDate  DateTime @default(now())
+  orderDate  DateTime    @default(now())
   status     OrderStatus @default(pending)
 
   productId String
   product   Product @relation("ProductOrders", fields: [productId], references: [productId])
 
   storeId String
-  store   Store @relation("StoreOrders", fields: [storeId], references: [storeId])
+  store   Store  @relation("StoreOrders", fields: [storeId], references: [storeId])
 
   customerId String
-  customer   User @relation("OrderCustomer", fields: [customerId], references: [userid])
+  customer   User   @relation("OrderCustomer", fields: [customerId], references: [userid])
 
   vendorId String
-  vendor   User @relation("OrderVendor", fields: [vendorId], references: [userid])
+  vendor   User   @relation("OrderVendor", fields: [vendorId], references: [userid])
 
   warehouseId String
   warehouse   WareHouse @relation(fields: [warehouseId], references: [warehouseId])
@@ -236,19 +237,19 @@ model Sales {
 }
 
 model Complaint {
-  complaintId  String         @id @default(uuid())
+  complaintId  String        @id @default(uuid())
   title        String
   content      String
-  type         ComplaintType  @default(general)
-  priority     Int            @default(1)
-  createdAt    DateTime       @default(now())
+  type         ComplaintType @default(general)
+  priority     Int           @default(1)
+  createdAt    DateTime      @default(now())
   deliveryDate DateTime?
 
   userId String
-  user   User @relation(fields: [userId], references: [userid])
+  user   User   @relation(fields: [userId], references: [userid])
 
   orderId String?
-  order   Order? @relation(fields: [orderId], references: [orderId])
+  order   Order?  @relation(fields: [orderId], references: [orderId])
 
   complaintDetails ComplaintDetails[]
 }
@@ -268,13 +269,14 @@ model ComplaintDetails {
 model RecentActivity {
   id        String       @id @default(uuid())
   vendorId  String
+  userId    String
   type      ActivityType
   message   String
   createdAt DateTime     @default(now())
 
-  vendor User @relation("UserRecentActivities", fields: [vendorId], references: [userid], onDelete: Cascade)
+  vendor User @relation("VendorRecentActivities", fields: [vendorId], references: [userid], onDelete: Cascade)
+  user   User @relation("ActorRecentActivities", fields: [userId], references: [userid], onDelete: Cascade)
 
   @@index([vendorId, createdAt])
+  @@index([userId])
 }
-
-

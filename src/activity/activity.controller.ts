@@ -3,9 +3,11 @@ import {
   Get,
   Query,
   Req,
+  UnauthorizedException,
   UseFilters,
   UseGuards,
-  UnauthorizedException,
+  ParseIntPipe,
+  DefaultValuePipe,
 } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { HttpExceptionFilter } from '../global-filters/http-exception.filter';
@@ -13,24 +15,31 @@ import { AuthGuard, JwtPayload } from '../common/gaurds/auth.guard';
 import { Roles } from '../common/decorators/role.decorators';
 
 @Controller('activity')
-@UseFilters(new HttpExceptionFilter())
 @UseGuards(AuthGuard)
-export class ActivityController { 
-  constructor(private readonly activityService: ActivityService) {}
+@UseFilters(new HttpExceptionFilter())
+export class ActivityController {
+  constructor(
+    private readonly activityService: ActivityService,
+  ) {}
 
   @Get('recent')
   @Roles('vendor', 'admin')
   async recent(
     @Req() req: { user?: JwtPayload },
-    @Query('limit') limit?: string,
-    @Query('cursor') cursor?: string,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe)
+    limit: number,
+    @Query('cursor')
+    cursor?: string,
   ) {
     const vendorId = req.user?.userId;
-    if (!vendorId) throw new UnauthorizedException('Missing user id');
+
+    if (!vendorId) {
+      throw new UnauthorizedException('Missing authenticated user');
+    }
 
     return this.activityService.getVendorRecentActivity({
       vendorId,
-      limit: limit != null ? Number(limit) : undefined,
+      limit,
       cursor,
     });
   }

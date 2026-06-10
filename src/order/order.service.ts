@@ -1,10 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { OrderStatus } from '../../generated/prisma';
+import { OrderStatus, ActivityType } from '../../generated/prisma';
+import { ActivityService } from '../activity/activity.service';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly activityService: ActivityService,
+  ) {}
 
   async getLatestOrdersPlaced(limit = 10) {
     const resolvedLimit = Number.isFinite(limit) ? limit : 10;
@@ -134,7 +138,7 @@ export class OrderService {
     );
   }
   async createOrder(productId: string, quantity: number, userId: string) {
-    return this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       const product = await tx.product.findUnique({
         where: { productId },
       });
@@ -161,7 +165,7 @@ export class OrderService {
           },
         },
       });
-      return tx.order.create({
+      const order = await tx.order.create({
         data: {
           productId,
           quantity,
@@ -172,6 +176,20 @@ export class OrderService {
           totalPrice: product.productPrice * quantity,
         },
       });
+      return { order, vendorId: storeData.vendorId };
     });
+
+    try {
+      await this.activityService.logVendorActivity({
+        vendorId: result.vendorId,
+        userId,
+        type: ActivityType.order_created,
+        message: `Order ${result.order.orderId} placed`,
+      });
+    } catch (e) {
+      // Do not block on logging failure
+    }
+
+    return result.order;
   }
 }

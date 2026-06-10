@@ -1,15 +1,17 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductDtoCreate } from './dto/create-product.dto';
-import { ProductCategory } from '../../generated/prisma';
+import { ProductCategory, ActivityType } from '../../generated/prisma';
 import { AwsService } from '../aws/aws.service';
 import { JwtPayload } from '../common/gaurds/auth.guard';
+import { ActivityService } from '../activity/activity.service';
 
 @Injectable()
 export class ProductsService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly awsService: AwsService
+    private readonly awsService: AwsService,
+    private readonly activityService: ActivityService,
   ) {}
 
   async allProducts() {
@@ -104,15 +106,15 @@ export class ProductsService {
   }
   
   async createProduct(createProductDto: ProductDtoCreate,file:Express.Multer.File) {
-    const upload=await this.awsService.uploadFileToS3(file);
-    return this.prisma.$transaction(async (tx) => {
+    const upload = await this.awsService.uploadFileToS3(file);
+    const result = await this.prisma.$transaction(async (tx) => {
       const product = await tx.product.create({
         data: {
           productName: createProductDto.productName,
           productPrice: createProductDto.productPrice,
           category: createProductDto.productCategory,
-          photoKey:upload.key,
-          productPhoto:upload.url,
+          photoKey: upload.key,
+          productPhoto: upload.url,
         },
       });
       await tx.storeAndProduct.create({
@@ -140,6 +142,19 @@ export class ProductsService {
         },
       });
     });
+
+    try {
+      await this.activityService.logVendorActivity({
+        vendorId: createProductDto.vendorId,
+        userId: createProductDto.vendorId,
+        type: ActivityType.product_created,
+        message: `Product ${result?.productName ?? createProductDto.productName} created`,
+      });
+    } catch (e) {
+      // Log failure silently; do not block product creation
+    }
+
+    return result;
   }
   async getProductDetailsByProductId(productId: string) {
     const productDetails= await this.prisma.product.findUnique({

@@ -4,12 +4,16 @@ import {
   CreateWarehouseDto,
   UpdateWarehouseDto,
 } from './dto/create-warehouse.dto';
+import { ActivityService } from '../activity/activity.service';
+import { ActivityType } from '../../generated/prisma';
 
 @Injectable()
 export class WarehouseService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly activityService: ActivityService,
+  ) {}
 
-  // GET ALL WAREHOUSES
   async allWarehouses() {
     return this.prisma.wareHouse.findMany({
       include: {
@@ -71,7 +75,7 @@ export class WarehouseService {
       throw new Error('City not found');
     }
 
-    return this.prisma.wareHouse.create({
+    const created = await this.prisma.wareHouse.create({
       data: {
         warehouseName: data.warehouseName,
         warehouseCapacity: data.warehouseCapacity,
@@ -93,6 +97,19 @@ export class WarehouseService {
         warehouseDetails: true,
       },
     });
+
+    try {
+      await this.activityService.logVendorActivity({
+        vendorId: data.userID,
+        userId: data.userID,
+        type: ActivityType.warehouse_created,
+        message: `Warehouse ${created.warehouseName} created`,
+      });
+    } catch (e) {
+      // don't block on activity logging failure
+    }
+
+    return created;
   }
 
   // UPDATE WAREHOUSE

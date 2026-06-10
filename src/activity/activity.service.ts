@@ -8,13 +8,16 @@ export class ActivityService {
 
   async logVendorActivity(params: {
     vendorId: string;
+    userId: string;
     type: ActivityType;
     message: string;
   }) {
-    const { vendorId, type, message } = params;
+    const { vendorId, userId, type, message } = params;
+
     return this.prisma.recentActivity.create({
       data: {
         vendorId,
+        userId,
         type,
         message,
       },
@@ -26,25 +29,40 @@ export class ActivityService {
     limit?: number;
     cursor?: string;
   }) {
-    const { vendorId } = params;
     const limit = Math.min(Math.max(params.limit ?? 20, 1), 100);
-    const cursor = params.cursor?.trim() || undefined;
 
     const activities = await this.prisma.recentActivity.findMany({
-      where: { vendorId },
-      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      where: {
+        vendorId: params.vendorId,
+      },
+      include: {
+        user: {
+          select: {
+            userid: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
+      orderBy: [
+        { createdAt: 'desc' },
+        { id: 'desc' },
+      ],
       take: limit,
-      ...(cursor
+      ...(params.cursor
         ? {
-            cursor: { id: cursor },
+            cursor: { id: params.cursor },
             skip: 1,
           }
         : {}),
     });
 
-    const nextCursor =
-      activities.length === limit ? activities[activities.length - 1]?.id : null;
-
-    return { activities, nextCursor };
+    return {
+      activities,
+      nextCursor:
+        activities.length === limit
+          ? activities[activities.length - 1].id
+          : null,
+    };
   }
 }
